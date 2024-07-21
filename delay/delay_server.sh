@@ -25,11 +25,12 @@ function sdkconfig_get() {
 # comes from:
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 #
-while getopts t:e: arg
+while getopts t:e:p: arg
 do
   case "${arg}" in
     t) tx_power=${OPTARG};;
     e) cipher_num=${OPTARG};;
+    p) delay_server_port=${OPTARG};;
   esac
 done
 
@@ -61,5 +62,5 @@ echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig)
 . $HOME/esp/esp-idf/export.sh > /dev/null
 
 cd $delay_server_path
-idf.py build
+idf.py build flash monitor --port $delay_server_port
 cd -

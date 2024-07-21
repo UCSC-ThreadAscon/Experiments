@@ -14,6 +14,15 @@ do
   esac
 done
 
-
+# Command line format:
+#   sdkconfig_set [sdkconfig variable] [value] [sdkconfig path]
+#
+# Example:
+#   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
+#
+function sdkconfig_set() {
+  to_replace=$(cat sdkconfig | grep $1)
+  sed -i "" "s/$to_replace/$1=$2/g" $3
+}
 
 . $HOME/esp/esp-idf/export.sh > /dev/null

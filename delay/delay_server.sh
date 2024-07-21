@@ -35,10 +35,14 @@ done
 
 delay_server_path="$HOME/Desktop/Repositories/network-performance-ftd"
 
+# Change both the cipher suite and TX power settings in `sdkconfig`.
+#
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_server_path/sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_path/sdkconfig
 
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_path/sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_path/sdkconfig)
+
+
 
 . $HOME/esp/esp-idf/export.sh > /dev/null

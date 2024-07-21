@@ -25,18 +25,18 @@ function sdkconfig_get() {
 # comes from:
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 #
-while getopts t:e arg
+while getopts t:e: arg
 do
   case "${arg}" in
-    t) TX_POWER=${OPTARG};;
-    e) CIPHER_NUM=${OPTARG};;
+    t) tx_power=${OPTARG};;
+    e) cipher_num=${OPTARG};;
   esac
 done
 
 delay_server_path="$HOME/Desktop/Repositories/network-performance-ftd"
 
-sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE CIPHER_NUM $delay_server_path/sdkconfig
-sdkconfig_set CONFIG_TX_POWER TX_POWER $delay_server_path/sdkconfig
+sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_server_path/sdkconfig
+sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_path/sdkconfig
 
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_path/sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_path/sdkconfig)

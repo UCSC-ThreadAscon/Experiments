@@ -42,6 +42,12 @@ delay_server_sdkconfig=$delay_server_path/sdkconfig
 delay_server_flag=3
 sdkconfig_set CONFIG_EXPERIMENT $delay_server_flag $delay_server_sdkconfig
 
+# Make sure Time Synchronization is on.
+#
+time_sync_off="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
+time_sync_on="CONFIG_OPENTHREAD_TIME_SYNC=y"
+sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_server_sdkconfig
+
 # Change both the cipher suite and TX power settings in `sdkconfig`.
 #
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_server_sdkconfig
@@ -50,5 +56,10 @@ sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_sdkconfig
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig)
 echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig)
+echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig)
 
 . $HOME/esp/esp-idf/export.sh > /dev/null
+
+cd $delay_server_path
+idf.py build
+cd -

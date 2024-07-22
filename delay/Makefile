@@ -1,5 +1,5 @@
-DELAY_SERVER_PORT=/dev/cu.usbserial-1320
-DELAY_CLIENT_PORT=/dev/cu.usbserial-1310
+DELAY_SERVER_PORT=/dev/cu.usbserial-130
+DELAY_CLIENT_PORT=/dev/cu.usbserial-140
 
 delay_server_aes_20:
 	./delay_server.sh -t 20 -e 0 -p $(DELAY_SERVER_PORT)

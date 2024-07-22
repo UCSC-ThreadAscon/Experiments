@@ -34,7 +34,7 @@ do
   esac
 done
 
-delay_server_path="$HOME/Desktop/Repositories/network-performance-ftd"
+delay_server_path="$HOME/Desktop/Repositories/delay-server"
 delay_server_sdkconfig=$delay_server_path/sdkconfig
 
 # The value of `CONFIG_EXPERIMENT=3` will set the device to run as

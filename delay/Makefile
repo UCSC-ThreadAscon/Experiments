@@ -21,7 +21,7 @@ delay_server_ascon128_9:
 delay_server_ascon128_0:
 	./delay_server.sh -t 0 -e 5 -p $(DELAY_SERVER_PORT)
 
-delay_server_noecrypt_20:
+delay_server_noencrypt_20:
 	./delay_server.sh -t 20 -e 1 -p $(DELAY_SERVER_PORT)
 delay_server_noenrypt_9:
 	./delay_server.sh -t 9 -e 1 -p $(DELAY_SERVER_PORT)

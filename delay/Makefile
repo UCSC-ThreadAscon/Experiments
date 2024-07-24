@@ -31,3 +31,6 @@ delay_server_noencrypt_0:
 
 delay_client_aes_20:
 	./delay_client.sh -t 20 -e 0 -p $(DELAY_CLIENT_PORT)
+
+delay_client_aes_0:
+	./delay_client.sh -t 0 -e 0 -p $(DELAY_CLIENT_PORT)

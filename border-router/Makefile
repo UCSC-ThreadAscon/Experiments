@@ -1,4 +1,4 @@
-BORDER_ROUTER_PORT=/dev/cu.usbmodem1101
+BORDER_ROUTER_PORT=/dev/cu.usbmodem21301
 
-br_net_perf:
+br-net-perf:
 	./border-router/flash.sh -b $(BORDER_ROUTER_PORT)

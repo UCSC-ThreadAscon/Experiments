@@ -46,7 +46,7 @@ function rcp_auto_update_flag() {
 . $HOME/esp/esp-idf/export.sh > /dev/null
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
-border_router_path="$HOME/Desktop/Repositories/br_throughput/examples/basic_thread_border_router"
+border_router_path="$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router"
 
 rcp_cipher_flag=$(get_cipher_flag $rcp_path)
 border_router_cipher_flag=$(get_cipher_flag $border_router_path)

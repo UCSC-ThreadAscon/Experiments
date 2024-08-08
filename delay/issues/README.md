@@ -1,0 +1,2 @@
+This folder contains all the issues I encountered when setting up the automation for the Delay experiments.
+I am documenting all the issues in this folder so that I can write about them in the final draft of the thesis.

@@ -61,7 +61,9 @@ echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig)
 echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig)
 
 . $HOME/esp/esp-idf/export.sh > /dev/null
-
 cd $delay_server_path
-idf.py build flash monitor --port $delay_server_port
+
+output_file_path="$HOME/Desktop/Repositories/Experiments/delay/data/delay-server-output.txt"
+idf.py build flash monitor --port $delay_server_port | tee $output_file_path
+
 cd -

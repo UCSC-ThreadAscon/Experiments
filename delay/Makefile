@@ -2,7 +2,7 @@ DELAY_SERVER_PORT=/dev/cu.usbserial-140
 DELAY_CLIENT_PORT=/dev/cu.usbserial-12420
 
 delay-server-aes-20:
-	./delay-server.sh -t 20 -e 0 -p $(DELAY_SERVER_PORT) | tee ./data/server-output.txt
+	./delay-server.sh -t 20 -e 0 -p $(DELAY_SERVER_PORT)
 delay-server-aes-9:
 	./delay-server.sh -t 9 -e 0 -p $(DELAY_SERVER_PORT)
 delay-server-aes-0:
@@ -30,7 +30,7 @@ delay-server-noencrypt-0:
 	./delay-server.sh -t 0 -e 1 -p $(DELAY_SERVER_PORT)
 
 delay-client-aes-20:
-	./delay-client.sh -t 20 -e 0 -p $(DELAY_CLIENT_PORT) | tee ./data/client-output.txt
+	./delay-client.sh -t 20 -e 0 -p $(DELAY_CLIENT_PORT)
 
 delay-client-aes-9:
 	./delay-client.sh -t 9 -e 0 -p $(DELAY_CLIENT_PORT)

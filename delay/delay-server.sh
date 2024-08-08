@@ -54,6 +54,7 @@ sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_server_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_server_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_sdkconfig
 
+date
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig)
 echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig)

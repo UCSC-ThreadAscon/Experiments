@@ -65,12 +65,6 @@ sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_server_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_server_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_sdkconfig
 
-date
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig)
-echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig)
-echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig)
-echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig)
-
 . $HOME/esp/esp-idf/export.sh > /dev/null
 cd $delay_server_path
 
@@ -78,5 +72,12 @@ cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
 
-idf.py build flash monitor --port $delay_server_port | tee $output_file_path
+date | tee $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig) | tee -a $output_file_path
+
+idf.py build flash monitor --port $delay_server_port | tee -a $output_file_path
+
 cd -

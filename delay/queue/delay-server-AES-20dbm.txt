@@ -518,4 +518,8 @@ entry 0x4083cada
 [0;32mI(830) OPENTHREAD:[N] Platform------: Started CoAP server at port 5683.[0m
 [0;32mI(840) OPENTHREAD:[N] Platform------: Created Delay Confirmable server at 'delay-confirmable'.[0m
 [999C [6n [0;32mI (960) main_task: Returned from app_main()[0m
-[143D> 
+[143D> [0;32mI(602030) OPENTHREAD:[N] MeshForwarder-: Failed to send IPv6 UDP msg, len:124, chksum:d445, ecn:no, to:42d5522a5dbdbe8f, sec:no, error:NoAck, prio:net[0m
+[0;32mI(602050) OPENTHREAD:[N] MeshForwarder-:     src:[fe80:0:0:0:5cc0:ebda:d34e:ae9b]:19788[0m
+[0;32mI(602050) OPENTHREAD:[N] MeshForwarder-:     dst:[fe80:0:0:0:40d5:522a:5dbd:be8f]:19788[0m
+[0;33mW(602280) OPENTHREAD:[W] Mle-----------: Failed to process UDP: Duplicated[0m
+Done

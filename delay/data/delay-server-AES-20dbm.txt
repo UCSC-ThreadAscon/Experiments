@@ -508,4 +508,14 @@ entry 0x4083cada
 [0;32mI(740) OPENTHREAD:[N] Platform------: Current Test: Delay Server (Confirmable)[0m
 [0;32mI(750) OPENTHREAD:[N] Platform------: Time Sync is ON.[0m
 [0;32mI(760) OPENTHREAD:[N] Platform------: ---------------------------[0m
-[6n [999C [6n [143D> 
+[6n [999C [6n [143D> [0;32mI(28660) OPENTHREAD:[N] Mle-----------: RLOC16 7c00 -> fffe[0m
+[0;32mI(29100) OPENTHREAD:[N] Mle-----------: Attach attempt 1, AnyPartition reattaching with Active Dataset[0m
+[0;32mI(35660) OPENTHREAD:[N] RouterTable---: Allocate router id 31[0m
+[0;32mI(35660) OPENTHREAD:[N] Mle-----------: RLOC16 fffe -> 7c00[0m
+[0;32mI(35660) OPENTHREAD:[N] Mle-----------: Role detached -> leader[0m
+[0;32mI(35680) OPENTHREAD:[N] Mle-----------: Partition ID 0x6aeacc35[0m
+[0;32mI(35710) OPENTHREAD:[N] Platform------: Started CoAP server at port 5683.[0m
+[0;32mI(35710) OPENTHREAD:[N] Platform------: Created Delay Confirmable server at 'delay-confirmable'.[0m
+[0;32mI (35770) main_task: Returned from app_main()[0m
+
+[6n [999C [6n [143D> Done

@@ -19,6 +19,17 @@ function sdkconfig_get() {
   cat $2 | grep $1=
 }
 
+function to_cipher_string() {
+  case $1 in
+    0) echo "AES" ;;
+    1) echo "NoEncrypt" ;;
+    2) echo "ascon128a-esp32" ;;
+    3) echo "ascon128a-ref" ;;
+    4) echo "LibAscon-128a" ;;
+    5) echo "LiBascon-128" ;;
+  esac
+}
+
 # Get the TX Power and Encryption Algorithm to use from the command line arguments.
 #
 # The Bash script code that uses `optarg` to get the command line arguments
@@ -63,7 +74,10 @@ echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_client_sdkconfig)
 . $HOME/esp/esp-idf/export.sh > /dev/null
 cd $delay_client_path
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/delay/data/delay-client-output.txt"
+cipher_string=$(to_cipher_string $cipher_num)
+txpower_string="${tx_power}dbm"
+
+output_file_path="$HOME/Desktop/Repositories/Experiments/delay/data/delay-client-$cipher_string-$txpower_string.txt"
 idf.py build flash monitor --port $delay_client_port | tee $output_file_path
 
 cd -

@@ -77,7 +77,7 @@ cd $delay_client_path
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/delay/data/delay-client-$cipher_string-$txpower_string.txt"
+output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-client-$cipher_string-$txpower_string.txt"
 idf.py build flash monitor --port $delay_client_port | tee $output_file_path
 
 cd -

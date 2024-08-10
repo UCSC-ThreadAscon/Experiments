@@ -14,6 +14,7 @@ import os
     Use consistent and systematic naming conventions so you know which files
     to look for without having to specify them as input.
 """
+NUM_TRIALS = 100
 
 def getAverageDelays(filepath):
   averages = []
@@ -35,7 +36,11 @@ def getFinalAverage(averages):
   listSum = 0
   for average in averages:
     listSum += average
-  return listSum / len(averages)
+
+  if len(averages) >= NUM_TRIALS:
+    return listSum / len(averages)
+  else:
+    raise Exception(f"Less than {NUM_TRIALS} average delay. Not enough data for valid experiment.")
 
 def findFirstLine(expression, filepath):
   with open(filepath, 'r') as file:
@@ -70,7 +75,7 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
 
     file.write("List of Average Delays used to create the Final Average:\n")
 
-    for i in range(0, len(averageDelays)):
+    for i in range(0, NUM_TRIALS):
       file.write(f"Trial {i}: {averageDelays[i]} us")
       if i != len(averageDelays) - 1:
         file.write("\n")

@@ -72,9 +72,9 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
 
     file.write("List of Average Delays used to create the Final Average:\n")
 
-    for i in range(0, NUM_TRIALS):
+    for i in range(1, NUM_TRIALS + 1):
       file.write(f"Trial {i}: {averageDelays[i]} us")
-      if i != len(averageDelays) - 1:
+      if i != NUM_TRIALS:
         file.write("\n")
   return
 

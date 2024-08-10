@@ -45,15 +45,14 @@ def findFirstLine(expression, filepath):
     for line in file:
       if expression in line:
         return line
-  return None
+  raise Exception(f"Can't find expression '{expression}' in '{filepath}'.")
 
-def writeFinalAverage(averageDelays, finalAverge, filepath):
-  line = findFirstLine("Cipher Suite:", filepath)
+def writeFinalAverage(averageDelays, finalAverge, delayExpLog):
+  line = findFirstLine("Cipher Suite:", delayExpLog)
   words = line.split(" ")
-  print(words)
   cipher = words[5]
 
-  line = findFirstLine("Max TX Power is:", filepath)
+  line = findFirstLine("Max TX Power is:", delayExpLog)
   words = line.split(" ")
   txPower = words[7]
 

@@ -58,6 +58,12 @@ def writeFinalAverage(averageDelays, finalAverge, delayExpLog):
 
   print(cipher)
   print(txPower)
+
+  # The next step is to create the file to store the average in.
+  outputFile = f"delay-final-average-{cipher}-{txPower}dbm.txt"
+  with open(outputFile, "w") as file:
+    file.write(f"Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.")
+
   return
 
 if __name__ == "__main__":

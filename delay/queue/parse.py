@@ -1,12 +1,15 @@
 import sys
 import os
 
-AVERAGE_DELAY_EXP="The AVERAGE delay is:"
-SPACE_DELIMITER=" "
-
 testFile = os.path.join(os.curdir, "delay-client-AES-20dBm.txt")
 
 with open(testFile, 'r') as file:
   for line in file:
-    if AVERAGE_DELAY_EXP in line:
-      print(line.split(SPACE_DELIMITER)[7])
+    """ The average Delay (in uS) for each experiment will be
+        always displayed after the phrase 'The AVERAGE delay is'.
+
+        The average Delay will always be the 7th word in the line
+        that it is displayed in.
+    """
+    if "The AVERAGE delay is:" in line:
+      print(line.split(" ")[7])

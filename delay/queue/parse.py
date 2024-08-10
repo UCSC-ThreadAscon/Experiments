@@ -1,16 +1,6 @@
 import re
 import os
-"""TODO:
-    1. In the case you have multiple files with average delays,
-       write a Bash script that combines the multiple files into
-       a single, large file.
 
-       While you're at it, use the Bash script to print the independent
-       variables.
-
-    Use consistent and systematic naming conventions so you know which files
-    to look for without having to specify them as input.
-"""
 NUM_TRIALS = 100
 
 def getAverageDelays(filepath):

@@ -1,4 +1,4 @@
-import sys
+import re
 import os
 """TODO:
     1. In the case you have multiple files with average delays,
@@ -47,19 +47,27 @@ def findFirstLine(expression, filepath):
         return line
   raise Exception(f"Can't find expression '{expression}' in '{filepath}'.")
 
+"""The lines of code and regular expression I used to remove ANSI escape
+   sequences comes from:
+   https://stackoverflow.com/a/14693789/6621292
+"""
+def removeAnsi(line):
+  ansiEscapes = re.compile(
+    br'(?:\x1B[@-Z\\-_]|[\x80-\x9A\x9C-\x9F]|(?:\x1B\[|\x9B)[0-?]*[ -/]*[@-~])'
+  )
+  result = ansiEscapes.sub(b'', bytes(line, "utf-8"))
+  return str(result, encoding="utf-8")
+
 def writeFinalAverage(averageDelays, finalAverge, delayExpLog):
   line = findFirstLine("Cipher Suite:", delayExpLog)
   words = line.split(" ")
-  cipher = words[5]
+  cipher = removeAnsi(words[5]).replace('\n', '')
+  print(cipher)
 
   line = findFirstLine("Max TX Power is:", delayExpLog)
   words = line.split(" ")
   txPower = words[7]
 
-  print(cipher)
-  print(txPower)
-
-  # The next step is to create the file to store the average in.
   outputFile = f"delay-final-average-{cipher}-{txPower}dbm.txt"
   with open(outputFile, "w") as file:
     file.write(f"Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.")

@@ -37,10 +37,10 @@ def getAverageDelays(filepath):
   return averages
 
 def getFinalAverage(averages):
-  sum = 0
+  listSum = 0
   for average in averages:
-    sum += average
-  return sum / len(averages)
+    listSum += average
+  return listSum / len(averages)
 
 if __name__ == "__main__":
   testFile = os.path.join(os.curdir, "delay-client-AES-20dBm.txt")

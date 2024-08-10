@@ -11,9 +11,6 @@ import os
     2. When calculating the average delay, only consider the first
        100 average delays in the array.
 
-    3. Write the average you calculated into a new file.
-       * Parse the file with the average delays itself to get the independent variables.
-
     Use consistent and systematic naming conventions so you know which files
     to look for without having to specify them as input.
 """
@@ -58,11 +55,10 @@ def removeAnsi(line):
   result = ansiEscapes.sub(b'', bytes(line, "utf-8"))
   return str(result, encoding="utf-8")
 
-def writeFinalAverage(averageDelays, finalAverge, delayExpLog):
+def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
   line = findFirstLine("Cipher Suite:", delayExpLog)
   words = line.split(" ")
   cipher = removeAnsi(words[5]).replace('\n', '')
-  print(cipher)
 
   line = findFirstLine("Max TX Power is:", delayExpLog)
   words = line.split(" ")
@@ -70,8 +66,14 @@ def writeFinalAverage(averageDelays, finalAverge, delayExpLog):
 
   outputFile = f"delay-final-average-{cipher}-{txPower}dbm.txt"
   with open(outputFile, "w") as file:
-    file.write(f"Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.")
+    file.write(f"Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.\n")
 
+    file.write("List of Average Delays:\n")
+
+    for i in range(0, len(averageDelays)):
+      file.write(f"Trial {i}: {averageDelays[i]} us")
+      if i != len(averageDelays) - 1:
+        file.write("\n")
   return
 
 if __name__ == "__main__":
@@ -79,6 +81,4 @@ if __name__ == "__main__":
   averages = getAverageDelays(testFile)
   finalAverage = getFinalAverage(averages)
 
-  # print(averages)
-  # print(finalAverage)
   writeFinalAverage(averages, finalAverage, testFile)

@@ -3,6 +3,8 @@ import os
 
 testFile = os.path.join(os.curdir, "delay-client-AES-20dBm.txt")
 
+averages = []
+
 with open(testFile, 'r') as file:
   for line in file:
     """ The average Delay (in uS) for each experiment will be
@@ -12,4 +14,8 @@ with open(testFile, 'r') as file:
         that it is displayed in.
     """
     if "The AVERAGE delay is:" in line:
-      print(line.split(" ")[7])
+      words = line.split(" ")
+      average = int(words[7])
+      averages.append(average)
+
+print(averages)

@@ -1,1 +1,2 @@
-ls | grep "delay-client"
+logs=($(ls | grep "delay-client"))
+echo $logs

@@ -3,7 +3,6 @@ import os
 
 def getAverageDelays(filepath):
   averages = []
-
   with open(testFile, 'r') as file:
     for line in file:
       """ The average Delay (in uS) for each experiment will be
@@ -16,7 +15,6 @@ def getAverageDelays(filepath):
         words = line.split(" ")
         average = int(words[7])
         averages.append(average)
-
   return averages
 
 def getFinalAverage(averages):

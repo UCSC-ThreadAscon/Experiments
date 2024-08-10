@@ -79,7 +79,7 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
   return
 
 if __name__ == "__main__":
-  testFile = os.path.join(os.curdir, "delay-client-AES-20dBm.txt")
+  testFile = os.path.join(os.curdir, "delay-client-AES-20dBm-FULL-LOG.txt")
   averages = getAverageDelays(testFile)
   finalAverage = getFinalAverage(averages)
 

@@ -1,7 +1,7 @@
 import sys
 import os
 
-def getAverage(filepath):
+def getAverageDelays(filepath):
   averages = []
 
   with open(testFile, 'r') as file:
@@ -19,6 +19,16 @@ def getAverage(filepath):
 
   return averages
 
+def getFinalAverage(averages):
+  sum = 0
+  for average in averages:
+    sum += average
+  return sum / len(averages)
+
 if __name__ == "__main__":
   testFile = os.path.join(os.curdir, "delay-client-AES-20dBm.txt")
-  print(getAverage(testFile))
+  averages = getAverageDelays(testFile)
+  finalAverage = getFinalAverage(averages)
+
+  print(averages)
+  print(finalAverage)

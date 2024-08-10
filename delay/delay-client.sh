@@ -70,7 +70,9 @@ cd $delay_client_path
 
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
+
 output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-client-$cipher_string-$txpower_string.txt"
+rm -f $output_file_path
 
 date | tee $output_file_path
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_client_sdkconfig) | tee -a $output_file_path

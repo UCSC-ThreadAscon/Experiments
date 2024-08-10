@@ -1,5 +1,24 @@
 import sys
 import os
+"""TODO:
+    1. Check for overflow when you calculate averages.
+
+    2. In the case you have multiple files with average delays,
+       write a Bash script that combines the multiple files into
+       a single, large file.
+
+       While you're at it, use the Bash script to check the independent
+       variables, and to make sure the indepedent variables are consistent
+       across files.
+
+    3. When calculating the average delay, only consider the first
+       100 average delays in the array.
+
+    4. Write the average you calculated into a new file.
+
+    Use consistent and systematic naming conventions so you know which files
+    to look for without having to specify them as input.
+"""
 
 def getAverageDelays(filepath):
   averages = []

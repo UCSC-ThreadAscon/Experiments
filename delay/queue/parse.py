@@ -8,9 +8,6 @@ import os
        While you're at it, use the Bash script to print the independent
        variables.
 
-    2. When calculating the average delay, only consider the first
-       100 average delays in the array.
-
     Use consistent and systematic naming conventions so you know which files
     to look for without having to specify them as input.
 """

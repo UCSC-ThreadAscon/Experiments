@@ -66,9 +66,9 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
 
   outputFile = f"delay-final-average-{cipher}-{txPower}dbm.txt"
   with open(outputFile, "w") as file:
-    file.write(f"Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.\n")
+    file.write(f"Final Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.\n")
 
-    file.write("List of Average Delays:\n")
+    file.write("List of Average Delays used to create the Final Average:\n")
 
     for i in range(0, len(averageDelays)):
       file.write(f"Trial {i}: {averageDelays[i]} us")

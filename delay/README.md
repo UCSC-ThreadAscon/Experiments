@@ -1,5 +1,12 @@
 # Delay Experiments
 
+This README describes how to use the scripts in order to run the Delay experiments.
+
+## Starting The Experiment
+
+
+
+
 1. Run the Makefile commands to start the Delay Server and Client.
 
 2. Let the 100 trials run automatically. Save the output to text files.

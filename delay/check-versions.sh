@@ -28,6 +28,7 @@ function esp_idf_check() {
     printf "\nESP-IDF Local Commit ID: %s.\n" $esp_idf_local
     printf "\nThere is a Commit ID mismatch.\n"
     print_delimiter
+    printf "\n"
     exit 1
   fi
 }

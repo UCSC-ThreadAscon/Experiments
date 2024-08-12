@@ -83,9 +83,9 @@ def getLogFilePath():
     return os.path.join(queueDir, logFiles[0])
   else:
     if len(logFiles) == 0:
-      raise Exception("Can't find the Delay Client log file to parse.")
+      raise Exception("Can't find the Delay Client log (.txt) file to parse.")
     else:
-      raise Exception("There is more than one Delay Client log file.")
+      raise Exception("There is more than one Delay Client log (.txt) file.")
 
 
 if __name__ == "__main__":

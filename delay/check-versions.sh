@@ -13,11 +13,11 @@ NET_PERF_FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 
 function start_delimiter() {
-  printf -- "-----------------------------------"
+  printf -- "-----------------------------------------------------------------------------------------"
 }
 
 function end_delimiter() {
-  printf -- "-----------------------------------\n"
+  printf -- "-----------------------------------------------------------------------------------------\n"
 }
 
 function show_last_commit() {

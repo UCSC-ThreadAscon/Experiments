@@ -1,8 +1,6 @@
 import re
 import os
 
-NUM_TRIALS = 100
-
 def getAverageDelays(filepath):
   averages = []
   with open(filepath, 'r') as file:
@@ -23,11 +21,7 @@ def getFinalAverage(averages):
   listSum = 0
   for average in averages:
     listSum += average
-
-  if len(averages) >= NUM_TRIALS:
-    return listSum / len(averages)
-  else:
-    raise Exception(f"Less than {NUM_TRIALS} average delay. Not enough data for valid experiment.")
+  return listSum / len(averages)
 
 def findFirstLine(expression, filepath):
   with open(filepath, 'r') as file:
@@ -67,13 +61,13 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
 
   with open(outputFile, "w") as file:
     file.write(f"Final Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.\n")
-
     file.write("List of Average Delays used to create the Final Average:\n")
 
-    for trialNum in range(1, NUM_TRIALS + 1):
-      index = trialNum - 1
-      file.write(f"Trial {trialNum}: {averageDelays[index]} us")
-      if trialNum != NUM_TRIALS:
+    trialNum = 1
+    for average in averageDelays:
+      file.write(f"Trial {trialNum}: {average} us")
+      trialNum += 1
+      if trialNum <= len(averageDelays):
         file.write("\n")
   return
 

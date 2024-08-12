@@ -4,6 +4,8 @@
 # Example:
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
 #
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
+#
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
   sed -i "" "s/$to_replace/$1=$2/g" $3

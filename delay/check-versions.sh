@@ -39,7 +39,7 @@ function commit_id_check() {
 
   cd $2
   git restore .
-  printf "\nDid a GIT RESTORE at local repository instance: %s\n" "$(pwd)"
+  printf "\nDid a GIT RESTORE at local repository instance: %s.\n" "$(pwd)"
 
   local_commit=$(git rev-parse HEAD)
 

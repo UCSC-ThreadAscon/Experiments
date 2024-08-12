@@ -21,50 +21,41 @@ function show_last_commit() {
   git --no-pager log -n1
 }
 
-function esp_idf_check() {
+# $1 => "ESP-IDF"
+# $2 => ESP_IDF_LOC
+# $3 => ESP_IDF_COMMIT
+
+# Command Format:
+#   commit_id_check [name of repo as string] [path to local repo] [expected experiment commit id]
+#
+#   [name of repo as string] =          $1
+#   [path to local repo] =              $2
+#   [expected experiment commit id] =   $3
+#
+# Example:
+#   commit_id_check "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+#
+function commit_id_check() {
   start_delimiter
-  printf "\nGoing to ESP-IDF Local Repository.\n"
+  printf "\nGoing to %s Local Repository.\n" $1
 
-  cd $ESP_IDF_LOC
+  cd $2
   git restore .
-  esp_idf_local=$(git rev-parse HEAD)
+  local_commit=$(git rev-parse HEAD)
 
-  if [ $esp_idf_local = $ESP_IDF_COMMIT ]
+  if [ $local_commit = $3 ]
   then
-    printf "\nESP-IDF is using Commit ID: %s.\n" $esp_idf_local
+    printf "\n%s is using Commit ID: %s.\n" $1 $local_commit
     show_last_commit
     end_delimiter
   else
-    printf "\nESP-IDF Commit ID to use in Experiments: %s.\n" $ESP_IDF_COMMIT
-    printf "\nESP-IDF Local Commit ID: %s.\n" $esp_idf_local
+    printf "\n$1 Commit ID to use in Experiments: %s.\n" $3
+    printf "\n$1 Local Commit ID: %s.\n" $local_commit
     printf "\nThere is a Commit ID mismatch.\n"
     end_delimiter
     exit 1
   fi
 }
 
-function openthread_check() {
-  start_delimiter
-  printf "\nGoing to OpenThread Local Repository.\n"
-
-  cd $OPENTHREAD_LOC
-  git restore .
-  openthread_local=$(git rev-parse HEAD)
-
-  if [ $openthread_local = $OPENTHREAD_COMMIT ]
-  then
-    printf "\nOpenThread is using Commit ID: %s.\n" $openthread_local
-    show_last_commit
-    end_delimiter
-  else
-    printf "\nOpenThread Commit ID to use in Experiments: %s.\n" $OPENTHREAD_COMMIT
-    printf "\nOpenThread Local Commit ID: %s.\n" $openthread_local
-    printf "\nThere is a Commit ID mismatch.\n"
-    end_delimiter
-    printf "\n"
-    exit 1
-  fi
-}
-
-esp_idf_check
-openthread_check
+commit_id_check "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+commit_id_check "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT

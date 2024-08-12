@@ -77,10 +77,6 @@ output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-clien
 rm -f $output_file_path
 
 date | tee $output_file_path
-
-check_versions_exec=$HOME/Desktop/Repositories/Experiments/delay/check-versions.sh
-$check_versions_exec | tee -a $output_file_path
-
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_client_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_client_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_client_sdkconfig) | tee -a $output_file_path

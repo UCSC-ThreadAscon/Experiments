@@ -26,7 +26,7 @@ function to_cipher_string() {
     2) echo "ascon128a-esp32" ;;
     3) echo "ascon128a-ref" ;;
     4) echo "LibAscon-128a" ;;
-    5) echo "LiBascon-128" ;;
+    5) echo "LibAscon-128" ;;
   esac
 }
 

@@ -49,6 +49,9 @@ This README describes how to use the scripts in order to run the Delay experimen
   Make sure that both `[cipher]` and `[txpower]` are using the *same exact values*
   that you used when starting the Delay client and server.
 
+6. Create a `NOTES.md` file where you document the activity occuring in the experimental setup
+  (i.e. the house the experiment is taking place in) during the experiment.
+
 ## Post Processing
 
 1. Run the following command:
@@ -75,6 +78,8 @@ This README describes how to use the scripts in order to run the Delay experimen
 3. Commit and push all changes. In addition, store all of files in `/delay-[cipher]-[txpower]-trial-[trial number]`
    in the Synology NAS.
 
+   Note that `NOTES.md` and `*.pcapng` files are `gitigniored`. This is because `NOTES.md` contains
+   details about what my family members are doing at home (privete information), and the `.pcapng` are
    Note that `.pcapng` files are `gitignored`, as the `.pcapng` are
    relatively large files to save in Git.
 

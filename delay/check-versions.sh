@@ -24,10 +24,6 @@ function show_last_commit() {
   git --no-pager log -n1
 }
 
-# $1 => "ESP-IDF"
-# $2 => ESP_IDF_LOC
-# $3 => ESP_IDF_COMMIT
-
 # Command Format:
 #   commit_id_check [name of repo as string] [path to local repo] [expected experiment commit id]
 #
@@ -42,12 +38,12 @@ function commit_id_check() {
   start_delimiter
 
   cd $2
-  git restore .
   local_commit=$(git rev-parse HEAD)
 
   if [ $local_commit = $3 ]
   then
     printf "\n%s is using Commit ID: %s.\n\n" "$1" $local_commit
+    printf "%s\n\n" "$(git status)"
     show_last_commit
     end_delimiter
   else

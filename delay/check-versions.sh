@@ -2,11 +2,12 @@
 ESP_IDF_COMMIT=6377abb842705a5aa8feb00ef1996f236f64b5dd
 OPENTHREAD_COMMIT=a011df52f209726bf9b9dc5ae123ec53bceafe7e
 NET_PERF_FTD_COMMIT=f2d86f5210284c8cd54e3315bafb197513c18ab9
-DELAY_SERVER_COMMIT=f2d86f5210284c8cd54e3315bafb197513c18ab9
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf
 OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
+NET_PERF_FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
+DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 
 function start_delimiter() {
   printf -- "-----------------------------------"

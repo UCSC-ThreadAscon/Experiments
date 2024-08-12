@@ -57,7 +57,7 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
   words = line.split(" ")
   txPower = words[7]
 
-  outputFile = os.path.join(os.curdir, "queue", f"delay-final-average-{cipher}-{txPower}dbm.txt")
+  outputFile = os.path.join(os.getcwd(), "queue", f"delay-final-average-{cipher}-{txPower}dbm.txt")
 
   with open(outputFile, "w") as file:
     file.write(f"Final Average Delay under {cipher} at {txPower} dBm: {finalAverage} us.\n")
@@ -72,7 +72,7 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
   return
 
 if __name__ == "__main__":
-  combinedLog = os.path.join(os.curdir, "queue", "full-log.txt")
+  combinedLog = os.path.join(os.getcwd(), "queue", "full-log.txt")
   averages = getAverageDelays(combinedLog)
   finalAverage = getFinalAverage(averages)
 

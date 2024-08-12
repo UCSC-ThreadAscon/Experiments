@@ -71,9 +71,26 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
         file.write("\n")
   return
 
+def getLogFilePath():
+  def isLogFile(filename):
+    return "delay-client" in filename
+
+  queueDir = os.path.join(os.getcwd(), "queue")
+  filesQueueDir = os.listdir(queueDir)
+
+  logFiles = list(filter(isLogFile, filesQueueDir))
+  if len(logFiles) == 1:
+    return os.path.join(queueDir, logFiles[0])
+  else:
+    if len(logFiles) == 0:
+      raise Exception("Can't find Delay Client log file to parse.")
+    else:
+      raise Exception("There is more than one Delay Client log file.")
+
+
 if __name__ == "__main__":
-  combinedLog = os.path.join(os.getcwd(), "queue", "full-log.txt")
-  averages = getAverageDelays(combinedLog)
+  logFile = getLogFilePath()
+  averages = getAverageDelays(logFile)
   finalAverage = getFinalAverage(averages)
 
-  writeFinalAverage(averages, finalAverage, combinedLog)
+  writeFinalAverage(averages, finalAverage, logFile)

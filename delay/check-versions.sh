@@ -32,23 +32,24 @@ function show_last_commit() {
 #   [expected experiment commit id] =   $3
 #
 # Example:
-#   commit_id_check "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+#   commit_id_check "ESP-IDF" "$ESP_IDF_LOC" "$ESP_IDF_COMMIT"
 #
 function commit_id_check() {
   start_delimiter
 
   cd $2
+  printf "\nCurrently at directory: %s\n" "$(pwd)"
   local_commit=$(git rev-parse HEAD)
 
   if [ $local_commit = $3 ]
   then
-    printf "\n%s is using Commit ID: %s.\n\n" "$1" $local_commit
+    printf "\n%s is using Commit ID: %s.\n\n" "$1" "$local_commit"
     printf "%s\n\n" "$(git status)"
     show_last_commit
     end_delimiter
   else
-    printf "\n%s Commit ID to use in Experiments: %s.\n" "$1" $3
-    printf "\n%s Local Commit ID: %s.\n" "$1" $local_commit
+    printf "\n%s Commit ID to use in Experiments: %s.\n" "$1" "$3"
+    printf "\n%s Local Commit ID: %s.\n" "$1" "$local_commit"
     printf "\nThere is a Commit ID mismatch.\n"
     end_delimiter
     exit 1

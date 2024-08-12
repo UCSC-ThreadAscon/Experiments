@@ -1,6 +1,9 @@
 DELAY_SERVER_PORT=/dev/cu.usbserial-140
 DELAY_CLIENT_PORT=/dev/cu.usbserial-12420
 
+check-versions:
+	./check-versions.sh
+
 post-process:
 	rm -f ./queue/full-log.txt ./queue/delay-final-average*
 	python3 ./parse.py

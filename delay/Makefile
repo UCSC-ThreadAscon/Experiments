@@ -3,7 +3,6 @@ DELAY_CLIENT_PORT=/dev/cu.usbserial-12420
 
 post-process:
 	rm -f ./queue/full-log.txt ./queue/delay-final-average*
-	./combine.sh
 	python3 ./parse.py
 
 delay-server-aes-20:

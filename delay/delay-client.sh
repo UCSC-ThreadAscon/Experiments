@@ -23,8 +23,8 @@ function to_cipher_string() {
   case $1 in
     0) echo "AES" ;;
     1) echo "NoEncrypt" ;;
-    2) echo "ascon128a-esp32" ;;
-    3) echo "ascon128a-ref" ;;
+    2) echo "Ascon128a-esp32" ;;
+    3) echo "Ascon128a-ref" ;;
     4) echo "LibAscon-128a" ;;
     5) echo "LibAscon-128" ;;
   esac

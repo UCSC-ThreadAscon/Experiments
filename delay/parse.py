@@ -52,6 +52,13 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
   words = line.split(" ")
   cipher = removeAnsi(words[5]).replace('\n', '')
 
+  # If "No" gets parsed, it's actually supposed to be "No Encrypt".
+  # Since " " is used as a delimiter, the "Encrypt" word will be missed
+  # during the parsing process.
+  #
+  if cipher == "No":
+    cipher = "No Encrypt"
+
   line = findFirstLine("Max TX Power is:", delayExpLog)
   words = line.split(" ")
   txPower = words[7]

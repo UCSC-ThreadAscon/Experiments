@@ -6,13 +6,22 @@ DELAY_SERVER_COMMIT=f2d86f5210284c8cd54e3315bafb197513c18ab9
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf
+OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 
-function print_delimiter() {
+function start_delimiter() {
   printf -- "-----------------------------------"
 }
 
+function end_delimiter() {
+  printf -- "-----------------------------------\n"
+}
+
+function show_last_commit() {
+  git --no-pager log -n1
+}
+
 function esp_idf_check() {
-  print_delimiter
+  start_delimiter
   printf "\nGoing to ESP-IDF Local Repository.\n"
 
   cd $ESP_IDF_LOC
@@ -22,15 +31,39 @@ function esp_idf_check() {
   if [ $esp_idf_local = $ESP_IDF_COMMIT ]
   then
     printf "\nESP-IDF is using Commit ID: %s.\n" $esp_idf_local
-    print_delimiter
+    show_last_commit
+    end_delimiter
   else
     printf "\nESP-IDF Commit ID to use in Experiments: %s.\n" $ESP_IDF_COMMIT
     printf "\nESP-IDF Local Commit ID: %s.\n" $esp_idf_local
     printf "\nThere is a Commit ID mismatch.\n"
-    print_delimiter
+    end_delimiter
+    exit 1
+  fi
+}
+
+function openthread_check() {
+  start_delimiter
+  printf "\nGoing to OpenThread Local Repository.\n"
+
+  cd $OPENTHREAD_LOC
+  git restore .
+  openthread_local=$(git rev-parse HEAD)
+
+  if [ $openthread_local = $OPENTHREAD_COMMIT ]
+  then
+    printf "\nOpenThread is using Commit ID: %s.\n" $openthread_local
+    show_last_commit
+    end_delimiter
+  else
+    printf "\nOpenThread Commit ID to use in Experiments: %s.\n" $OPENTHREAD_COMMIT
+    printf "\nOpenThread Local Commit ID: %s.\n" $openthread_local
+    printf "\nThere is a Commit ID mismatch.\n"
+    end_delimiter
     printf "\n"
     exit 1
   fi
 }
 
 esp_idf_check
+openthread_check

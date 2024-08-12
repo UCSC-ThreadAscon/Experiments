@@ -73,7 +73,7 @@ def writeFinalAverage(averageDelays, finalAverage, delayExpLog):
 
 def getLogFilePath():
   def isLogFile(filename):
-    return "delay-client" in filename
+    return ("delay-client" in filename) and (".txt" in filename)
 
   queueDir = os.path.join(os.getcwd(), "queue")
   filesQueueDir = os.listdir(queueDir)

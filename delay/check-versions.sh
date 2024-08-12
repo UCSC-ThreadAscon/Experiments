@@ -38,7 +38,9 @@ function commit_id_check() {
   start_delimiter
 
   cd $2
-  printf "\nCurrently at directory: %s\n" "$(pwd)"
+  git restore .
+  printf "\nDid a GIT RESTORE at local repository instance: %s\n" "$(pwd)"
+
   local_commit=$(git rev-parse HEAD)
 
   if [ $local_commit = $3 ]

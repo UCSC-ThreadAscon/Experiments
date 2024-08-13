@@ -66,11 +66,11 @@ setup_server=false
 while getopts "cs" flag; do
   case $flag in
     c)
-      echo "Preparing the DELAY CLIENT for the experiment."
+      echo "Setting the Commit IDs for the DELAY CLIENT."
       setup_client=true
       ;;
     s)
-      echo "Preparing the DELAY SERVER for the experiment."
+      echo "Setting the Commit IDs for the DELAY SERVER."
       setup_server=true
       ;;
     \?)

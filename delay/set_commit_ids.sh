@@ -60,9 +60,32 @@ function change_repo_commit() {
   print_delimiter
 }
 
-# Update OpenThread first, as it's a submodule of ESP-IDF
+setup_client=false
+setup_server=false
+while getopts "cs" flag; do
+  case $flag in
+    c)
+      setup_client=true
+      ;;
+    s)
+      setup_server=true
+      ;;
+    \?)
+      "Flag -${flag} is in invalid option."
+      exit 1
+  esac
+done
+
+# Update OpenThread first, as it is a submodule of ESP-IDF.
 change_repo_commit "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT
 change_repo_commit "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
 
-change_repo_commit "Network Performance FTD" $NET_PERF_FTD_LOC $DRIVER_CODE_FTD_COMMIT
-change_repo_commit "Delay Server" $DELAY_SERVER_LOC $DRIVER_CODE_FTD_COMMIT
+if $setup_client;
+then
+  change_repo_commit "Network Performance FTD" $NET_PERF_FTD_LOC $DRIVER_CODE_FTD_COMMIT
+fi
+
+if $setup_server;
+then
+  change_repo_commit "Delay Server" $DELAY_SERVER_LOC $DRIVER_CODE_FTD_COMMIT
+fi

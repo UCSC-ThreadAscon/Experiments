@@ -50,13 +50,13 @@ function change_repo_commit() {
   # Prove that the repository is at the correct commit ID,
   # and that no unstaged changes have been made to the repository.
   #
-  printf "Commit AFTER Checkout: %s.\n\n" "$(git rev-parse HEAD)"
+  printf "Repository is now at EXPERIMENT COMMIT ID: %s.\n\n" "$(git rev-parse HEAD)"
 
   git status
   printf "\n"
 
   # https://stackoverflow.com/a/7737071/6621292
-  git --no-pager log -n1
+  git --no-pager log --pretty=oneline -n1
   print_delimiter
 }
 

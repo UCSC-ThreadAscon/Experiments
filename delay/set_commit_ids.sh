@@ -60,6 +60,7 @@ function change_repo_commit() {
   print_delimiter
 }
 
+# https://www.atatus.com/blog/bash-scripting/
 setup_client=false
 setup_server=false
 while getopts "cs" flag; do

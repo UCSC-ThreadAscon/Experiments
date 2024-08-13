@@ -60,8 +60,9 @@ function change_repo_commit() {
   print_delimiter
 }
 
-change_repo_commit "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+# Update OpenThread first, as it's a submodule of ESP-IDF
 change_repo_commit "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT
+change_repo_commit "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
 
 change_repo_commit "Network Performance FTD" $NET_PERF_FTD_LOC $DRIVER_CODE_FTD_COMMIT
 change_repo_commit "Delay Server" $DELAY_SERVER_LOC $DRIVER_CODE_FTD_COMMIT

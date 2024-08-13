@@ -1,10 +1,10 @@
 # The commit IDs that will be used in all Delay experiments.
-ESP_IDF_COMMIT=
-OPENTHREAD_COMMIT=
+ESP_IDF_COMMIT=6377abb842705a5aa8feb00ef1996f236f64b5dd
+OPENTHREAD_COMMIT=a011df52f209726bf9b9dc5ae123ec53bceafe7e
 
 # This commit ID is shared by both the Network Performance FTD and the Delay Server,
 # as they are both local copies of the same repository.
-DRIVER_CODE_FTD_COMMIT=
+DRIVER_CODE_FTD_COMMIT=0a9f1f578163106ca39ad63c07d021a214732ae7
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf

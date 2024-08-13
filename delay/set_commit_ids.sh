@@ -65,9 +65,11 @@ setup_server=false
 while getopts "cs" flag; do
   case $flag in
     c)
+      echo "Preparing the DELAY CLIENT for the experiment."
       setup_client=true
       ;;
     s)
+      echo "Preparing the DELAY SERVER for the experiment."
       setup_server=true
       ;;
     \?)

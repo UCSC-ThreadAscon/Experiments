@@ -59,7 +59,7 @@ date | tee $output_file_path
 # as the script does a `git restore` on ESP-IDF, OpenThread, and the Delay client and server source code.
 #
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
-$set_commit_ids_exec | tee -a $output_file_path
+$set_commit_ids_exec -c | tee -a $output_file_path
 
 delay_client_path="$HOME/Desktop/Repositories/network-performance-ftd"
 delay_client_sdkconfig=$delay_client_path/sdkconfig

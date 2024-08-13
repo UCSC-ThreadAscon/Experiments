@@ -12,12 +12,8 @@ OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 NET_PERF_FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 
-function start_delimiter() {
-  printf -- "-----------------------------------------------------------------------------------------"
-}
-
-function end_delimiter() {
-  printf -- "-----------------------------------------------------------------------------------------\n"
+function print_delimiter() {
+  echo "-----------------------------------------------------------------------------------------"
 }
 
 function show_last_commit() {
@@ -25,41 +21,47 @@ function show_last_commit() {
 }
 
 # Command Format:
-#   commit_id_check [name of repo as string] [path to local repo] [expected experiment commit id]
+#   change_repo_commit [name of repo as string] [path to local repo] [expected experiment commit id]
 #
 #   [name of repo as string] =          $1
 #   [path to local repo] =              $2
 #   [expected experiment commit id] =   $3
 #
 # Example:
-#   commit_id_check "ESP-IDF" "$ESP_IDF_LOC" "$ESP_IDF_COMMIT"
+#   change_repo_commit "ESP-IDF" "$ESP_IDF_LOC" "$ESP_IDF_COMMIT"
 #
-function commit_id_check() {
-  start_delimiter
+function change_repo_commit() {
+  print_delimiter
 
+  # Go to the local Git repository.
   cd $2
+  printf "Currently in repository: %s\n\n" "$(pwd)"
+
+  # Clean the repo of all unstaged changes.
   git restore .
-  printf "\nDid a GIT RESTORE at local repository instance: %s.\n" "$(pwd)"
+  echo "Did a GIT RESTORE to clear all unstaged changes."
 
-  local_commit=$(git rev-parse HEAD)
+  printf "\nCommit BEFORE Checkout: %s.\n" "$(git rev-parse HEAD)"
 
-  if [ $local_commit = $3 ]
-  then
-    printf "\n%s is using Commit ID: %s.\n\n" "$1" "$local_commit"
-    printf "%s\n\n" "$(git status)"
-    show_last_commit
-    end_delimiter
-  else
-    printf "\n%s Commit ID to use in Experiments: %s.\n" "$1" "$3"
-    printf "\n%s Local Commit ID: %s.\n" "$1" "$local_commit"
-    printf "\nThere is a Commit ID mismatch.\n"
-    end_delimiter
-    exit 1
-  fi
+  # Change repo to the version that we want to use in the experiments.
+  # https://stackoverflow.com/a/45652159/6621292
+  git -c advice.detachedHead=false checkout $3
+
+  # Prove that the repository is at the correct commit ID,
+  # and that no unstaged changes have been made to the repository.
+  #
+  printf "Commit AFTER Checkout: %s.\n\n" "$(git rev-parse HEAD)"
+
+  git status
+  printf "\n"
+
+  # https://stackoverflow.com/a/7737071/6621292
+  git --no-pager log -n1
+  print_delimiter
 }
 
-commit_id_check "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
-commit_id_check "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT
+change_repo_commit "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+# change_repo_commit "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT
 
-commit_id_check "Network Performance FTD" $NET_PERF_FTD_LOC $DRIVER_CODE_FTD_COMMIT
-commit_id_check "Delay Server" $DELAY_SERVER_LOC $DRIVER_CODE_FTD_COMMIT
+# change_repo_commit "Network Performance FTD" $NET_PERF_FTD_LOC $DRIVER_CODE_FTD_COMMIT
+# change_repo_commit "Delay Server" $DELAY_SERVER_LOC $DRIVER_CODE_FTD_COMMIT

@@ -1,3 +1,18 @@
+# Get the TX Power and Encryption Algorithm to use from the command line arguments.
+#
+# The Bash script code that uses `optarg` to get the command line arguments
+# comes from:
+# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
+#
+while getopts t:e:p: arg
+do
+  case "${arg}" in
+    t) tx_power=${OPTARG};;
+    e) cipher_num=${OPTARG};;
+    p) delay_server_port=${OPTARG};;
+  esac
+done
+
 # Command line format:
 #   sdkconfig_set [sdkconfig variable] [value] [sdkconfig path]
 #
@@ -32,20 +47,19 @@ function to_cipher_string() {
   esac
 }
 
-# Get the TX Power and Encryption Algorithm to use from the command line arguments.
+cipher_string=$(to_cipher_string $cipher_num)
+txpower_string="${tx_power}dbm"
+
+output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
+rm -f $output_file_path
+
+date | tee $output_file_path
+
+# The `set_commit_ids.sh` script needs to run first BEFORE making any edits to the SDKCONFIGS,
+# as the script does a `git restore` on ESP-IDF, OpenThread, and the Delay client and server source code.
 #
-# The Bash script code that uses `optarg` to get the command line arguments
-# comes from:
-# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
-#
-while getopts t:e:p: arg
-do
-  case "${arg}" in
-    t) tx_power=${OPTARG};;
-    e) cipher_num=${OPTARG};;
-    p) delay_server_port=${OPTARG};;
-  esac
-done
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
+$set_commit_ids_exec | tee -a $output_file_path
 
 delay_server_path="$HOME/Desktop/Repositories/delay-server"
 delay_server_sdkconfig=$delay_server_path/sdkconfig
@@ -70,13 +84,6 @@ sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_sdkconfig
 . $HOME/esp/esp-idf/export.sh > /dev/null
 cd $delay_server_path
 
-cipher_string=$(to_cipher_string $cipher_num)
-txpower_string="${tx_power}dbm"
-
-output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
-rm -f $output_file_path
-
-date | tee $output_file_path
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig) | tee -a $output_file_path

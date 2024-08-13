@@ -65,7 +65,7 @@ This README describes how to use the scripts in order to run the Delay experimen
 
 2. Create a new directory with the name:
 
-  ```bash
+  ```
   delay-[cipher]-[txpower]-trial-[trial number]
   ```
 

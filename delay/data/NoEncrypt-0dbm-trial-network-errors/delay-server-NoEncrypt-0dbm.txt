@@ -1649,3 +1649,4 @@ entry 0x4083cada
 [0;33mW(7647062) OPENTHREAD:[W] Mle-----------: Failed to process UDP: Duplicated[0m
 [0;32mI(7777152) OPENTHREAD:[N] MeshForwarder-: Dropping rx frame, aError:NonLowpanDataFrame, len:82, seqnum:113, type:Data, src:3e6adad9e2deb3d9, dst:0xffff, sec:yes, ackreq:no[0m
 [0;33mW(8345892) OPENTHREAD:[W] Mle-----------: Failed to process UDP: Duplicated[0m
+Done

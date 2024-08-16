@@ -76,14 +76,9 @@ This README describes how to use the scripts in order to run the Delay experimen
 
 
 3. Commit and push all changes. In addition, store all of files in `/delay-[cipher]-[txpower]-trial-[trial number]`
-   in the Synology NAS.
+   in the Synology NAS and locally on an external SSD.
 
-   Note that `NOTES.md` and `*.pcapng` files are `gitigniored`. This is because `NOTES.md` contains
-   details about what my family members are doing at home (privete information), and the `.pcapng` are
-   Note that `.pcapng` files are `gitignored`, as the `.pcapng` are
-   relatively large files to save in Git.
-
-   The Synology NAS will hold *all* files in the directory, including `NOTES.md`, and the `.pcapng` file.
+   Note that I used to store files on Github, but I do not do so anymore, as the files tend to be very large.
 
 After following these steps, you have completed a Delay experiment, given the specified
 `[cipher]`, and `[txpower]` independent variables.

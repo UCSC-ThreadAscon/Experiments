@@ -19,7 +19,7 @@ function update_repo() {
   git restore .
   echo "Removing ALL unstaged changes with GIT RESTORE."
 
-  git checkout $1
+  git checkout --recurse-submodules $1
   git pull
 
   # https://stackoverflow.com/a/7737071/6621292

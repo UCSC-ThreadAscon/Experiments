@@ -45,7 +45,8 @@ function change_repo_commit() {
 
   # Change repo to the version that we want to use in the experiments.
   # https://stackoverflow.com/a/45652159/6621292
-  git -c advice.detachedHead=false checkout $3
+  # https://stackoverflow.com/a/43854593/6621292
+  git -c advice.detachedHead=false checkout --recurse-submodules $3
 
   # Prove that the repository is at the correct commit ID,
   # and that no unstaged changes have been made to the repository.

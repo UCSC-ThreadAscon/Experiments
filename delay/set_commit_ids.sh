@@ -30,6 +30,11 @@ function show_last_commit() {
 # Example:
 #   change_repo_commit "ESP-IDF" "$ESP_IDF_LOC" "$ESP_IDF_COMMIT"
 #
+# Sources Used:
+#   https://stackoverflow.com/a/45652159/6621292
+#   https://stackoverflow.com/a/43854593/6621292
+#   https://stackoverflow.com/a/7737071/6621292
+#
 function change_repo_commit() {
   print_delimiter
 
@@ -44,8 +49,6 @@ function change_repo_commit() {
   printf "\nCommit BEFORE Checkout: %s.\n" "$(git rev-parse HEAD)"
 
   # Change repo to the version that we want to use in the experiments.
-  # https://stackoverflow.com/a/45652159/6621292
-  # https://stackoverflow.com/a/43854593/6621292
   git -c advice.detachedHead=false checkout --recurse-submodules $3
 
   # Prove that the repository is at the correct commit ID,
@@ -56,8 +59,27 @@ function change_repo_commit() {
   git status
   printf "\n"
 
-  # https://stackoverflow.com/a/7737071/6621292
   git --no-pager log --pretty=oneline -n1
+  print_delimiter
+}
+
+# Command Format:
+#   print_commit [name of repo as string] [path to local repo]
+#
+# Sources Used:
+#   https://stackoverflow.com/a/7737071/6621292
+#   https://stackoverflow.com/a/7737071/6621292
+#
+function print_commit() {
+  print_delimiter
+
+  # Go to the local Git repository.
+  cd $2
+  printf "Currently in repository '%s': %s\n\n" "$1" "$(pwd)"
+  printf "Repository is currently at COMMIT ID: %s.\n\n" "$(git rev-parse HEAD)"
+
+  git --no-pager log --pretty=oneline -n1
+
   print_delimiter
 }
 
@@ -80,9 +102,11 @@ while getopts "cs" flag; do
   esac
 done
 
-# Update OpenThread first, as it is a submodule of ESP-IDF.
-change_repo_commit "OpenThread" $OPENTHREAD_LOC $OPENTHREAD_COMMIT
+# Move ESP-IDF and its submodules to correct commit ID, then
+# show commit ID of OpenThread submodule.
+#
 change_repo_commit "ESP-IDF" $ESP_IDF_LOC $ESP_IDF_COMMIT
+print_commit "OpenThread" $OPENTHREAD_LOC
 
 if $setup_client;
 then

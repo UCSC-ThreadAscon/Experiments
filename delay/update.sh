@@ -11,18 +11,21 @@ function print_delimiter() {
 # Command Line Format:
 #   update_repo [branch] [path to repository]
 #
+# Sources Used:
+#   https://stackoverflow.com/a/61751340/6621292
+#   https://stackoverflow.com/a/7737071/6621292
+#
 function update_repo() {
   print_delimiter
   cd $2
   printf "Currently at repository: %s\n" "$(pwd)"
 
-  git restore .
-  echo "Removing ALL unstaged changes with GIT RESTORE."
+  git restore . --recurse-submodules
+  echo "Removing ALL unstaged changes with GIT RESTORE (--recursed-submodules)."
 
   git checkout --recurse-submodules $1
   git pull
 
-  # https://stackoverflow.com/a/7737071/6621292
   git --no-pager log --pretty=oneline -n1
   print_delimiter
 }

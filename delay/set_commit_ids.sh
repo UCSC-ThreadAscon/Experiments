@@ -74,7 +74,6 @@ function change_repo_commit() {
 function print_commit() {
   print_delimiter
 
-  # Go to the local Git repository.
   cd $2
   printf "Currently in repository '%s': %s\n\n" "$1" "$(pwd)"
   printf "Repository is currently at COMMIT ID: %s.\n\n" "$(git rev-parse HEAD)"

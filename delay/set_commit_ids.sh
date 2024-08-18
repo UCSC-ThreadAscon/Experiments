@@ -3,7 +3,7 @@ ESP_IDF_COMMIT=bb8a52cafcf2d017f945467b51174f6259b26d85
 
 # This commit ID is shared by both the Network Performance FTD and the Delay Server,
 # as they are both local copies of the same repository.
-DRIVER_CODE_FTD_COMMIT=0a9f1f578163106ca39ad63c07d021a214732ae7
+DRIVER_CODE_FTD_COMMIT=2090da57fe4622e89b56c18c67b28b8447a20798
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf

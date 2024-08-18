@@ -34,6 +34,7 @@ function show_last_commit() {
 #   https://stackoverflow.com/a/45652159/6621292
 #   https://stackoverflow.com/a/43854593/6621292
 #   https://stackoverflow.com/a/7737071/6621292
+#   https://stackoverflow.com/a/61751340/6621292
 #
 function change_repo_commit() {
   print_delimiter
@@ -43,13 +44,14 @@ function change_repo_commit() {
   printf "Currently in repository: %s\n\n" "$(pwd)"
 
   # Clean the repo of all unstaged changes.
-  git restore .
-  echo "Did a GIT RESTORE to clear all unstaged changes."
+  git restore . --recurse-submodules
+  echo "Did a GIT RESTORE (with --recurse-submodules) to clear all unstaged changes."
 
   printf "\nCommit BEFORE Checkout: %s.\n" "$(git rev-parse HEAD)"
 
   # Change repo to the version that we want to use in the experiments.
   git -c advice.detachedHead=false checkout --recurse-submodules $3
+  echo "Completed git checkout (with --recurse-submodules)."
 
   # Prove that the repository is at the correct commit ID,
   # and that no unstaged changes have been made to the repository.

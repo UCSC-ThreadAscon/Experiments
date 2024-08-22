@@ -9,15 +9,20 @@
 #      If not, the script throws an error.
 #
 #   3. If both the RCP and Border Router are using the same encryption algorithm,
-#      the script will build and flash the program onto the border router to the USB Modem
-#      specified in the command line arguments.
+#      the script will build and flash the program onto the border router to the
+#      USB Modem port specified in the command line arguments.
+#
+# Command Line Format:
+#
+#   ./br-flash.sh [USB Modem port number of border router] [path to border router source code to run]
 #
 
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
-while getopts b: arg
+while getopts p:f: arg
 do
   case "${arg}" in
-    b) BORDER_ROUTER_PORT=${OPTARG};;
+    p) BORDER_ROUTER_PORT=${OPTARG};;
+    f) BORDER_ROUTER_PATH=${OPTARG};;
   esac
 done
 
@@ -44,18 +49,17 @@ function rcp_auto_update_flag() {
 . $HOME/esp/esp-idf/export.sh > /dev/null
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
-border_router_path="$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router"
 
 rcp_cipher_flag=$(get_cipher_flag $rcp_path)
-border_router_cipher_flag=$(get_cipher_flag $border_router_path)
+border_router_cipher_flag=$(get_cipher_flag $BORDER_ROUTER_PATH)
 
 # Make sure RCP Auto Update is enabled on the Thread Border Router. If it is not,
 # then the built RCP will not be automatically flashed onto the Border Router.
 #
-rcp_auto_update_flag=$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
+rcp_auto_update_flag=$(cat $BORDER_ROUTER_PATH/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
 if [[ "$rcp_auto_update_flag" != "y" ]]
 then
-  echo "ERROR: $(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)"
+  echo "ERROR: $(cat $BORDER_ROUTER_PATH/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)"
   exit 1
 fi
 
@@ -66,7 +70,7 @@ if [[ "$rcp_cipher_flag" == "$border_router_cipher_flag" ]]
 then
   cd $rcp_path && idf.py build
   cd -
-  cd $border_router_path && idf.py build flash monitor --port $BORDER_ROUTER_PORT
+  cd $BORDER_ROUTER_PATH && idf.py build flash monitor --port $BORDER_ROUTER_PORT
   cd -
 else
   echo "ERROR: RCP and Border Router have an encryption algorithm mismatch!"

@@ -8,3 +8,6 @@ br-netperf:
 
 br-energy:
 	./br-flash.sh -p $(BORDER_ROUTER_PORT) -f $(ENERGY_FILE_LOC)
+
+update:
+	./update.sh

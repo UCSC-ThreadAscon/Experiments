@@ -46,7 +46,7 @@ function rcp_auto_update_flag() {
   
 }
 
-. $HOME/esp/esp-idf/export.sh > /dev/null
+. $HOME/esp/esp-idf/export.sh
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 

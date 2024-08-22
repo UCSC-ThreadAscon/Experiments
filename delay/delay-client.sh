@@ -81,7 +81,7 @@ sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_client_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $delay_client_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $delay_client_sdkconfig
 
-. $HOME/esp/esp-idf/export.sh > /dev/null
+. $HOME/esp/esp-idf/export.sh
 cd $delay_client_path
 
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_client_sdkconfig) | tee -a $output_file_path

@@ -13,9 +13,7 @@
 #      specified in the command line arguments.
 #
 
-# The Bash script code that uses `optarg` to get the command line arguments comes from:
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
-#
 while getopts b: arg
 do
   case "${arg}" in

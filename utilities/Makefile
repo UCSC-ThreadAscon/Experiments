@@ -11,3 +11,6 @@ br-energy:
 
 update:
 	./update.sh
+
+install:
+	./install.sh

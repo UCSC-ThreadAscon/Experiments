@@ -5,3 +5,6 @@ ENERGY_FILE_LOC=~/Desktop/Repositories/br_energy/examples/basic_thread_border_ro
 
 br-netperf:
 	./br-flash.sh -p $(BORDER_ROUTER_PORT) -f $(NET_PERF_FILE_LOC)
+
+br-energy:
+	./br-flash.sh -p $(BORDER_ROUTER_PORT) -f $(ENERGY_FILE_LOC)

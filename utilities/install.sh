@@ -11,7 +11,7 @@ echo "Removed ESP-IDF Directory."
 # Set up the ESP-IDF root repository.
 mkdir -p $HOME/esp
 cd $HOME/esp
-git clone -b v5.3 --recursive git@github.com:UCSC-ThreadAscon/esp-idf.git esp-idf
+git clone --recursive git@github.com:UCSC-ThreadAscon/esp-idf.git esp-idf
 
 # Installation of ESP-IDF.
 cd $HOME/esp/esp-idf

@@ -16,4 +16,4 @@ git clone --recursive git@github.com:UCSC-ThreadAscon/esp-idf.git esp-idf
 # Installation of ESP-IDF.
 cd $HOME/esp/esp-idf
 ./install.sh all
-get_idf
+. $HOME/esp/esp-idf/export.sh

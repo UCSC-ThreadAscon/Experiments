@@ -78,3 +78,5 @@ else
   echo "Border Router Encryption Flag: $(flag_to_cipher_string $border_router_cipher_flag)"
   exit 1
 fi
+
+cd -

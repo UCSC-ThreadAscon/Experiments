@@ -68,10 +68,8 @@ fi
 #
 if [[ "$rcp_cipher_flag" == "$border_router_cipher_flag" ]]
 then
-  cd $rcp_path && idf.py build
-  cd -
-  cd $BORDER_ROUTER_PATH && idf.py build flash monitor --port $BORDER_ROUTER_PORT
-  cd -
+  cd $rcp_path && && idf.py fullclean && idf.py build
+  cd $BORDER_ROUTER_PATH && && idf.py fullclean && idf.py build flash monitor --port $BORDER_ROUTER_PORT
 else
   echo "ERROR: RCP and Border Router have an encryption algorithm mismatch!"
   echo "RCP Encryption Flag:           $(flag_to_cipher_string $rcp_cipher_flag)"

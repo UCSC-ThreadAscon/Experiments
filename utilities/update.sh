@@ -32,10 +32,10 @@ function update_repo() {
   git pull
 
   git --no-pager log --pretty=oneline -n1
-  print_delimiter
 
   git restore . --recurse-submodules
   echo "Doing a GIT RESTORE (--recursed-submodules) to move submodules (if any) to the correct commits."
+  print_delimiter
 }
 
 date

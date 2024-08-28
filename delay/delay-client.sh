@@ -1,6 +1,3 @@
-# https://stackoverflow.com/a/68228627/6621292
-eval "$(pyenv init --path)"
-
 # Get the TX Power and Encryption Algorithm to use from the command line arguments.
 #
 # The Bash script code that uses `optarg` to get the command line arguments

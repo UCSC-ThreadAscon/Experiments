@@ -17,6 +17,9 @@
 #   ./br-flash.sh [USB Modem port number of border router] [path to border router source code to run]
 #
 
+# https://stackoverflow.com/a/68228627/6621292
+eval "$(pyenv init --path)"
+
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 while getopts p:f: arg
 do

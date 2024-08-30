@@ -8,6 +8,9 @@
 rm -r -f $HOME/esp
 echo "Removed ESP-IDF Directory."
 
+# Remove the ".espressif" directory, so that when reinstalling ESP-IDF,
+# the Python virtual env will use the same version as the native OS.
+#
 rm -r -f $HOME/.espressif
 echo "Removed the ~/.espressif directory."
 

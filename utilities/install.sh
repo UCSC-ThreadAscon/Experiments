@@ -9,7 +9,7 @@ rm -r -f $HOME/esp
 echo "Removed ESP-IDF Directory."
 
 rm -r -f $HOME/.espressif
-echo "Remove the ~/.espressif directory."
+echo "Removed the ~/.espressif directory."
 
 # Set up the ESP-IDF root repository.
 mkdir -p $HOME/esp

@@ -9,7 +9,7 @@ NET_PERF_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf
 ENERGY_SED_LOC=$HOME/Desktop/Repositories/energy-usage-sed-simple
 ENERGY_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_energy
 
-function print_delimiter () {
+function print_delimiter {
   echo "-----------------------------------------------------------------------------------------"
 }
 
@@ -20,7 +20,7 @@ function print_delimiter () {
 #   https://stackoverflow.com/a/61751340/6621292
 #   https://stackoverflow.com/a/7737071/6621292
 #
-function update_repo () {
+function update_repo {
   print_delimiter
   cd $2
   printf "Currently at repository: %s\n" "$(pwd)"

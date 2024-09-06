@@ -1,5 +1,5 @@
-DELAY_SERVER_PORT=/dev/cu.usbserial-140
-DELAY_CLIENT_PORT=/dev/cu.usbserial-12420
+DELAY_SERVER_PORT=/dev/ttyUSB0
+DELAY_CLIENT_PORT=/dev/ttyUSB1
 
 post-process:
 	rm -f ./queue/full-log.txt ./queue/delay-final-average*

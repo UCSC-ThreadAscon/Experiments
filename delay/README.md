@@ -26,6 +26,11 @@ This README describes how to use the scripts in order to run the Delay experimen
 
    Wait for the Delay server to form a Thread network with *itself* as the Leader before moving
    on the next step.
+   
+   **Note** that the Delay client must be *off* when following this step
+   Given that Linux USB serial ports `/dev/tty*` are numbered in the order in which
+   the devices were connected, connecting the Delay client ESP32-H2
+   first may result in it being flashed the Delay server program.
 
 3. Make sure the ESP32-H2 that is the Delay client is plugged into your computer and powered on.
    Open another terminal, cd to `/delay`, and run the following command:
@@ -45,12 +50,11 @@ This README describes how to use the scripts in order to run the Delay experimen
    ```
    delay-pcap-[cipher]-[txpower]dbm.pcapng
    ```
+   
+   Make sure that both `[cipher]` and `[txpower]` are using the *same exact values*
+   that you used when starting the Delay client and server.
 
-  Make sure that both `[cipher]` and `[txpower]` are using the *same exact values*
-  that you used when starting the Delay client and server.
-
-6. Create a `NOTES.md` file where you document the activity occuring in the experimental setup
-  (i.e. the house the experiment is taking place in) during the experiment.
+6. Create a `NOTES.md` file where you document the activity occuring in the experimental setup (i.e. the house the experiment is taking place in) during the experiment.
 
 ## Post Processing
 

@@ -19,11 +19,12 @@ done
 # Example:
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
 #
-# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace'
+# https://stackoverflow.com/a/57766728/6621292
 #
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
-  sed -i "" "s/$to_replace/$1=$2/g" $3
+  sed -i -e "s/$to_replace/$1=$2/g" $3
 }
 
 # Command line format:
@@ -71,10 +72,11 @@ delay_server_flag=3
 sdkconfig_set CONFIG_EXPERIMENT $delay_server_flag $delay_server_sdkconfig
 
 # Make sure Time Synchronization is on.
-#
 time_sync_off="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
 time_sync_on="CONFIG_OPENTHREAD_TIME_SYNC=y"
-sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_server_sdkconfig
+
+# https://stackoverflow.com/a/57766728/6621292
+sed -i -e "s/$time_sync_off/$time_sync_on/g" $delay_server_sdkconfig
 
 # Change both the cipher suite and TX power settings in `sdkconfig`.
 #

@@ -89,6 +89,7 @@ echo $(sdkconfig_get CONFIG_TX_POWER $delay_client_sdkconfig) | tee -a $output_f
 echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_client_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_client_sdkconfig) | tee -a $output_file_path
 
+idf.py fullclean
 idf.py build flash monitor --port $delay_client_port | tee -a $output_file_path
 
 cd -

@@ -54,8 +54,6 @@ This README describes how to use the scripts in order to run the Delay experimen
    Make sure that both `[cipher]` and `[txpower]` are using the *same exact values*
    that you used when starting the Delay client and server.
 
-6. Create a `NOTES.md` file where you document the activity occuring in the experimental setup (i.e. the house the experiment is taking place in) during the experiment.
-
 ## Post Processing
 
 1. Run the following command:
@@ -79,8 +77,7 @@ This README describes how to use the scripts in order to run the Delay experimen
   Move all files in `queue` into this new directory, and move the directory into `/data`.
 
 
-3. Commit and push all changes. In addition, store all of files in `/delay-[cipher]-[txpower]-trial-[trial number]`
-   in the Synology NAS and locally on an external SSD.
+3. Commit and push all changes. In addition, store all of files in `/delay-[cipher]-[txpower]-trial-[trial number]` in the Synology NAS and locally on an external SSD.
 
    Note that I used to store files on Github, but I do not do so anymore, as the files tend to be very large.
 

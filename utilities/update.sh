@@ -34,7 +34,7 @@ function update_repo() {
   git --no-pager log --pretty=oneline -n1
 
   git restore . --recurse-submodules
-  echo "Doing a GIT RESTORE (--recursed-submodules) to move submodules (if any) to the correct commits."
+  echo "Doing a GIT RESTORE (--recursed-submodules) to make sure that the submodules (if any) are at the correct commits."
   print_delimiter
 }
 

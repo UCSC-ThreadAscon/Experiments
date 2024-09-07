@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 
 def getAverageDelays(filepath):
   averages = []
@@ -17,10 +18,16 @@ def getAverageDelays(filepath):
         averages.append(average)
   return averages
 
+""" https://stackoverflow.com/a/35833387/6621292
+"""
 def getFinalAverage(averages):
   listSum = 0
   for average in averages:
     listSum += average
+
+    if (listSum == sys.float_info.max):
+      raise OverflowError("Reach maxed float. Can't add anymore.")
+
   return listSum / len(averages)
 
 def findFirstLine(expression, filepath):

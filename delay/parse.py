@@ -14,7 +14,7 @@ def getAverageDelays(filepath):
       """
       if "The AVERAGE delay is:" in line:
         words = line.split(" ")
-        average = int(words[7])
+        average = float(words[7])
         averages.append(average)
   return averages
 

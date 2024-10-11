@@ -16,6 +16,8 @@ delay-server-aes-9:
 	bash ./delay-server.sh -t 9 -e 0 -p $(DELAY_SERVER_PORT)
 delay-server-aes-0:
 	bash ./delay-server.sh -t 0 -e 0 -p $(DELAY_SERVER_PORT)
+delay-server-aes-neg-24:
+	bash ./delay-server.sh -t -24 -e 0 -p $(DELAY_SERVER_PORT)
 
 delay-server-ascon128a-20:
 	bash ./delay-server.sh -t 20 -e 4 -p $(DELAY_SERVER_PORT)
@@ -23,6 +25,8 @@ delay-server-ascon128a-9:
 	bash ./delay-server.sh -t 9 -e 4 -p $(DELAY_SERVER_PORT)
 delay-server-ascon128a-0:
 	bash ./delay-server.sh -t 0 -e 4 -p $(DELAY_SERVER_PORT)
+delay-server-ascon128a-neg-24:
+	bash ./delay-server.sh -t -24 -e 4 -p $(DELAY_SERVER_PORT)
 
 delay-server-ascon128-20:
 	bash ./delay-server.sh -t 20 -e 5 -p $(DELAY_SERVER_PORT)
@@ -30,6 +34,8 @@ delay-server-ascon128-9:
 	bash ./delay-server.sh -t 9 -e 5 -p $(DELAY_SERVER_PORT)
 delay-server-ascon128-0:
 	bash ./delay-server.sh -t 0 -e 5 -p $(DELAY_SERVER_PORT)
+delay-server-ascon128-neg-24:
+	bash ./delay-server.sh -t -24 -e 5 -p $(DELAY_SERVER_PORT)
 
 delay-server-noencrypt-20:
 	bash ./delay-server.sh -t 20 -e 1 -p $(DELAY_SERVER_PORT)
@@ -37,15 +43,17 @@ delay-server-noencrypt-9:
 	bash ./delay-server.sh -t 9 -e 1 -p $(DELAY_SERVER_PORT)
 delay-server-noencrypt-0:
 	bash ./delay-server.sh -t 0 -e 1 -p $(DELAY_SERVER_PORT)
+delay-server-noencrypt-neg-24:
+	bash ./delay-server.sh -t -24 -e 1 -p $(DELAY_SERVER_PORT)
 
 delay-client-aes-20:
 	bash ./delay-client.sh -t 20 -e 0 -p $(DELAY_CLIENT_PORT)
-
 delay-client-aes-9:
 	bash ./delay-client.sh -t 9 -e 0 -p $(DELAY_CLIENT_PORT)
-
 delay-client-aes-0:
 	bash ./delay-client.sh -t 0 -e 0 -p $(DELAY_CLIENT_PORT)
+delay-client-aes-neg-24:
+	bash ./delay-client.sh -t -24 -e 0 -p $(DELAY_CLIENT_PORT)
 
 delay-client-ascon128a-20:
 	bash ./delay-client.sh -t 20 -e 4 -p $(DELAY_CLIENT_PORT)
@@ -53,6 +61,8 @@ delay-client-ascon128a-9:
 	bash ./delay-client.sh -t 9 -e 4 -p $(DELAY_CLIENT_PORT)
 delay-client-ascon128a-0:
 	bash ./delay-client.sh -t 0 -e 4 -p $(DELAY_CLIENT_PORT)
+delay-client-ascon128a-neg-24:
+	bash ./delay-client.sh -t -24 -e 4 -p $(DELAY_CLIENT_PORT)
 
 delay-client-ascon128-20:
 	bash ./delay-client.sh -t 20 -e 5 -p $(DELAY_CLIENT_PORT)
@@ -60,6 +70,8 @@ delay-client-ascon128-9:
 	bash ./delay-client.sh -t 9 -e 5 -p $(DELAY_CLIENT_PORT)
 delay-client-ascon128-0:
 	bash ./delay-client.sh -t 0 -e 5 -p $(DELAY_CLIENT_PORT)
+delay-client-ascon128-neg-24:
+	bash ./delay-client.sh -t -24 -e 5 -p $(DELAY_CLIENT_PORT)
 
 delay-client-noencrypt-20:
 	bash ./delay-client.sh -t 20 -e 1 -p $(DELAY_CLIENT_PORT)
@@ -67,3 +79,5 @@ delay-client-noencrypt-9:
 	bash ./delay-client.sh -t 9 -e 1 -p $(DELAY_CLIENT_PORT)
 delay-client-noencrypt-0:
 	bash ./delay-client.sh -t 0 -e 1 -p $(DELAY_CLIENT_PORT)
+delay-client-noencrypt-neg-24:
+	bash ./delay-client.sh -t -24 -e 1 -p $(DELAY_CLIENT_PORT)

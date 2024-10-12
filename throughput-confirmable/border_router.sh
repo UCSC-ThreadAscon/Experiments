@@ -63,3 +63,23 @@ cd $rcp_path
 idf.py fullclean
 idf.py build
 # -----------------------
+
+# ---- Build & Flash the Border Router ----
+border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
+border_router_sdkconfig=$border_router_path/sdkconfig
+tp_con_experiment_flag=1
+
+sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
+skdconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
+sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
+
+echo "-------Border Router Changed KConfig Variables-----------"
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig)
+echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig)
+echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig)
+echo "---------------------------------------------------------"
+
+cd $border_router_path
+idf.py fullclean
+idf.py build flash monitor --port $border_router_port
+# -----------------------------------------

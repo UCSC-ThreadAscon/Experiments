@@ -90,6 +90,7 @@ echo "-------Border Router KConfig Variables-----------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig)
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig)
+echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig)
 echo "-------------------------------------------------"
 
 cd $border_router_path

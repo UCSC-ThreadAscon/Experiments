@@ -62,6 +62,8 @@ echo "---------------------------------------"
 cd $rcp_path
 idf.py fullclean
 idf.py build
+
+cd -
 # -----------------------
 
 # ---- Build & Flash the Border Router ----
@@ -93,4 +95,6 @@ echo "-------------------------------------------------"
 cd $border_router_path
 idf.py fullclean
 idf.py build flash monitor --port $border_router_port
+
+cd -
 # -----------------------------------------

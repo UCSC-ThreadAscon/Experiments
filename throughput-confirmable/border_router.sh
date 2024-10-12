@@ -55,9 +55,9 @@ rcp_sdkconfig=$rcp_path/sdkconfig
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
 
-echo "-------RCP Changed KConfig Variables-----------"
+echo "-------RCP KConfig Variables-----------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig)
-echo "-----------------------------------------------"
+echo "---------------------------------------"
 
 cd $rcp_path
 idf.py fullclean
@@ -69,15 +69,26 @@ border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_b
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
+# Make sure RCP Auto Update is enabled on the Thread Border Router. If it is not,
+# then the built RCP will not be automatically flashed onto the Border Router.
+#
+rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
+if [[ "$rcp_auto_update_flag" != "y" ]]
+then
+  echo "ERROR: RCP Auto Update not enabled on the Border Router."
+  echo "$(cat $BORDER_ROUTER_PATH/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)"
+  exit 1
+fi
+
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
 
-echo "-------Border Router Changed KConfig Variables-----------"
+echo "-------Border Router KConfig Variables-----------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig)
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig)
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig)
-echo "---------------------------------------------------------"
+echo "-------------------------------------------------"
 
 cd $border_router_path
 idf.py fullclean

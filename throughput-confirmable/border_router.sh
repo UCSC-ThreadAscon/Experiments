@@ -54,7 +54,10 @@ rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
+
+echo "-------RCP Changed KConfig Variables-----------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig)
+echo "-----------------------------------------------"
 
 cd $rcp_path
 idf.py fullclean

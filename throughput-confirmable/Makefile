@@ -1,4 +1,4 @@
-BORDER_ROUTER_PORT=/dev/ttyUSB0
+BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
 FTD_PORT=/dev/ttyUSB1
 
 # When executing Bash scripts on Ubuntu, I need to use "bash [script name]",
@@ -8,3 +8,28 @@ FTD_PORT=/dev/ttyUSB1
 
 tp-con-border-router-aes-20:
 	bash ./border_router.sh -t 20 -e 0 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-aes-9:
+	bash ./border_router.sh -t 9 -e 0 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-aes-0:
+	bash ./border_router.sh -t 0 -e 0 -p $(BORDER_ROUTER_PORT)
+
+tp-con-border-router-noencrypt-20:
+	bash ./border_router.sh -t 20 -e 1 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-noencrypt-9:
+	bash ./border_router.sh -t 9 -e 1 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-noencrypt-0:
+	bash ./border_router.sh -t 0 -e 1 -p $(BORDER_ROUTER_PORT)
+
+tp-con-border-router-ascon128a-20:
+	bash ./border_router.sh -t 20 -e 4 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-ascon128a-9:
+	bash ./border_router.sh -t 9 -e 4 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-ascon128a-0:
+	bash ./border_router.sh -t 0 -e 4 -p $(BORDER_ROUTER_PORT)
+
+tp-con-border-router-ascon128-20:
+	bash ./border_router.sh -t 20 -e 5 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-ascon128-9:
+	bash ./border_router.sh -t 9 -e 5 -p $(BORDER_ROUTER_PORT)
+tp-con-border-router-ascon128-0:
+	bash ./border_router.sh -t 0 -e 5 -p $(BORDER_ROUTER_PORT)

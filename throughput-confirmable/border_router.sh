@@ -70,7 +70,7 @@ border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
-skdconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
+sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
 
 echo "-------Border Router Changed KConfig Variables-----------"

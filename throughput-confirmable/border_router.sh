@@ -51,8 +51,7 @@ done
 
 # ---- Build the RCP ----
 echo "--------------------------------------------------------------------------------"
-echo "The ESP32-H2 SoC of the ESP Thread Border Router will be flashed with the RCP."
-echo "Please connect the USB-C cable to the ESP32-H2 port of the border router."
+echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router."
 echo "After doing so, press any key to continue."
 echo "--------------------------------------------------------------------------------"
 read $continue
@@ -74,6 +73,12 @@ cd -
 # -----------------------
 
 # ---- Build & Flash the Border Router ----
+echo "--------------------------------------------------------------------------------"
+echo "Please connect the USB-C cable to the ESP32-S3 SoC of the border router."
+echo "After doing so, press any key to continue."
+echo "--------------------------------------------------------------------------------"
+read $continue
+
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1

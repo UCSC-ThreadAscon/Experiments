@@ -54,7 +54,7 @@ echo "--------------------------------------------------------------------------
 echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router."
 echo "After doing so, press any key to continue."
 echo "--------------------------------------------------------------------------------"
-read $continue
+read
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig
@@ -67,8 +67,7 @@ echo "---------------------------------------"
 
 cd $rcp_path
 idf.py fullclean
-idf.py build
-idf.py flash --port $border_router_port
+idf.py build flash --port $border_router_port
 cd -
 # -----------------------
 
@@ -77,15 +76,13 @@ echo "--------------------------------------------------------------------------
 echo "Please connect the USB-C cable to the ESP32-S3 SoC of the border router."
 echo "After doing so, press any key to continue."
 echo "--------------------------------------------------------------------------------"
-read $continue
+read
 
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
-# Make sure RCP Auto Update is enabled on the Thread Border Router. If it is not,
-# then the built RCP will not be automatically flashed onto the Border Router.
-#
+# Make sure RCP Auto Update is enabled on the Thread Border Router.
 rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
 if [[ "$rcp_auto_update_flag" != "y" ]]
 then

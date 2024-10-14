@@ -84,7 +84,7 @@ echo "The RCP will run OpenThread using the following encryption algorithm: $rcp
 echo "---------------------------------------" | tee -a $output_file_path
 
 cd $rcp_path
-idf.py fullclean | tee -a $output_file_path
+idf.py fullclean
 idf.py build flash --port $border_router_port | tee -a $output_file_path
 cd -
 # -----------------------
@@ -121,7 +121,7 @@ echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig) | tee -a $
 echo "-------------------------------------------------" | tee -a $output_file_path
 
 cd $border_router_path
-idf.py fullclean | tee -a $output_file_path
+idf.py fullclean
 idf.py build flash monitor --port $border_router_port | tee -a $output_file_path
 
 cd -

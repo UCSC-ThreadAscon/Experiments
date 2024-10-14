@@ -50,6 +50,13 @@ done
 . $HOME/esp/esp-idf/export.sh
 
 # ---- Build the RCP ----
+echo "--------------------------------------------------------------------------------"
+echo "The ESP32-H2 SoC of the ESP Thread Border Router will be flashed with the RCP."
+echo "Please connect the USB-C cable to the ESP32-H2 port of the border router."
+echo "After doing so, press any key to continue."
+echo "--------------------------------------------------------------------------------"
+read $continue
+
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig
 
@@ -62,7 +69,7 @@ echo "---------------------------------------"
 cd $rcp_path
 idf.py fullclean
 idf.py build
-
+idf.py flash --port $border_router_port
 cd -
 # -----------------------
 

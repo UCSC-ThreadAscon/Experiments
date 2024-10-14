@@ -46,5 +46,42 @@ rm -f $output_file_path
 date | tee $output_file_path
 
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmable/set_commit_ids.sh
-$set_commit_ids_exec -s | tee -a $output_file_path
+$set_commit_ids_exec -c | tee -a $output_file_path
 # --------------------------------
+
+. $HOME/esp/esp-idf/export.sh
+
+# ---- Set the KConfig variables ----
+ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
+ftd_sdkconfig=$ftd_path/sdkconfig
+
+# `CONFIG_EXPERIMENT=1` sets the FTD to run the throughput confirmable experiment.
+tp_con_client_flag=1
+sdkconfig_set CONFIG_EXPERIMENT $tp_con_client_flag $ftd_sdkconfig
+
+# Make sure Time Sychronization is OFF.
+time_sync_off="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
+time_sync_on="CONFIG_OPENTHREAD_TIME_SYNC=y"
+
+# https://stackoverflow.com/a/57766728/6621292
+sed -i "" "s/$time_sync_on/$time_sync_off/g" $ftd_sdkconfig
+
+# Change both the cipher suite and TX power settings in `sdkconfig`.
+sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
+sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
+# -----------------------------------
+
+# ---- Build, Flash, & Monitor ----
+cd $ftd_path
+
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $ftd_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $ftd_sdkconfig) | tee -a $output_file_path
+
+idf.py fullclean
+idf.py build flash monitor --port $ftd_port | tee -a $output_file_path
+
+cd -
+
+# ---------------------------------

@@ -51,11 +51,11 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-border-router-$cipher_string-$txpower_string.txt"
+output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-br-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
 date | tee $output_file_path
 
-set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmable/set_commit_ids.sh
 $set_commit_ids_exec -s | tee -a $output_file_path
 # --------------------------------
 
@@ -77,10 +77,10 @@ echo "-------RCP KConfig Variables-----------" | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) | tee -a $output_file_path
 echo "---------------------------------------" | tee -a $output_file_path
 
-cd $rcp_path | tee -a $output_file_path
+cd $rcp_path
 idf.py fullclean | tee -a $output_file_path
 idf.py build flash --port $border_router_port | tee -a $output_file_path
-cd - | tee -a $output_file_path
+cd -
 # -----------------------
 
 # ---- Build & Flash the Border Router ----
@@ -114,9 +114,9 @@ echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) | tee -a $outpu
 echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig) | tee -a $output_file_path
 echo "-------------------------------------------------" | tee -a $output_file_path
 
-cd $border_router_path | tee -a $output_file_path
+cd $border_router_path
 idf.py fullclean | tee -a $output_file_path
 idf.py build flash monitor --port $border_router_port | tee -a $output_file_path
 
-cd - | tee -a $output_file_path
+cd -
 # -----------------------------------------

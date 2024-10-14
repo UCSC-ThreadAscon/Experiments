@@ -47,13 +47,22 @@ do
   esac
 done
 
+# ---- Create the Output File ----
+output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-border-router-$cipher_string-$txpower_string.txt"
+rm -f $output_file_path
+date | tee $output_file_path
+
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
+$set_commit_ids_exec -s | tee -a $output_file_path
+# --------------------------------
+
 . $HOME/esp/esp-idf/export.sh
 
 # ---- Build the RCP ----
-echo "--------------------------------------------------------------------------------"
-echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router."
-echo "After doing so, press any key to continue."
-echo "--------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
+echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router." | tee -a $output_file_path
+echo "After doing so, press ENTER to continue." | tee -a $output_file_path
+echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
 read
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
@@ -61,21 +70,21 @@ rcp_sdkconfig=$rcp_path/sdkconfig
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
 
-echo "-------RCP KConfig Variables-----------"
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig)
-echo "---------------------------------------"
+echo "-------RCP KConfig Variables-----------" | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) | tee -a $output_file_path
+echo "---------------------------------------" | tee -a $output_file_path
 
-cd $rcp_path
-idf.py fullclean
-idf.py build flash --port $border_router_port
-cd -
+cd $rcp_path | tee -a $output_file_path
+idf.py fullclean | tee -a $output_file_path
+idf.py build flash --port $border_router_port | tee -a $output_file_path
+cd - | tee -a $output_file_path
 # -----------------------
 
 # ---- Build & Flash the Border Router ----
-echo "--------------------------------------------------------------------------------"
-echo "Please connect the USB-C cable to the ESP32-S3 SoC of the border router."
-echo "After doing so, press any key to continue."
-echo "--------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
+echo "Please connect the USB-C cable to the ESP32-S3 SoC of the border router." | tee -a $output_file_path
+echo "After doing so, press ENTER to continue." | tee -a $output_file_path
+echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
 read
 
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
@@ -86,8 +95,8 @@ tp_con_experiment_flag=1
 rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
 if [[ "$rcp_auto_update_flag" != "y" ]]
 then
-  echo "ERROR: RCP Auto Update not enabled on the Border Router."
-  echo "$(cat $BORDER_ROUTER_PATH/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)"
+  echo "ERROR: RCP Auto Update not enabled on the Border Router." | tee -a $output_file_path
+  echo "$(cat $BORDER_ROUTER_PATH/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" | tee -a $output_file_path
   exit 1
 fi
 
@@ -95,16 +104,16 @@ sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkcon
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
 
-echo "-------Border Router KConfig Variables-----------"
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig)
-echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig)
-echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig)
-echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig)
-echo "-------------------------------------------------"
+echo "-------Border Router KConfig Variables-----------" | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig) | tee -a $output_file_path
+echo "-------------------------------------------------" | tee -a $output_file_path
 
-cd $border_router_path
-idf.py fullclean
-idf.py build flash monitor --port $border_router_port
+cd $border_router_path | tee -a $output_file_path
+idf.py fullclean | tee -a $output_file_path
+idf.py build flash monitor --port $border_router_port | tee -a $output_file_path
 
-cd -
+cd - | tee -a $output_file_path
 # -----------------------------------------

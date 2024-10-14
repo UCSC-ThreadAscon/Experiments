@@ -33,3 +33,31 @@ tp-con-border-router-ascon128-9:
 	bash ./border_router.sh -t 9 -e 5 -p $(BORDER_ROUTER_PORT)
 tp-con-border-router-ascon128-0:
 	bash ./border_router.sh -t 0 -e 5 -p $(BORDER_ROUTER_PORT)
+
+tp-con-ftd-aes-20:
+	bash ./ftd.sh -t 20 -e 0 -p $(FTD_PORT)
+tp-con-ftd-aes-9:
+	bash ./ftd.sh -t 9 -e 0 -p $(FTD_PORT)
+tp-con-ftd-aes-0:
+	bash ./ftd.sh -t 0 -e 0 -p $(FTD_PORT)
+
+tp-con-ftd-noencrypt-20:
+	bash ./ftd.sh -t 20 -e 1 -p $(FTD_PORT)
+tp-con-ftd-noencrypt-9:
+	bash ./ftd.sh -t 9 -e 1 -p $(FTD_PORT)
+tp-con-ftd-noencrypt-0:
+	bash ./ftd.sh -t 0 -e 1 -p $(FTD_PORT)
+
+tp-con-ftd-ascon128a-20:
+	bash ./ftd.sh -t 20 -e 4 -p $(FTD_PORT)
+tp-con-ftd-ascon128a-9:
+	bash ./ftd.sh -t 9 -e 4 -p $(FTD_PORT)
+tp-con-ftd-ascon128a-0:
+	bash ./ftd.sh -t 0 -e 4 -p $(FTD_PORT)
+
+tp-con-ftd-ascon128-20:
+	bash ./ftd.sh -t 20 -e 5 -p $(FTD_PORT)
+tp-con-ftd-ascon128-9:
+	bash ./ftd.sh -t 9 -e 5 -p $(FTD_PORT)
+tp-con-ftd-ascon128-0:
+	bash ./ftd.sh -t 0 -e 5 -p $(FTD_PORT)

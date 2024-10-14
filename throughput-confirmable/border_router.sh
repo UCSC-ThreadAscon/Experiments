@@ -59,7 +59,7 @@ set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmabl
 $set_commit_ids_exec -s | tee -a $output_file_path
 # --------------------------------
 
-. $HOME/esp/esp-idf/export.sh
+. $HOME/esp/esp-idf/export.sh | tee -a $output_file_path
 
 # ---- Build the RCP ----
 echo "--------------------------------------------------------------------------------" | tee -a $output_file_path

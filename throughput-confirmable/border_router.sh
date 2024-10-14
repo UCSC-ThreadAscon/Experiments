@@ -8,7 +8,7 @@
 # Example:
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
 #
-# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace'
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
 # https://stackoverflow.com/a/57766728/6621292
 #
 function sdkconfig_set() {

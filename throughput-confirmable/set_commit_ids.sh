@@ -112,7 +112,7 @@ print_commit "OpenThread" $OPENTHREAD_LOC
 
 if $setup_ftd;
 then
-  change_repo_commit "Network Performance FTD" $FTD_COMMIT $FTD_LOC
+  change_repo_commit "Network Performance FTD" $FTD_LOC $FTD_COMMIT
 fi
 
 if $setup_border_router;

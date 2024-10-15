@@ -74,10 +74,12 @@ sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 # ---- Build, Flash, & Monitor ----
 cd $ftd_path
 
+echo "--------- FTD KConfig Variables ---------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $ftd_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $ftd_sdkconfig) | tee -a $output_file_path
+echo "-----------------------------------------"
 
 idf.py fullclean
 idf.py build flash monitor --port $ftd_port | tee -a $output_file_path

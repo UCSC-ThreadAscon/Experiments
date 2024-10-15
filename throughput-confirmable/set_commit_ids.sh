@@ -1,4 +1,4 @@
-# The commit ID that will be used in all Delay experiments.
+# The commit ID that will be used in all Throughput experiments.
 ESP_IDF_COMMIT=aa8f5f533667ec3dcf446d2cc5c8e785cc09676b
 
 # The commit ID of the FTD.

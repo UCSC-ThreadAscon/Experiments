@@ -1,5 +1,5 @@
-BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
-FTD_PORT=/dev/cu.usbserial-110
+BORDER_ROUTER_PORT=/dev/ttyACM2
+FTD_PORT=/dev/ttyUSB0
 
 # When executing Bash scripts on Ubuntu, I need to use "bash [script name]",
 # rather than "./[script name]" on Ubuntu. Otherwise, the script will give a

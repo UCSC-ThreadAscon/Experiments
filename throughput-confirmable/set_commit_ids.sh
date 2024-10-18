@@ -2,7 +2,7 @@
 ESP_IDF_COMMIT=aa8f5f533667ec3dcf446d2cc5c8e785cc09676b
 
 # The commit ID of the FTD.
-FTD_COMMIT=1bca8948b481e34e7f50dca877973d44fdc5b662
+FTD_COMMIT=591ca57a7465b6ba4530c8e7f245dd1ebc804ded
 
 # The commit ID of the border router
 BORDER_ROUTER_COMMIT=368c419b3baae29b94009088bfaadab7495a9d65

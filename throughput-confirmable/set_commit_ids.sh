@@ -2,10 +2,10 @@
 ESP_IDF_COMMIT=aa8f5f533667ec3dcf446d2cc5c8e785cc09676b
 
 # The commit ID of the FTD.
-FTD_COMMIT=591ca57a7465b6ba4530c8e7f245dd1ebc804ded
+FTD_COMMIT=9f683ac2c23b19c70ba80e5199c92f9ff5f109b0
 
 # The commit ID of the border router
-BORDER_ROUTER_COMMIT=368c419b3baae29b94009088bfaadab7495a9d65
+BORDER_ROUTER_COMMIT=322e96fc897167fa3134e21fa1c74c950f8a9d10
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf

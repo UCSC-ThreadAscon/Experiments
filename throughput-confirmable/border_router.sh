@@ -120,6 +120,7 @@ if [[ "$rcp_src_dir" != $expected_rcp_src_dir ]]
 then
   echo "ERROR: Border Router RCP has not been set to: $expected_rcp_src_dir." | tee -a $output_file_path
   exit 1
+fi
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig

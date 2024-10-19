@@ -1,6 +1,9 @@
 BORDER_ROUTER_PORT=/dev/ttyACM1
 FTD_PORT=/dev/ttyUSB0
 
+clean-queue:
+	rm -r -f queue/*
+
 # When executing Bash scripts on Ubuntu, I need to use "bash [script name]",
 # rather than "./[script name]" on Ubuntu. Otherwise, the script will give a
 # syntax error regarding "(".

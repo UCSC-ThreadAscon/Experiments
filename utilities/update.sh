@@ -10,7 +10,7 @@ ENERGY_SED_LOC=$HOME/Desktop/Repositories/energy-usage-sed-simple
 ENERGY_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_energy
 
 EXPERIMENTS_LOC=$HOME/Desktop/Repositories/Experiments
-GRAPHS_LOC=$HOME/Desktop/Repositories/Graphs
+GRAPHS_LOC=$HOME/Desktop/Repositories/graphs
 
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"

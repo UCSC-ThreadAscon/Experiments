@@ -9,6 +9,9 @@ NET_PERF_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf
 ENERGY_SED_LOC=$HOME/Desktop/Repositories/energy-usage-sed-simple
 ENERGY_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_energy
 
+EXPERIMENTS_LOC=$HOME/Desktop/Repositories/Experiments
+GRAPHS_LOC=$HOME/Desktop/Repositories/Graphs
+
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"
 }
@@ -54,3 +57,6 @@ update_repo "air-quality" $ENERGY_SED_LOC
 update_repo "back-door" $ENERGY_SED_LOC
 update_repo "front-door" $ENERGY_SED_LOC
 update_repo "main" $ENERGY_BORDER_ROUTER_LOC
+
+update_repo "main" $EXPERIMENTS_LOC
+update_repo "main" $GRAPHS_LOC

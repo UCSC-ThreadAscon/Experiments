@@ -109,6 +109,18 @@ then
   exit 1
 fi
 
+# Make sure the RCP source directory is the default RCP example project given
+# in ESP-IDF.
+#
+# https://stackoverflow.com/a/29903172/6621292
+#
+rcp_src_dir=$(cat $border_router_sdkconfig | grep CONFIG_RCP_SRC_DIR | cut -d "=" -f 2 | cut -d '"' -f 2)
+expected_rcp_src_dir='$ENV{IDF_PATH}/examples/openthread/ot_rcp/build'
+if [[ "$rcp_src_dir" != $expected_rcp_src_dir ]]
+then
+  echo "ERROR: Border Router RCP has not been set to: $expected_rcp_src_dir." | tee -a $output_file_path
+  exit 1
+
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
@@ -118,6 +130,7 @@ echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) 
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) | tee -a $output_file_path
 echo "-------------------------------------------------" | tee -a $output_file_path
 
 cd $border_router_path

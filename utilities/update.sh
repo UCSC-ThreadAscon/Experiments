@@ -31,6 +31,9 @@ function update_repo() {
   git restore . --recurse-submodules
   echo "Removing ALL unstaged changes with GIT RESTORE (--recursed-submodules)."
 
+  git clean -f
+  echo "Did a GIT CLEAN to remove all untracked files."
+
   git checkout --recurse-submodules $1
   git pull
 

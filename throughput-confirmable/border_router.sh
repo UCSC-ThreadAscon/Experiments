@@ -63,11 +63,7 @@ $set_commit_ids_exec -s | tee -a $output_file_path
 . $HOME/esp/esp-idf/export.sh
 
 # ---- Build the RCP ----
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router." | tee -a $output_file_path
-echo "After doing so, press ENTER to continue." | tee -a $output_file_path
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-read
+kasa --alias "CoAP Server" on | tee -a $output_file_path
 
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig
@@ -86,6 +82,8 @@ echo "---------------------------------------" | tee -a $output_file_path
 cd $rcp_path
 idf.py fullclean
 idf.py build flash --port $border_router_port | tee -a $output_file_path
+
+kasa --alias "CoAP Server" off | tee -a $output_file_path
 cd -
 # -----------------------
 

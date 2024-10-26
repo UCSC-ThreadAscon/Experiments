@@ -63,13 +63,6 @@ $set_commit_ids_exec -s | tee -a $output_file_path
 . $HOME/esp/esp-idf/export.sh
 
 # ---- Build the RCP ----
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-echo "Please connect the USB-C cable to the ESP32-H2 SoC of the border router." | tee -a $output_file_path
-echo "After doing so, press ENTER to continue." | tee -a $output_file_path
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-read
-# kasa --alias "CoAP Server" on | tee -a $output_file_path
-
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig
 
@@ -86,31 +79,34 @@ echo "---------------------------------------" | tee -a $output_file_path
 
 cd $rcp_path
 idf.py fullclean
-idf.py build flash --port $border_router_port | tee -a $output_file_path
-
-# kasa --alias "CoAP Server" off | tee -a $output_file_path
+idf.py build | tee -a $output_file_path
 cd -
 # -----------------------
 
 # ---- Build & Flash the Border Router ----
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-echo "Please connect the USB-C cable to the ESP32-S3 SoC of the border router." | tee -a $output_file_path
-echo "After doing so, press ENTER to continue." | tee -a $output_file_path
-echo "--------------------------------------------------------------------------------" | tee -a $output_file_path
-read
-
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
-# Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
-rcp_auto_update_string=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
-
-if [[ "$rcp_auto_update_string" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
+# Make sure RCP Auto Update is enabled on the Thread Border Router.
+rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
+if [[ "$rcp_auto_update_flag" != "y" ]]
 then
-  echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
-  echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path
+  echo "ERROR: RCP Auto Update not enabled on the Border Router." | tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" | tee -a $output_file_path
+  exit 1
+fi
+
+# Make sure the RCP source directory is the default RCP example project given
+# in ESP-IDF.
+#
+# https://stackoverflow.com/a/29903172/6621292
+#
+rcp_src_dir=$(cat $border_router_sdkconfig | grep CONFIG_RCP_SRC_DIR | cut -d "=" -f 2 | cut -d '"' -f 2)
+expected_rcp_src_dir='$ENV{IDF_PATH}/examples/openthread/ot_rcp/build'
+if [[ "$rcp_src_dir" != $expected_rcp_src_dir ]]
+then
+  echo "ERROR: Border Router RCP has not been set to: $expected_rcp_src_dir." | tee -a $output_file_path
   exit 1
 fi
 

@@ -39,6 +39,7 @@ while getopts t:e:p: arg
 do
   case "${arg}" in
     e) cipher_num=${OPTARG};;
+    p) rcp_port=${OPTARG};;
   esac
 done
 
@@ -73,6 +74,6 @@ echo "---------------------------------------" | tee -a $output_file_path
 
 cd $rcp_path
 idf.py fullclean
-idf.py build | tee -a $output_file_path
+idf.py build flash --port $rcp_port | tee -a $output_file_path
 cd -
 # -----------------------

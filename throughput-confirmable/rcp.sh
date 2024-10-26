@@ -54,6 +54,8 @@ set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmabl
 $set_commit_ids_exec | tee -a $output_file_path
 # --------------------------------
 
+. $HOME/esp/esp-idf/export.sh
+
 # ---- Build the RCP ----
 rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
 rcp_sdkconfig=$rcp_path/sdkconfig

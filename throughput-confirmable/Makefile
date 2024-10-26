@@ -9,6 +9,18 @@ clean-queue:
 # syntax error regarding "(".
 #	https://stackoverflow.com/a/62929158/6621292
 
+tp-con-rcp-aes:
+	bash ./rcp.sh -e 0
+
+tp-con-rcp-noencrypt:
+	bash ./rcp.sh -e 1
+
+tp-con-rcp-ascon128a:
+	bash ./rcp.sh -e 4
+
+tp-con-rcp-ascon128:
+	bash ./rcp.sh -e 5
+
 tp-con-border-router-aes-20:
 	bash ./border_router.sh -t 20 -e 0 -p $(BORDER_ROUTER_PORT)
 tp-con-border-router-aes-9:

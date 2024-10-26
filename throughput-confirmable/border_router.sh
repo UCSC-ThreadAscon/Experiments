@@ -1,7 +1,3 @@
-# Command Line Format:
-#
-#   ./border_router.sh [USB Modem port number of border router]
-#
 # Command line format:
 #   sdkconfig_set [sdkconfig variable] [value] [sdkconfig path]
 #
@@ -61,27 +57,6 @@ $set_commit_ids_exec -s | tee -a $output_file_path
 # --------------------------------
 
 . $HOME/esp/esp-idf/export.sh
-
-# ---- Build the RCP ----
-rcp_path="$IDF_PATH/examples/openthread/ot_rcp"
-rcp_sdkconfig=$rcp_path/sdkconfig
-
-sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
-
-rcp_cipher_suite_kconfig=$(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig)
-rcp_cipher_num=$(echo $rcp_cipher_suite_kconfig | tail -c 2)
-rcp_cipher_string=$(to_cipher_string $rcp_cipher_num)
-
-echo "-------RCP KConfig Variables-----------" | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) | tee -a $output_file_path
-echo "The RCP will run OpenThread using the following encryption algorithm: $rcp_cipher_string." | tee -a $output_file_path
-echo "---------------------------------------" | tee -a $output_file_path
-
-cd $rcp_path
-idf.py fullclean
-idf.py build | tee -a $output_file_path
-cd -
-# -----------------------
 
 # ---- Build & Flash the Border Router ----
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router

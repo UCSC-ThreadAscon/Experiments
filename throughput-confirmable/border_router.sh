@@ -108,7 +108,7 @@ rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RC
 if [[ "$rcp_auto_update_flag" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
   echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
-  echo "Please turn the RCP Auto Update Feature off." | | tee -a $output_file_path
+  echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" | tee -a $output_file_path
   exit 1
 fi

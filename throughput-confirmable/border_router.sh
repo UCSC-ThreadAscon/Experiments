@@ -104,8 +104,9 @@ border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
 # Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
-rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
-if [[ "$rcp_auto_update_flag" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
+rcp_auto_update_string=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
+echo $rcp_auto_update_string
+if [[ "$rcp_auto_update_string" == "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
   echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
   echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path

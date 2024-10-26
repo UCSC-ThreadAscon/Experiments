@@ -106,11 +106,7 @@ tp_con_experiment_flag=1
 # Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
 rcp_auto_update_string=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
 
-# Need to use `echo` after getting a string from `grep` to get the original string,
-# as `grep` outputs have a leading tab.
-# https://stackoverflow.com/a/46748810/6621292
-#
-if [[ "(echo $rcp_auto_update_string)" == "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
+if [[ "$rcp_auto_update_string" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
   echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
   echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path

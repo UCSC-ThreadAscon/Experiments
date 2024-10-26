@@ -105,8 +105,12 @@ tp_con_experiment_flag=1
 
 # Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
 rcp_auto_update_string=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
-echo $rcp_auto_update_string
-if [[ "$rcp_auto_update_string" == "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
+
+# Need to use `echo` after getting a string from `grep` to get the original string,
+# as `grep` outputs have a leading tab.
+# https://stackoverflow.com/a/46748810/6621292
+#
+if [[ "(echo $rcp_auto_update_string)" == "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
   echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
   echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path
@@ -122,7 +126,7 @@ echo "-------Border Router KConfig Variables-----------" | tee -a $output_file_p
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_AUTO_UPDATE_RCP $border_router_sdkconfig) | tee -a $output_file_path
+echo $(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP) | tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) | tee -a $output_file_path
 echo "-------------------------------------------------" | tee -a $output_file_path
 

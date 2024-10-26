@@ -48,6 +48,9 @@ function change_repo_commit() {
   git restore . --recurse-submodules
   echo "Did a GIT RESTORE (with --recurse-submodules) to clear all unstaged changes."
 
+  git clean -f
+  echo "Did a GIT CLEAN to remove all untracked files."
+
   printf "\nCommit BEFORE Checkout: %s.\n" "$(git rev-parse HEAD)"
 
   # Change repo to the version that we want to use in the experiments.

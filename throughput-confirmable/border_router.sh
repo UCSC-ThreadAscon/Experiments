@@ -103,25 +103,13 @@ border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_b
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
-# Make sure RCP Auto Update is enabled on the Thread Border Router.
-rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP | tail -c 2 | head -1)
-if [[ "$rcp_auto_update_flag" != "y" ]]
+# Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
+rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
+if [[ "$rcp_auto_update_flag" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
-  echo "ERROR: RCP Auto Update not enabled on the Border Router." | tee -a $output_file_path
+  echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
+  echo "Please turn the RCP Auto Update Feature off." | | tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" | tee -a $output_file_path
-  exit 1
-fi
-
-# Make sure the RCP source directory is the default RCP example project given
-# in ESP-IDF.
-#
-# https://stackoverflow.com/a/29903172/6621292
-#
-rcp_src_dir=$(cat $border_router_sdkconfig | grep CONFIG_RCP_SRC_DIR | cut -d "=" -f 2 | cut -d '"' -f 2)
-expected_rcp_src_dir='$ENV{IDF_PATH}/examples/openthread/ot_rcp/build'
-if [[ "$rcp_src_dir" != $expected_rcp_src_dir ]]
-then
-  echo "ERROR: Border Router RCP has not been set to: $expected_rcp_src_dir." | tee -a $output_file_path
   exit 1
 fi
 

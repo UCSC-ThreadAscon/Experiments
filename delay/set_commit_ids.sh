@@ -1,5 +1,5 @@
 # The commit ID that will be used in all Delay experiments.
-ESP_IDF_COMMIT=f0e1dca7f2f0a3febe6afcae6bac7065eb69d5d2
+ESP_IDF_COMMIT=0362ae2a9baceade8afc202bb896e9c44deee8b5
 
 # This commit ID is shared by both the Network Performance FTD and the Delay Server,
 # as they are both local copies of the same repository.

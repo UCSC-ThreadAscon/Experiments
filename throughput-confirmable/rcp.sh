@@ -73,7 +73,7 @@ echo "The RCP will run OpenThread using the following encryption algorithm: $rcp
 echo "---------------------------------------" | tee -a $output_file_path
 
 cd $rcp_path
-idf.py fullclean
+# idf.py fullclean
 idf.py build flash --port $rcp_port | tee -a $output_file_path
 cd -
 # -----------------------

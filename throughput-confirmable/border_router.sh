@@ -86,7 +86,7 @@ echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) | tee -a $outp
 echo "-------------------------------------------------" | tee -a $output_file_path
 
 cd $border_router_path
-idf.py fullclean
+# idf.py fullclean
 idf.py build flash monitor --port $border_router_port | tee -a $output_file_path
 
 cd -

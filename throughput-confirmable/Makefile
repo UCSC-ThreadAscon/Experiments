@@ -1,4 +1,4 @@
-BORDER_ROUTER_PORT=/dev/cu.usbmodem1401
+BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
 FTD_PORT=/dev/ttyUSB0
 
 clean-queue:

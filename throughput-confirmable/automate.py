@@ -1,6 +1,12 @@
 import subprocess
+from multiprocessing import Process
 
-subprocess.run(["make", "clean-queue"])
+def wrapper(args):
+  subprocess.run(args)
+  return
 
-subprocess.run(["make", "tp-con-border-router-aes-20"])
-# subprocess.Popen(["make", "tp-con-ftd-aes-20"])
+if __name__ == "__main__":
+  subprocess.run(["make", "clean-queue"])
+
+  Process(target=wrapper, args=[["make", "tp-con-border-router-aes-20"]]).start()
+  Process(target=wrapper, args=[["make", "tp-con-ftd-aes-20"]]).start()

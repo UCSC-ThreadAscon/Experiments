@@ -53,6 +53,10 @@ if __name__ == "__main__":
     raise Exception("ERROR: Failed to start the FTD.")
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-FTD-AES-20dbm.txt", 60):
+    #
+    # TO-DO: You need to terminate the ESP-IDF terminal by typing "CTRL" + "]"
+    #        onto the respective consoles, rather than sending a terminate signal.
+    #
     if EXPERIMENT_END_STRING in line:
       ftd_process.terminate()
       br_process.terminate()

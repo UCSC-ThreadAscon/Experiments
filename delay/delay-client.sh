@@ -1,9 +1,9 @@
-# Get the TX Power and Encryption Algorithm to use from the command line arguments.
-#
-# The Bash script code that uses `optarg` to get the command line arguments
-# comes from:
+# RESOURCES UTILIZED:
+# https://stackoverflow.com/questions/692000/how-do-i-write-standard-error-to-a-file-while-using-tee-with-a-pipe/692009#692009
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
-#
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
+# https://stackoverflow.com/a/57766728/6621292
+
 while getopts t:e:p: arg
 do
   case "${arg}" in
@@ -18,9 +18,6 @@ done
 #
 # Example:
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
-#
-# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
-# https://stackoverflow.com/a/57766728/6621292
 #
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
@@ -75,7 +72,6 @@ sdkconfig_set CONFIG_EXPERIMENT $delay_client_flag $delay_client_sdkconfig
 time_sync_off="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
 time_sync_on="CONFIG_OPENTHREAD_TIME_SYNC=y"
 
-# https://stackoverflow.com/a/57766728/6621292
 sed -i "" "s/$time_sync_off/$time_sync_on/g" $delay_client_sdkconfig
 
 # Change both the cipher suite and TX power settings in `sdkconfig`.

@@ -56,6 +56,7 @@ if __name__ == "__main__":
     if EXPERIMENT_END_STRING in line:
       ftd_process.terminate()
       br_process.terminate()
+      break
 
   # ftd_process.wait()
   # br_process.wait()

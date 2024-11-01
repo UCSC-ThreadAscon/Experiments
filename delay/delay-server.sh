@@ -54,13 +54,13 @@ txpower_string="${tx_power}dbm"
 output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
 
-date | tee $output_file_path
+date |& tee $output_file_path
 
 # The `set_commit_ids.sh` script needs to run first BEFORE making any edits to the SDKCONFIGS,
 # as the script does a `git restore` on ESP-IDF, OpenThread, and the Delay client and server source code.
 #
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
-$set_commit_ids_exec -s | tee -a $output_file_path
+$set_commit_ids_exec -s |& tee -a $output_file_path
 
 delay_server_path="$HOME/Desktop/Repositories/delay-server"
 delay_server_sdkconfig=$delay_server_path/sdkconfig
@@ -86,12 +86,12 @@ sdkconfig_set CONFIG_TX_POWER $tx_power $delay_server_sdkconfig
 . $HOME/esp/esp-idf/export.sh
 cd $delay_server_path
 
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig) | tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $delay_server_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_TX_POWER $delay_server_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_EXPERIMENT $delay_server_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $delay_server_sdkconfig) |& tee -a $output_file_path
 
 idf.py fullclean
-idf.py build flash monitor --port $delay_server_port | tee -a $output_file_path
+idf.py build flash monitor --port $delay_server_port |& tee -a $output_file_path
 
 cd -

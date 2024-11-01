@@ -7,10 +7,12 @@
 from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
-""" Slides 77-79 of https://www.dabeaz.com/generators/Generators.pdf.
+FILE_START = 0
+SLEEP_TIME_SECONDS = 1
+
+""" Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
 def beazleyRealTimeFileRead(filename):
-  FILE_START = 0
   offset = FILE_START
 
   while True:
@@ -22,9 +24,14 @@ def beazleyRealTimeFileRead(filename):
           yield line
           offset += 1
         else:
-          sleep(0.5)
+          sleep(SLEEP_TIME_SECONDS)
 
     except OSError:
+      # This error occurs when the file does not exist yet.
+      # Let's wait for a some time to allow for the subprocess
+      # to create the file we want to read.
+      #
+      sleep(SLEEP_TIME_SECONDS)
       continue
 
   return

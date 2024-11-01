@@ -7,21 +7,26 @@
 from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
-FILE_START = 0
-
 """ Slides 77-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
 def beazleyRealTimeFileRead(filename):
-  with open(filename, "r") as file:
-    offset = FILE_START
-    file.seek(offset, FILE_START)
+  FILE_START = 0
+  offset = FILE_START
 
-    while True:
-      for line in file:
-        yield line
-        offset += 1
-      else:
-        sleep(0.5)
+  while True:
+    try:
+      with open(filename, "r") as file:
+        file.seek(offset, FILE_START)
+
+        for line in file:
+          yield line
+          offset += 1
+        else:
+          sleep(0.5)
+
+    except OSError:
+      continue
+
   return
 
 if __name__ == "__main__":
@@ -30,6 +35,6 @@ if __name__ == "__main__":
   br_process = Popen(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", "/dev/cu.usbmodem2101"], stderr=STDOUT)
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt"):
-    print(f"The line is: {line}")
+    pass
 
   br_process.wait()

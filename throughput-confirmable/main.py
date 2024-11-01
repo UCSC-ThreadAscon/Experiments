@@ -21,6 +21,7 @@ def beazleyRealTimeFileRead(filename):
     try:
       with open(filename, "r") as file:
         file.seek(offset, FILE_START)
+        assert(offset == file.tell())
 
         for line in file:
           print(line)

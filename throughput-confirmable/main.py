@@ -13,6 +13,10 @@ SLEEP_TIME_SECONDS = 0.1
 SERVER_START_STRING = "Started CoAP server at port 5683."
 
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
+
+    TO-DO: Make sure this doesn't read the same line twice. The reason
+           for the offset is so that time is not wasted rereading the file
+           over and over again.
 """
 def beazleyRealTimeFileRead(filename, seconds):
   offset = FILE_START

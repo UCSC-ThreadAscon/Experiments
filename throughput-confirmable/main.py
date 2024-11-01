@@ -12,17 +12,20 @@ SERVER_START_STRING = "Started CoAP server at port 5683."
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
 def beazleyRealTimeFileRead(filename):
-  OFFSET = 0
-  FILE_END = 2
-  SLEEP_TIME_SECONDS = 0.1
+  FILE_START = 0
+  SLEEP_TIME_SECONDS = 1
+
+  offset = 0
 
   while True:
     try:
       with open(filename, "r") as file:
-        file.seek(OFFSET, FILE_END)
+        file.seek(offset, FILE_START)
 
         for line in file:
+          print(line)
           yield line
+          offset += 1
         else:
           sleep(SLEEP_TIME_SECONDS)
     except OSError:
@@ -38,7 +41,7 @@ def beazleyRealTimeFileRead(filename):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
+  br_process = Popen(["make", "tp-con-border-router-aes-20"], stdout=PIPE, stderr=PIPE)
   ftd_process = None
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt"):

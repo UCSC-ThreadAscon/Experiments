@@ -1,4 +1,4 @@
-"""RESOURCES UTILIZED
+"""RESOURCES UTILIZED:
    https://shuzhanfan.github.io/2017/12/parallel-processing-python-subprocess/
 """
 

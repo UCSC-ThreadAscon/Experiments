@@ -8,7 +8,7 @@ from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
 FILE_START = 0
-SLEEP_TIME_SECONDS = 1
+SLEEP_TIME_SECONDS = 0.1
 
 SERVER_START_STRING = "Started CoAP server at port 5683."
 
@@ -21,21 +21,21 @@ def beazleyRealTimeFileRead(filename, seconds):
     try:
       with open(filename, "r") as file:
         file.seek(offset, FILE_START)
+        assert(offset == file.tell())
 
         for line in file:
           yield line
           offset += 1
         else:
           sleep(seconds)
-
     except OSError:
+      #
       # This error occurs when the file does not exist yet.
       # Let's wait for a some time to allow for the subprocess
       # to create the file we want to read.
       #
       sleep(seconds)
       continue
-
   return
 
 if __name__ == "__main__":

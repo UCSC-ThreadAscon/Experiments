@@ -47,7 +47,11 @@ if __name__ == "__main__":
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt",
                                       SLEEP_TIME_SECONDS):
     if SERVER_START_STRING in line:
-      print("--- TODO: Start the FTD Bash Script. ---")
+      ftd_process = Popen(["make", "tp-con-ftd-aes-20"], stderr=STDOUT)
       break
 
+  if ftd_process == None:
+    raise Exception("ERROR: Failed to start the FTD.")
+
+  ftd_process.wait()
   br_process.wait()

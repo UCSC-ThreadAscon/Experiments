@@ -10,6 +10,8 @@ from time import sleep
 FILE_START = 0
 SLEEP_TIME_SECONDS = 1
 
+SERVER_START_STRING = "Started CoAP server at port 5683."
+
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
 def beazleyRealTimeFileRead(filename):
@@ -39,7 +41,8 @@ def beazleyRealTimeFileRead(filename):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  br_process = Popen(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", "/dev/cu.usbmodem2101"], stderr=STDOUT)
+  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
+  ftd_process = None
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt"):
     pass

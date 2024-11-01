@@ -1,3 +1,9 @@
+# RESOURCES UTILIZED:
+# https://stackoverflow.com/questions/692000/how-do-i-write-standard-error-to-a-file-while-using-tee-with-a-pipe/692009#692009
+# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
+# https://stackoverflow.com/a/57766728/6621292
+
 # Command line format:
 #   sdkconfig_set [sdkconfig variable] [value] [sdkconfig path]
 #
@@ -5,9 +11,6 @@
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
 #
 
-# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
-# https://stackoverflow.com/a/57766728/6621292
-#
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
   sed -i -e "s/$to_replace/$1=$2/g" $3
@@ -34,7 +37,6 @@ function to_cipher_string() {
   esac
 }
 
-# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 while getopts t:e:p: arg
 do
   case "${arg}" in
@@ -50,10 +52,10 @@ txpower_string="${tx_power}dbm"
 
 output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-BR-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
-date | tee $output_file_path
+date |& tee $output_file_path
 
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmable/set_commit_ids.sh
-$set_commit_ids_exec -s | tee -a $output_file_path
+$set_commit_ids_exec -s |& tee -a $output_file_path
 # --------------------------------
 
 . $HOME/esp/esp-idf/export.sh
@@ -67,9 +69,9 @@ tp_con_experiment_flag=1
 rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
 if [[ "$rcp_auto_update_flag" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
 then
-  echo "ERROR: RCP Auto Update is ENABLED on the Border Router." | tee -a $output_file_path
-  echo "Please turn the RCP Auto Update Feature off." | tee -a $output_file_path
-  echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" | tee -a $output_file_path
+  echo "ERROR: RCP Auto Update is ENABLED on the Border Router." |& tee -a $output_file_path
+  echo "Please turn the RCP Auto Update Feature off." |& tee -a $output_file_path
+  echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" |& tee -a $output_file_path
   exit 1
 fi
 
@@ -77,17 +79,17 @@ sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkcon
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
 
-echo "-------Border Router KConfig Variables-----------" | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) | tee -a $output_file_path
-echo $(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP) | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) | tee -a $output_file_path
-echo "-------------------------------------------------" | tee -a $output_file_path
+echo "-------Border Router KConfig Variables-----------" |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) |& tee -a $output_file_path
+echo $(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) |& tee -a $output_file_path
+echo "-------------------------------------------------" |& tee -a $output_file_path
 
 cd $border_router_path
 # idf.py fullclean
-idf.py build flash monitor --port $border_router_port | tee -a $output_file_path
+idf.py build flash monitor --port $border_router_port |& tee -a $output_file_path
 
 cd -
 # -----------------------------------------

@@ -1,13 +1,8 @@
-import subprocess
-from multiprocessing import Process
-
-def wrapper(args):
-  subprocess.run(args)
-  return
+from subprocess import Popen, run, PIPE
 
 if __name__ == "__main__":
-  subprocess.run(["make", "clean-queue"])
+  # subprocess.run(["make", "clean-queue"])
 
-  subprocess.Popen(["make", "tp-con-border-router-aes-20"])
-  # Process(target=wrapper, args=[["make", "tp-con-border-router-aes-20"]]).start()
-  # Process(target=wrapper, args=[["make", "tp-con-ftd-aes-20"]]).start()
+  process = Popen(["bash", "./border_router.sh", "-t" ,"20", "-e", "0", "-p", "/dev/cu.usbmodem2101"],
+                   stdout=PIPE, stdin=PIPE)
+  process.wait()

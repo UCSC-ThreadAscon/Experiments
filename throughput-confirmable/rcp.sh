@@ -1,12 +1,14 @@
+# RESOURCES UTILIZED:
+# https://stackoverflow.com/questions/692000/how-do-i-write-standard-error-to-a-file-while-using-tee-with-a-pipe/692009#692009
+# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
+# https://stackoverflow.com/a/57766728/6621292
+# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
+
 # Command line format:
 #   sdkconfig_set [sdkconfig variable] [value] [sdkconfig path]
 #
 # Example:
 #   sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE 0 ./sdkconfig
-#
-
-# https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
-# https://stackoverflow.com/a/57766728/6621292
 #
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
@@ -34,7 +36,6 @@ function to_cipher_string() {
   esac
 }
 
-# https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 while getopts t:e:p: arg
 do
   case "${arg}" in
@@ -49,10 +50,10 @@ txpower_string="${tx_power}dbm"
 
 output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-RCP-$cipher_string.txt"
 rm -f $output_file_path
-date | tee $output_file_path
+date |& tee $output_file_path
 
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmable/set_commit_ids.sh
-$set_commit_ids_exec | tee -a $output_file_path
+$set_commit_ids_exec |& tee -a $output_file_path
 # --------------------------------
 
 . $HOME/esp/esp-idf/export.sh
@@ -67,13 +68,13 @@ rcp_cipher_suite_kconfig=$(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_s
 rcp_cipher_num=$(echo $rcp_cipher_suite_kconfig | tail -c 2)
 rcp_cipher_string=$(to_cipher_string $rcp_cipher_num)
 
-echo "-------RCP KConfig Variables-----------" | tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) | tee -a $output_file_path
-echo "The RCP will run OpenThread using the following encryption algorithm: $rcp_cipher_string." | tee -a $output_file_path
-echo "---------------------------------------" | tee -a $output_file_path
+echo "-------RCP KConfig Variables-----------" |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) |& tee -a $output_file_path
+echo "The RCP will run OpenThread using the following encryption algorithm: $rcp_cipher_string." |& tee -a $output_file_path
+echo "---------------------------------------" |& tee -a $output_file_path
 
 cd $rcp_path
 # idf.py fullclean
-idf.py build flash --port $rcp_port | tee -a $output_file_path
+idf.py build flash --port $rcp_port |& tee -a $output_file_path
 cd -
 # -----------------------

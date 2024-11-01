@@ -7,27 +7,23 @@
 from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
-FILE_START = 0
 SLEEP_TIME_SECONDS = 0.1
 
 SERVER_START_STRING = "Started CoAP server at port 5683."
 
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
-
-    TO-DO: Make sure this doesn't read the same line twice. The reason
-           for the offset is so that time is not wasted rereading the file
-           over and over again.
 """
 def beazleyRealTimeFileRead(filename, seconds):
-  offset = FILE_START
+  OFFSET = 0
+  FILE_END = 2
 
   while True:
     try:
       with open(filename, "r") as file:
-        file.seek(offset, FILE_START)
-        assert(offset == file.tell())
+        file.seek(OFFSET, FILE_END)
 
         for line in file:
+          print(line)
           yield line
           offset += 1
         else:

@@ -8,12 +8,12 @@ from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
 SERVER_START_STRING = "Started CoAP server at port 5683."
+EXPERIMENT_END_STRING = "Finished running 1000 trials for current experiment."
 
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
-def beazleyRealTimeFileRead(filename):
+def beazleyRealTimeFileRead(filename, seconds=0.1):
   FILE_START = 0
-  SLEEP_TIME_SECONDS = 1
 
   offset = 0
 
@@ -27,14 +27,14 @@ def beazleyRealTimeFileRead(filename):
           yield line
           offset += 1
         else:
-          sleep(SLEEP_TIME_SECONDS)
+          sleep(seconds)
     except OSError:
       #
       # This error occurs when the file does not exist yet.
       # Let's wait for a some time to allow for the subprocess
       # to create the file we want to read.
       #
-      sleep(SLEEP_TIME_SECONDS)
+      sleep(seconds)
       continue
   return
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
   br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
   ftd_process = None
 
-  for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt"):
+  for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt", 1):
     if SERVER_START_STRING in line:
       ftd_process = Popen(["make", "tp-con-ftd-aes-20"], stderr=STDOUT)
       break
@@ -52,5 +52,10 @@ if __name__ == "__main__":
   if ftd_process == None:
     raise Exception("ERROR: Failed to start the FTD.")
 
-  ftd_process.wait()
-  br_process.wait()
+  for line in beazleyRealTimeFileRead("./queue/tp-con-FTD-AES-20dbm.txt", 60):
+    if EXPERIMENT_END_STRING in line:
+      ftd_process.terminate()
+      br_process.terminate()
+
+  # ftd_process.wait()
+  # br_process.wait()

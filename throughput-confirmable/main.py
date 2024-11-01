@@ -24,7 +24,6 @@ def beazleyRealTimeFileRead(filename):
         assert(offset == file.tell())
 
         for line in file:
-          print(line)
           yield line
           offset += 1
         else:
@@ -42,7 +41,7 @@ def beazleyRealTimeFileRead(filename):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  br_process = Popen(["make", "tp-con-border-router-aes-20"], stdout=PIPE, stderr=PIPE)
+  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
   ftd_process = None
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt"):

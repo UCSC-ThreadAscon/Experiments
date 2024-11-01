@@ -8,7 +8,7 @@ from subprocess import Popen, run, STDOUT, PIPE
 from time import sleep
 
 SERVER_START_STRING = "Started CoAP server at port 5683."
-EXPERIMENT_END_STRING = "Finished running 1000 trials for current experiment."
+EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """

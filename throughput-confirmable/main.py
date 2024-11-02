@@ -10,6 +10,9 @@ from time import sleep
 SERVER_START_STRING = "Started CoAP server at port 5683."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 
+BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
+FTD_PORT = "/dev/cu.usbserial-120"
+
 """ Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
 """
 def beazleyRealTimeFileRead(filename, seconds=0.1):
@@ -41,12 +44,12 @@ def beazleyRealTimeFileRead(filename, seconds=0.1):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
+  br_process = Popen(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
   ftd_process = None
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt", 1):
     if SERVER_START_STRING in line:
-      ftd_process = Popen(["make", "tp-con-ftd-aes-20"], stderr=STDOUT)
+      ftd_process = Popen(["bash", "./ftd.sh", "-t", "20", "-e", "0", "-p", FTD_PORT], stderr=STDOUT)
       break
 
   if ftd_process == None:
@@ -62,5 +65,5 @@ if __name__ == "__main__":
       br_process.terminate()
       break
 
-  # ftd_process.wait()
-  # br_process.wait()
+  ftd_process.wait()
+  br_process.wait()

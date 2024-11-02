@@ -16,40 +16,46 @@ FTD_PORT = "/dev/cu.usbmodem1201"
 def ftd_monitor():
   run(["bash", "./ftd.sh", "-t", "20", "-e", "0", "-p", FTD_PORT], stderr=STDOUT)
 
-  with serial.Serial(FTD_PORT, timeout=1) as ftd:
-    while True:
-      line_bytes = ftd.readline()
+  log_filename = "tp-con-FTD-AES-20dbm.txt"
 
-      if line_bytes != b"":
-        line = line_bytes.decode()
-        print(line.strip("\n"))
+  with open(log_filename, "ba") as logfile:
+    with serial.Serial(FTD_PORT, timeout=1) as ftd:
+      while True:
+        line_bytes = ftd.readline()
 
-        if EXPERIMENT_END_STRING in line:
-          break
+        if line_bytes != b"":
+          logfile.write(line_bytes)
+
+          line = line_bytes.decode()
+          print(line.strip("\n"))
+
+          if EXPERIMENT_END_STRING in line:
+            break
   return
 
 def border_router_monitor():
   run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
 
-  with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
-    ftd_process = Process(target=ftd_monitor)
-    ftd_started = False
+  log_filename = "tp-con-BR-AES-20dbm.txt"
 
-    while True:
-      line_bytes = border_router.readline()
+  with open(log_filename, "ba") as logfile:
+    with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
+      ftd_process = Process(target=ftd_monitor)
+      ftd_started = False
 
-      if line_bytes != b"":
-        line = line_bytes.decode()
-        print(line.strip("\n"))
+      while (not ftd_started) or (ftd_process.is_alive()):
+        line_bytes = border_router.readline()
 
-        if not ftd_started:
-          if SERVER_START_STRING in line:
-            ftd_process.start()
-            ftd_started = True
-      
-      if ftd_started and (not ftd_process.is_alive()):
-        # The FTD has completed the experiment.
-        break
+        if line_bytes != b"":
+          logfile.write(line_bytes)
+
+          line = line_bytes.decode()
+          print(line.strip("\n"))
+
+          if not ftd_started:
+            if SERVER_START_STRING in line:
+              ftd_process.start()
+              ftd_started = True
   return
 
 if __name__ == "__main__":

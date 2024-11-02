@@ -20,20 +20,22 @@ def ftd_monitor():
   with serial.Serial(FTD_PORT, timeout=1) as ftd:
     while True:
       line_bytes = ftd.readline()
-      print(line_bytes)
 
-      # if line_bytes != b"":
-      #   line = line_bytes.decode()
-      #   print(line.strip("\n"))
+      if line_bytes != b"":
+        line = line_bytes.decode()
+        print(line.strip("\n"))
 
-      #   if EXPERIMENT_END_STRING in line:
-      #     break
+        if EXPERIMENT_END_STRING in line:
+          break
   return
 
 def border_router_monitor():
   run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
 
   with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
+    ftd_process = Process(target=ftd_monitor)
+    ftd_started = False
+
     while True:
       line_bytes = border_router.readline()
 
@@ -41,16 +43,18 @@ def border_router_monitor():
         line = line_bytes.decode()
         print(line.strip("\n"))
 
-        if SERVER_START_STRING in line:
-          ftd_process = Process(target=ftd_monitor)
-          ftd_process.start()
+        if not ftd_started:
+          if SERVER_START_STRING in line:
+            ftd_process.start()
+            ftd_started = True
+        else:
+          if not ftd_process.is_alive():
+            # The FTD has completed the experiment.
+            break
   return
 
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  # border_router_process = Process(target=border_router_monitor)
-  # border_router_process.start()
-
-  ftd_process = Process(target=ftd_monitor)
-  ftd_process.start()
+  border_router_process = Process(target=border_router_monitor)
+  border_router_process.start()

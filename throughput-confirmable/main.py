@@ -8,7 +8,7 @@ from subprocess import run, STDOUT
 from multiprocessing import Process
 from time import sleep
 
-SERVER_START_STRING = "Started CoAP server at port 5683."
+SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
@@ -26,6 +26,7 @@ def ftd_monitor():
         print(line.strip("\n"))
 
         if EXPERIMENT_END_STRING in line:
+          print("Done with the experiment!")
           break
   return
 

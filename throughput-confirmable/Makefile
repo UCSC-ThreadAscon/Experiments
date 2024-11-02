@@ -1,5 +1,5 @@
 BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
-FTD_PORT=/dev/cu.usbserial-130
+FTD_PORT=/dev/cu.usbserial-120
 
 clean-queue:
 	rm -r -f queue/*

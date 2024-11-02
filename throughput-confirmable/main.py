@@ -6,7 +6,6 @@
 import serial
 from subprocess import run, STDOUT
 from multiprocessing import Process
-from time import sleep
 
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."

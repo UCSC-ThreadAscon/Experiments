@@ -48,7 +48,7 @@ def border_router_monitor():
   log_filename = "queue/tp-con-BR-AES-20dbm.txt"
 
   sniffer = Nrf802154Sniffer()
-  sniffer.extcap_capture(fifo="queue/tp-con-AES-20dbm.pcap", dev=SNIFFER_PORT,
+  sniffer.extcap_capture(fifo="queue/tp-con-AES-20dbm.pcapng", dev=SNIFFER_PORT,
                          channel=THREAD_NETWORK_CHANNEL)
 
   with open(log_filename, "ba") as logfile:

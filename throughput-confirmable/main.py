@@ -4,7 +4,8 @@
    https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects
 """
 import serial
-from subprocess import Popen, run, STDOUT, PIPE
+from subprocess import run, STDOUT
+from multiprocessing import Process
 from time import sleep
 
 SERVER_START_STRING = "Started CoAP server at port 5683."
@@ -13,49 +14,27 @@ EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
 FTD_PORT = "/dev/cu.usbserial-120"
 
-""" Slides 75-79 of https://www.dabeaz.com/generators/Generators.pdf.
-"""
-def beazleyRealTimeFileRead(filename, seconds=0.1):
-  FILE_START = 0
+def border_router_monitor():
+  run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
 
-  offset = 0
+  with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
+    while True:
+      line_bytes = border_router.readline()
 
-  while True:
-    try:
-      with open(filename, "r") as file:
-        file.seek(offset, FILE_START)
-        assert(offset == file.tell())
+      if line_bytes != b"":
+        line = line_bytes.decode()
+        print(line.strip("\n"))
 
-        for line in file:
-          yield line
-          offset += 1
-        else:
-          sleep(seconds)
-    except OSError:
-      #
-      # This error occurs when the file does not exist yet.
-      # Let's wait for a some time to allow for the subprocess
-      # to create the file we want to read.
-      #
-      sleep(seconds)
-      continue
+        if SERVER_START_STRING in line:
+          print("From `main.py`: ---- STARTING FTD ----")
+          break
   return
 
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
-  # ftd_process = None
-
-  with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as ser:
-    while True:
-      line = ser.readline()
-      print(line.decode())
-
-      # if SERVER_START_STRING in line:
-      #   print("---- STARTING FTD ----")
-      #   break
-
+  border_router_process = Process(target=border_router_monitor)
+  border_router_process.start()
 
   # for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt", 1):
   #   if SERVER_START_STRING in line:
@@ -75,6 +54,3 @@ if __name__ == "__main__":
   #     ftd_process.terminate()
   #     br_process.terminate()
   #     break
-
-  # ftd_process.wait()
-  br_process.wait()

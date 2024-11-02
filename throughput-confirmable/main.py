@@ -26,7 +26,6 @@ def ftd_monitor():
         print(line.strip("\n"))
 
         if EXPERIMENT_END_STRING in line:
-          print("Done with the experiment!")
           break
   return
 
@@ -48,10 +47,10 @@ def border_router_monitor():
           if SERVER_START_STRING in line:
             ftd_process.start()
             ftd_started = True
-        else:
-          if not ftd_process.is_alive():
-            # The FTD has completed the experiment.
-            break
+      
+      if ftd_started and (not ftd_process.is_alive()):
+        # The FTD has completed the experiment.
+        break
   return
 
 if __name__ == "__main__":

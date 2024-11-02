@@ -16,7 +16,7 @@ FTD_PORT = "/dev/cu.usbmodem1201"
 def ftd_monitor():
   run(["bash", "./ftd.sh", "-t", "20", "-e", "0", "-p", FTD_PORT], stderr=STDOUT)
 
-  log_filename = "tp-con-FTD-AES-20dbm.txt"
+  log_filename = "queue/tp-con-FTD-AES-20dbm.txt"
 
   with open(log_filename, "ba") as logfile:
     with serial.Serial(FTD_PORT, timeout=1) as ftd:
@@ -36,7 +36,7 @@ def ftd_monitor():
 def border_router_monitor():
   run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
 
-  log_filename = "tp-con-BR-AES-20dbm.txt"
+  log_filename = "queue/tp-con-BR-AES-20dbm.txt"
 
   with open(log_filename, "ba") as logfile:
     with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:

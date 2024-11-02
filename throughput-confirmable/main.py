@@ -7,6 +7,11 @@ import serial
 from subprocess import run, STDOUT
 from multiprocessing import Process
 
+# ---- TO-DO ----
+# 1. Automate Wireshark
+# 2. Add ability to specify different independent variables at cmd line args
+#
+
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 

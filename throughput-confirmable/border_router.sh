@@ -90,7 +90,7 @@ echo "-------------------------------------------------" |& tee -a $output_file_
 cd $border_router_path
 # idf.py fullclean |& tee -a $output_file_path
 idf.py build flash --port $border_router_port |& tee -a $output_file_path
-idf.py monitor --port $border_router_port | tee -a $output_file_path
+# idf.py monitor --port $border_router_port | tee -a $output_file_path
 
 cd -
 # -----------------------------------------

@@ -44,13 +44,13 @@ def beazleyRealTimeFileRead(filename, seconds=0.1):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  # br_process = Popen(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
+  run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT], stderr=STDOUT)
   # ftd_process = None
 
   with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as ser:
     while True:
       line = ser.readline()
-      print(line)
+      print(line.decode())
 
       # if SERVER_START_STRING in line:
       #   print("---- STARTING FTD ----")

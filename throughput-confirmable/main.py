@@ -6,17 +6,21 @@
 import serial
 from subprocess import run, STDOUT
 from multiprocessing import Process
+from nrf802154_sniffer import Nrf802154Sniffer
 
 # ---- TO-DO ----
 # 1. Automate Wireshark
 # 2. Add ability to specify different independent variables at cmd line args
 #
 
-SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
-EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
-
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
 FTD_PORT = "/dev/cu.usbmodem1201"
+
+SNIFFER_PORT = "/dev/cu.usbmodem1401"
+THREAD_NETWORK_CHANNEL = 20
+
+SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
+EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 
 def ftd_monitor():
   run(["bash", "./ftd.sh", "-t", "20", "-e", "0", "-p", FTD_PORT], stderr=STDOUT)
@@ -43,6 +47,10 @@ def border_router_monitor():
 
   log_filename = "queue/tp-con-BR-AES-20dbm.txt"
 
+  sniffer = Nrf802154Sniffer()
+  sniffer.extcap_capture(fifo="queue/tp-con-AES-20dbm.pcap", dev=SNIFFER_PORT,
+                         channel=THREAD_NETWORK_CHANNEL)
+
   with open(log_filename, "ba") as logfile:
     with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
       ftd_process = Process(target=ftd_monitor)
@@ -61,6 +69,8 @@ def border_router_monitor():
             if SERVER_START_STRING in line:
               ftd_process.start()
               ftd_started = True
+  
+  sniffer.stop_sig_handler()
   return
 
 if __name__ == "__main__":

@@ -41,18 +41,18 @@ def beazleyRealTimeFileRead(filename, seconds=0.1):
 if __name__ == "__main__":
   run(["make", "clean-queue"])
 
-  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT)
+  br_process = Popen(["make", "tp-con-border-router-aes-20"], stderr=STDOUT, stdin=PIPE)
   ftd_process = None
 
   for line in beazleyRealTimeFileRead("./queue/tp-con-BR-AES-20dbm.txt", 1):
     if SERVER_START_STRING in line:
-      ftd_process = Popen(["make", "tp-con-ftd-aes-20"], stderr=STDOUT)
+      ftd_process = Popen(["make", "tp-con-ftd-aes-20"], stderr=STDOUT, stdin=PIPE)
       break
 
   if ftd_process == None:
     raise Exception("ERROR: Failed to start the FTD.")
 
-  for line in beazleyRealTimeFileRead("./queue/tp-con-FTD-AES-20dbm.txt", 60):
+  for line in beazleyRealTimeFileRead("./queue/tp-con-FTD-AES-20dbm.txt", 1):
     #
     # TO-DO: You need to terminate the ESP-IDF terminal by typing "CTRL" + "]"
     #        onto the respective consoles, rather than sending a terminate signal.

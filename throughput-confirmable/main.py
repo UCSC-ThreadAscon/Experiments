@@ -24,9 +24,9 @@ THREAD_NETWORK_CHANNEL = 20
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
 
-def print_bytes(bytes):
+def print_line(line):
   if SHOW_LOGS:
-    print(bytes.strip("\n"))
+    print(line.strip("\n"))
   return
 
 def ftd_monitor():
@@ -45,7 +45,7 @@ def ftd_monitor():
           logfile.write(line_bytes)
 
           line = line_bytes.decode()
-          print_bytes(line)
+          print_line(line)
 
           if EXPERIMENT_END_STRING in line:
             print("FTD has completed the experiment.")
@@ -77,7 +77,7 @@ def border_router_monitor():
           logfile.write(line_bytes)
 
           line = line_bytes.decode()
-          print_bytes(line)
+          print_line(line)
 
           if not ftd_started:
             if SERVER_START_STRING in line:

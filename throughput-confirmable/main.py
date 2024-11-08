@@ -96,7 +96,7 @@ def border_router_monitor(tx_power, cipher_num):
       stdout=PIPE, stderr=STDOUT)
 
   log_filename = \
-    f"queue/tp-con-border-router-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
   sniffer = Nrf802154Sniffer()
   sniffer.extcap_capture(fifo="queue/tp-con-AES-20dbm.pcapng", dev=SNIFFER_PORT,

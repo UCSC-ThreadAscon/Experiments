@@ -22,9 +22,9 @@ def cmd_arg_parser():
     """The transmission (TX) power that all devices will use in the experiment.
        The TX power must be number between -24 dBm or 20 dBm (both numbers inclusive).
     """
-  parser.add_argument("--tx-power", help=helperText, required=True)
+  parser.add_argument("--tx-power", help=helper_text, required=True)
 
-  helperText = \
+  helper_text = \
     """The encryption algorithm to use in the experiment. Set the argument
        to one of the following integers to use the corresponding encryption algorithms:
 
@@ -42,7 +42,7 @@ def cmd_arg_parser():
         Option "5" will use the ASCON-128 implementation of LibAscon,
         which uses variable tag length.
     """
-  parser.add_argument("--encryption-algorithm", help=helperText, required=True)
+  parser.add_argument("--alg", help=helper_text, required=True)
 
   return parser
 
@@ -51,8 +51,8 @@ def print_line(line):
     print(line.strip("\n"))
   return
 
-def ftd_monitor():
-  run(["bash", "./ftd.sh", "-t", "20", "-e", "0", "-p", FTD_PORT],
+def ftd_monitor(tx_power, cipher_num):
+  run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
       stdout=PIPE, stderr=STDOUT)
 
   log_filename = "queue/tp-con-FTD-AES-20dbm.txt"
@@ -74,8 +74,9 @@ def ftd_monitor():
             break
   return
 
-def border_router_monitor():
-  run(["bash", "./border_router.sh", "-t", "20", "-e", "0", "-p", BORDER_ROUTER_PORT],
+def border_router_monitor(tx_power, cipher_num):
+  run(["bash", "./border_router.sh", "-t", tx_power,
+       "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
       stdout=PIPE, stderr=STDOUT)
 
   log_filename = "queue/tp-con-BR-AES-20dbm.txt"
@@ -89,7 +90,7 @@ def border_router_monitor():
     with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
       print("Border Router monitoring has started.")
 
-      ftd_process = Process(target=ftd_monitor)
+      ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num))
       ftd_started = False
 
       while (not ftd_started) or (ftd_process.is_alive()):
@@ -118,5 +119,9 @@ if __name__ == "__main__":
   parser = cmd_arg_parser()
   args = parser.parse_args()
 
-  border_router_process = Process(target=border_router_monitor)
+  tx_power = int(args.tx_power)
+  cipher_num = int(args.alg)
+
+  border_router_process = Process(target=border_router_monitor,
+                                  args=(tx_power, cipher_num))
   border_router_process.start()

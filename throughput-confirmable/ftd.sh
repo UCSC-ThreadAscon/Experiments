@@ -51,7 +51,7 @@ set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids
 $set_commit_ids_exec -f |& tee -a $output_file_path
 # --------------------------------
 
-source $HOME/esp/esp-idf/export.sh >> $output_file_path
+source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 
 # ---- Set the KConfig variables ----
 ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
@@ -66,12 +66,12 @@ sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 
 # Make sure USB/Serial JTAG monitoring is ENABLED on the FTD.
-usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)
+usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep 'CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=')
 if [[ "$usb_serial_monitor_flag" != "CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y" ]]
 then
   echo "ERROR: USB Serial/JTAG monitoring is NOT ENABLED on the FTD." |& tee -a $output_file_path
   echo "Please turn the USB Serial/JTAG monitoring flag ON." |& tee -a $output_file_path
-  echo "$(cat $ftd_sdkconfig/sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)" |& tee -a $output_file_path
+  echo "$(cat $ftd_sdkconfig | grep 'CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=')" |& tee -a $output_file_path
   exit 1
 fi
 # -----------------------------------

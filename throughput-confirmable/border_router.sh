@@ -58,7 +58,7 @@ set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids
 $set_commit_ids_exec -b |& tee -a $output_file_path
 # --------------------------------
 
-source $HOME/esp/esp-idf/export.sh |& tee -a $output_file_path
+source $HOME/esp/esp-idf/export.sh >> $output_file_path
 
 # ---- Build & Flash the Border Router ----
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router

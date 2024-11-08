@@ -136,8 +136,8 @@ if __name__ == "__main__":
   parser = cmd_arg_parser()
   args = parser.parse_args()
 
-  tx_power = int(args.tx_power)
-  cipher_num = int(args.encryption)
+  tx_power = args.tx_power
+  cipher_num = args.encryption
 
   border_router_process = Process(target=border_router_monitor,
                                   args=(tx_power, cipher_num))

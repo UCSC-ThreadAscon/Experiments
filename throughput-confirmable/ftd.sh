@@ -3,6 +3,7 @@
 # https://www.baeldung.com/linux/use-command-line-arguments-in-bash-script#flags
 # https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
 # https://stackoverflow.com/a/57766728/6621292
+# https://askubuntu.com/a/420983
 
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)

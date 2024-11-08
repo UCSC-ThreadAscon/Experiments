@@ -9,7 +9,7 @@ SHOW_LOGS = False
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
 FTD_PORT = "/dev/cu.usbmodem1201"
 
-SNIFFER_PORT = "/dev/cu.usbmodem1401"
+SNIFFER_PORT = "/dev/cu.usbmodem1301"
 THREAD_NETWORK_CHANNEL = 20
 
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."

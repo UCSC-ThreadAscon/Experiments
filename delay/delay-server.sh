@@ -56,7 +56,7 @@ date |& tee $output_file_path
 # The `set_commit_ids.sh` script needs to run first BEFORE making any edits to the SDKCONFIGS,
 # as the script does a `git restore` on ESP-IDF, OpenThread, and the Delay client and server source code.
 #
-set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/delay/set_commit_ids.sh
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
 $set_commit_ids_exec -s |& tee -a $output_file_path
 
 delay_server_path="$HOME/Desktop/Repositories/delay-server"

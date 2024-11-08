@@ -71,7 +71,7 @@ def ftd_monitor(tx_power, cipher_num):
   run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
       stdout=PIPE, stderr=STDOUT)
 
-  log_filename = "queue/tp-con-FTD-AES-20dbm.txt"
+  log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
   with open(log_filename, "ba") as logfile:
     with serial.Serial(FTD_PORT, timeout=1) as ftd:
@@ -95,7 +95,8 @@ def border_router_monitor(tx_power, cipher_num):
        "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
       stdout=PIPE, stderr=STDOUT)
 
-  log_filename = "queue/tp-con-BR-AES-20dbm.txt"
+  log_filename = \
+    f"queue/tp-con-border-router-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
   sniffer = Nrf802154Sniffer()
   sniffer.extcap_capture(fifo="queue/tp-con-AES-20dbm.pcapng", dev=SNIFFER_PORT,

@@ -65,12 +65,12 @@ border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_b
 border_router_sdkconfig=$border_router_path/sdkconfig
 tp_con_experiment_flag=1
 
-# Make sure RCP Auto Update is NOT ENABLED on the Thread Border Router.
+# Make sure RCP Auto Update is ENABLED on the Thread Border Router.
 rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
-if [[ "$rcp_auto_update_flag" != "# CONFIG_AUTO_UPDATE_RCP is not set" ]]
+if [[ "$rcp_auto_update_flag" != "CONFIG_AUTO_UPDATE_RCP=y" ]]
 then
-  echo "ERROR: RCP Auto Update is ENABLED on the Border Router." |& tee -a $output_file_path
-  echo "Please turn the RCP Auto Update Feature off." |& tee -a $output_file_path
+  echo "ERROR: RCP Auto Update is NOT ENABLED on the Border Router." |& tee -a $output_file_path
+  echo "Please turn the RCP Auto Update Feature ON." |& tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" |& tee -a $output_file_path
   exit 1
 fi

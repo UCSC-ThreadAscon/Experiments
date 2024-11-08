@@ -1,5 +1,5 @@
 # The commit ID that will be used in all Throughput experiments.
-ESP_IDF_COMMIT=0362ae2a9baceade8afc202bb896e9c44deee8b5
+ESP_IDF_COMMIT=e3f9cdfcb78de50a6e8c817d498eb8a400b09a74
 
 # The commit ID of the FTD.
 FTD_COMMIT=f64ed0b40fe348cc980e7b2f4d00cefaf2efee4a

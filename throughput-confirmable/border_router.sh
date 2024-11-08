@@ -55,7 +55,7 @@ rm -f $output_file_path
 date |& tee $output_file_path
 
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
-$set_commit_ids_exec -s |& tee -a $output_file_path
+$set_commit_ids_exec -b |& tee -a $output_file_path
 # --------------------------------
 
 . $HOME/esp/esp-idf/export.sh |& tee -a $output_file_path

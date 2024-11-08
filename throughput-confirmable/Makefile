@@ -9,6 +9,9 @@ clean-queue:
 # syntax error regarding "(".
 #	https://stackoverflow.com/a/62929158/6621292
 
+tp-con-aes-20:
+	python3 ./main.py --tx-power 20 -encryption 0
+
 tp-con-border-router-aes-20:
 	bash ./border_router.sh -t 20 -e 0 -p $(BORDER_ROUTER_PORT)
 tp-con-border-router-aes-9:

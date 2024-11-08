@@ -42,7 +42,7 @@ def cmd_arg_parser():
         Option "5" will use the ASCON-128 implementation of LibAscon,
         which uses variable tag length.
     """
-  parser.add_argument("--alg", help=helper_text, required=True)
+  parser.add_argument("--encryption", help=helper_text, required=True)
   return parser
 
 def to_cipher_string(cipher_num):
@@ -137,7 +137,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   tx_power = int(args.tx_power)
-  cipher_num = int(args.alg)
+  cipher_num = int(args.encryption)
 
   border_router_process = Process(target=border_router_monitor,
                                   args=(tx_power, cipher_num))

@@ -47,17 +47,17 @@ def cmd_arg_parser():
 
 def to_cipher_string(cipher_num):
   match cipher_num:
-    case 0:
+    case "0":
       return "AES"
-    case 1:
+    case "1":
       return "NoEncrypt"
-    case 2:
+    case "2":
       return "Ascon128a-esp32"
-    case 3:
+    case "3":
       return "Ascon128a-ref"
-    case 4:
+    case "4":
       return "LibAscon-128a"
-    case 5:
+    case "5":
       return "LibAscon-128"
     case _:
       raise Exception("Number does not correspond to an Encryption Algorithm.")

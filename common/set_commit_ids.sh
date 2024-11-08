@@ -1,4 +1,4 @@
-# The commit ID that will be used in all Throughput experiments.
+# The commit ID of the ESP-IDF repository.
 ESP_IDF_COMMIT=e3f9cdfcb78de50a6e8c817d498eb8a400b09a74
 
 # The commit ID of the FTD.

@@ -70,7 +70,7 @@ usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIA
 if [[ "$usb_serial_monitor_flag" != "CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y" ]]
 then
   echo "ERROR: USB Serial monitoring is NOT ENABLED on the FTD." |& tee -a $output_file_path
-  echo "Please turn the USB Serial/JTag monitoring ON." |& tee -a $output_file_path
+  echo "Please turn the USB Serial/JTag monitoring flag ON." |& tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)" |& tee -a $output_file_path
   exit 1
 fi

@@ -12,6 +12,7 @@ ESP_IDF_LOC=${HOME}/esp/esp-idf
 OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
+DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"
@@ -88,18 +89,24 @@ function print_commit() {
   print_delimiter
 }
 
-# https://www.atatus.com/blog/bash-scripting/
 setup_ftd=false
 setup_border_router=false
-while getopts "cs" flag; do
+setup_delay_server=false
+
+# https://www.atatus.com/blog/bash-scripting/
+while getopts "fbs" flag; do
   case $flag in
-    c)
+    f)
       echo "Setting the Commit IDs for the FTD."
       setup_ftd=true
       ;;
-    s)
+    b)
       echo "Setting the Commit IDs for the BORDER ROUTER."
       setup_border_router=true
+      ;;
+    s)
+      echo "Setting the Commit IDs for the DELAY SERVER."
+      setup_delay_server=true
       ;;
     \?)
       "Flag -${flag} is in invalid option."
@@ -121,4 +128,9 @@ fi
 if $setup_border_router;
 then
   change_repo_commit "Border Router" $BORDER_ROUTER_LOC $BORDER_ROUTER_COMMIT
+fi
+
+if $setup_delay_server;
+then
+  change_repo_commit "Delay Server" $DELAY_SERVER_LOC $FTD_COMMIT
 fi

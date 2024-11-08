@@ -69,7 +69,7 @@ sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)
 if [[ "$usb_serial_monitor_flag" != "CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y" ]]
 then
-  echo "ERROR: USB Serial monitoring is NOT ENABLED on the FTD." |& tee -a $output_file_path
+  echo "ERROR: USB Serial/JTAG monitoring is NOT ENABLED on the FTD." |& tee -a $output_file_path
   echo "Please turn the USB Serial/JTAG monitoring flag ON." |& tee -a $output_file_path
   echo "$(cat $ftd_sdkconfig/sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)" |& tee -a $output_file_path
   exit 1

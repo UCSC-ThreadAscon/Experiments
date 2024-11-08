@@ -1,8 +1,3 @@
-"""RESOURCES UTILIZED:
-   https://www.dabeaz.com/generators/Generators.pdf
-   https://shuzhanfan.github.io/2017/12/parallel-processing-python-subprocess/
-   https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects
-"""
 import serial
 import argparse
 from subprocess import run, STDOUT, PIPE

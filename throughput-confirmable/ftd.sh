@@ -64,6 +64,17 @@ sdkconfig_set CONFIG_EXPERIMENT $tp_con_client_flag $ftd_sdkconfig
 # Change both the cipher suite and TX power settings in `sdkconfig`.
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
+
+# Make sure USB/Serial JTAG monitoring is ENABLED on the FTD.
+usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)
+if [[ "$rcp_auto_update_flag" != "CONFIG_AUTO_UPDATE_RCP=y" ]]
+then
+  echo "ERROR: USB Serial monitoring is NOT ENABLED on the FTD." |& tee -a $output_file_path
+  echo "Please turn the USB Serial/JTag monitoring ON." |& tee -a $output_file_path
+  echo "$(cat $border_router_path/sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)" |& tee -a $output_file_path
+  exit 1
+fi
+
 # -----------------------------------
 
 # ---- Build, Flash, & Monitor ----

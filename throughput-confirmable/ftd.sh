@@ -74,7 +74,6 @@ then
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)" |& tee -a $output_file_path
   exit 1
 fi
-
 # -----------------------------------
 
 # ---- Build, Flash, & Monitor ----

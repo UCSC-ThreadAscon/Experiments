@@ -8,11 +8,6 @@ from subprocess import run, STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
-# ---- TO-DO ----
-# 1. Automate Wireshark
-# 2. Add ability to specify different independent variables at cmd line args
-#
-
 SHOW_LOGS = False
 
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"

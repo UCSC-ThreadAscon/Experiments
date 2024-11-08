@@ -99,7 +99,7 @@ def border_router_monitor(tx_power, cipher_num):
     f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
   
   sniffer_filename = \
-    "queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}.pcapng"
+    f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}.pcapng"
 
   sniffer = Nrf802154Sniffer()
   sniffer.extcap_capture(

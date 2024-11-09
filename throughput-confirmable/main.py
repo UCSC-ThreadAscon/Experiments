@@ -7,11 +7,11 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
-from kasa_wrapper import power_on, power_off # type: ignore
+from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
 
 SHOW_LOGS = False
 
-BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"
+BORDER_ROUTER_PORT = "/dev/ttyACM0"
 FTD_PORT = "/dev/cu.usbmodem1201"
 
 SNIFFER_PORT = "/dev/cu.usbmodem1301"
@@ -76,8 +76,10 @@ def build_flash_rcp(cipher_num):
   power_off("Border Router")
   power_on("Radio Co-Processor")
 
+  print("Starting bash script")
   run(["bash", "./rcp.sh", "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
       stdout=PIPE, stderr=STDOUT)
+  print("Done with bash script")
 
   power_off("Radio Co-Processor")
   return
@@ -152,6 +154,7 @@ def border_router_monitor(tx_power, cipher_num):
   return
 
 if __name__ == "__main__":
+  power_off_all_devices()
   run(["make", "clean-queue"])
 
   parser = cmd_arg_parser()
@@ -160,6 +163,7 @@ if __name__ == "__main__":
   tx_power = args.tx_power
   cipher_num = args.encryption
 
+  power_on("Main USB Hub")
   build_flash_rcp(cipher_num)
 
   # border_router_process = Process(target=border_router_monitor,

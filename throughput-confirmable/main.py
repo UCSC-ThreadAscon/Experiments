@@ -4,8 +4,10 @@ from subprocess import run, STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
-import imports
-imports.import_common()
+import add_to_path
+add_to_path.add_common_to_path()
+
+
 
 SHOW_LOGS = False
 

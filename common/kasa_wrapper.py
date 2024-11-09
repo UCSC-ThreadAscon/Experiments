@@ -1,7 +1,7 @@
 import asyncio
 from kasa import Discover
 
-DEBUG = False
+DEBUG = True
 
 async def get_all_devices():
   devicesDict = await Discover().discover()

@@ -90,73 +90,88 @@ async def build_flash_rcp(cipher_num):
   return
 
 def ftd_monitor(tx_power, cipher_num):
-  run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
-      stdout=PIPE, stderr=STDOUT)
+  async def _ftd_monitor(tx_power, cipher_num):
+    await power_on("Full Thread Device")
 
-  log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
+        stdout=PIPE, stderr=STDOUT)
 
-  with open(log_filename, "ba") as logfile:
-    with serial.Serial(FTD_PORT, timeout=1) as ftd:
-      print("FTD monitoring has started.")
-      while True:
-        line_bytes = ftd.readline()
+    log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
-        if line_bytes != b"":
-          logfile.write(line_bytes)
+    with open(log_filename, "ba") as logfile:
+      with serial.Serial(FTD_PORT, timeout=1) as ftd:
+        print("FTD monitoring has started.")
+        while True:
+          line_bytes = ftd.readline()
 
-          line = line_bytes.decode()
-          print_line(line)
+          if line_bytes != b"":
+            logfile.write(line_bytes)
 
-          if EXPERIMENT_END_STRING in line:
-            print("FTD has completed the experiment.")
-            break
-  return
+            line = line_bytes.decode()
+            print_line(line)
+
+            if EXPERIMENT_END_STRING in line:
+              print("FTD has completed the experiment.")
+              break
+    
+    await power_off("Full Thread Device")
+    return
+
+  return asyncio.run(ftd_monitor(tx_power, cipher_num))
 
 def border_router_monitor(tx_power, cipher_num):
-  run(["bash", "./border_router.sh", "-t", tx_power,
-       "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
-      stdout=PIPE, stderr=STDOUT)
+  async def _border_router_monitor(tx_power, cipher_num):
+    await power_off("Radio Co-Processor")
+    await power_on("Border Router")
 
-  log_filename = \
-    f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
-  
-  sniffer_filename = \
-    f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+    run(["bash", "./border_router.sh", "-t", tx_power,
+        "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
+        stdout=PIPE, stderr=STDOUT)
 
-  sniffer = Nrf802154Sniffer()
-  sniffer.extcap_capture(
-    fifo=sniffer_filename,
-    dev=SNIFFER_PORT,
-    channel=THREAD_NETWORK_CHANNEL
-  )
-  print("Started 802.15.4 Packet Sniffer Wireshark capture.")
+    log_filename = \
+      f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    
+    sniffer_filename = \
+      f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
-  with open(log_filename, "ba") as logfile:
-    with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
-      print("Border Router monitoring has started.")
+    sniffer = Nrf802154Sniffer()
+    sniffer.extcap_capture(
+      fifo=sniffer_filename,
+      dev=SNIFFER_PORT,
+      channel=THREAD_NETWORK_CHANNEL
+    )
+    print("Started 802.15.4 Packet Sniffer Wireshark capture.")
 
-      ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num))
-      ftd_started = False
+    with open(log_filename, "ba") as logfile:
+      with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
+        print("Border Router monitoring has started.")
 
-      while (not ftd_started) or (ftd_process.is_alive()):
-        line_bytes = border_router.readline()
+        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num))
+        ftd_started = False
 
-        if line_bytes != b"":
-          logfile.write(line_bytes)
+        while (not ftd_started) or (ftd_process.is_alive()):
+          line_bytes = border_router.readline()
 
-          line = line_bytes.decode()
-          print_line(line)
+          if line_bytes != b"":
+            logfile.write(line_bytes)
 
-          if not ftd_started:
-            if SERVER_START_STRING in line:
-              ftd_process.start()
-              ftd_started = True
+            line = line_bytes.decode()
+            print_line(line)
 
-  print("Border Router monitoring has stopped.")  
+            if not ftd_started:
+              if SERVER_START_STRING in line:
+                ftd_process.start()
+                ftd_started = True
 
-  sniffer.stop_sig_handler()
-  print("Stopped Packet Sniffer capture.")
-  return
+    print("Border Router monitoring has stopped.")  
+
+    sniffer.stop_sig_handler()
+    print("Stopped Packet Sniffer capture.")
+
+    await power_off("Border Router")
+    return
+
+  return asyncio.run(_border_router_monitor(tx_power, cipher_num))
 
 async def main():
   await power_off_all_devices()
@@ -171,9 +186,9 @@ async def main():
   await power_on("Main USB Hub")
   await build_flash_rcp(cipher_num)
 
-  # border_router_process = Process(target=border_router_monitor,
-  #                                 args=(tx_power, cipher_num))
-  # border_router_process.start()
+  border_router_process = Process(target=border_router_monitor,
+                                  args=(tx_power, cipher_num))
+  border_router_process.start()
   return
 
 if __name__ == "__main__":

@@ -7,7 +7,8 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
-
+import asyncio
+from kasa_wrapper import get_all_devices # type: ignore
 
 SHOW_LOGS = False
 
@@ -142,14 +143,15 @@ def border_router_monitor(tx_power, cipher_num):
   return
 
 if __name__ == "__main__":
-  run(["make", "clean-queue"])
+  asyncio.run(get_all_devices())
+  # run(["make", "clean-queue"])
 
-  parser = cmd_arg_parser()
-  args = parser.parse_args()
+  # parser = cmd_arg_parser()
+  # args = parser.parse_args()
 
-  tx_power = args.tx_power
-  cipher_num = args.encryption
+  # tx_power = args.tx_power
+  # cipher_num = args.encryption
 
-  border_router_process = Process(target=border_router_monitor,
-                                  args=(tx_power, cipher_num))
-  border_router_process.start()
+  # border_router_process = Process(target=border_router_monitor,
+  #                                 args=(tx_power, cipher_num))
+  # border_router_process.start()

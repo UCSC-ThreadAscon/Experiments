@@ -3,3 +3,5 @@
 NOTES.md
 data
 .env
+
+__pycache__

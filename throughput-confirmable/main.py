@@ -143,7 +143,7 @@ def border_router_monitor(tx_power, cipher_num):
   return
 
 if __name__ == "__main__":
-  asyncio.run(get_all_devices())
+  print(asyncio.run(get_all_devices()))
   # run(["make", "clean-queue"])
 
   # parser = cmd_arg_parser()

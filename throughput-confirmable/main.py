@@ -18,6 +18,7 @@ from kasa_wrapper import power_on, power_off, power_off_all_devices # type: igno
 
 SHOW_LOGS = False
 
+RCP_PORT = "/dev/ttyACM0"
 BORDER_ROUTER_PORT = "/dev/ttyACM0"
 FTD_PORT = "/dev/cu.usbmodem1201"
 
@@ -117,7 +118,7 @@ def ftd_monitor(tx_power, cipher_num):
     await power_off("Full Thread Device")
     return
 
-  return asyncio.run(ftd_monitor(tx_power, cipher_num))
+  return asyncio.run(_ftd_monitor(tx_power, cipher_num))
 
 def border_router_monitor(tx_power, cipher_num):
   async def _border_router_monitor(tx_power, cipher_num):
@@ -134,6 +135,7 @@ def border_router_monitor(tx_power, cipher_num):
     sniffer_filename = \
       f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
+    await power_on("Packet Sniffer")
     sniffer = Nrf802154Sniffer()
     sniffer.extcap_capture(
       fifo=sniffer_filename,
@@ -163,12 +165,13 @@ def border_router_monitor(tx_power, cipher_num):
                 ftd_process.start()
                 ftd_started = True
 
-    print("Border Router monitoring has stopped.")  
+    print("Border Router monitoring has stopped.")
+    await power_off("Border Router")
 
     sniffer.stop_sig_handler()
     print("Stopped Packet Sniffer capture.")
+    await power_off("Packet Sniffer")
 
-    await power_off("Border Router")
     return
 
   return asyncio.run(_border_router_monitor(tx_power, cipher_num))

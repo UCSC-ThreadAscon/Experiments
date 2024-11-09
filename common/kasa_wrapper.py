@@ -26,4 +26,5 @@ async def power_off_all_devices():
   await power_off("Border Router")
   await power_off("Radio Co-Processor")
   await power_off("Full Thread Device")
-  await power_off("Delay Server")
+  await power_off("Packet Sniffer")
+  return

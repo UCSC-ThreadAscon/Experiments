@@ -1,3 +1,9 @@
+""" RESOURCES UTILIZED:
+    https://stackoverflow.com/a/63975963/6621292
+    https://pyserial.readthedocs.io/en/latest/shortintro.html
+    https://docs.python.org/3/library/asyncio-dev.html
+    https://docs.python.org/3/library/multiprocessing.html
+"""
 import serial
 import argparse
 from subprocess import run, STDOUT, PIPE
@@ -7,6 +13,7 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
+import asyncio
 from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
 
 SHOW_LOGS = False
@@ -72,16 +79,16 @@ def print_line(line):
     print(line.strip("\n"))
   return
 
-def build_flash_rcp(cipher_num):
-  power_off("Border Router")
-  power_on("Radio Co-Processor")
+async def build_flash_rcp(cipher_num):
+  await power_off("Border Router")
+  await power_on("Radio Co-Processor")
 
   print("Starting bash script")
   run(["bash", "./rcp.sh", "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
       stdout=PIPE, stderr=STDOUT)
   print("Done with bash script")
 
-  power_off("Radio Co-Processor")
+  await power_off("Radio Co-Processor")
   return
 
 def ftd_monitor(tx_power, cipher_num):
@@ -153,8 +160,8 @@ def border_router_monitor(tx_power, cipher_num):
   print("Stopped Packet Sniffer capture.")
   return
 
-if __name__ == "__main__":
-  power_off_all_devices()
+async def main():
+  await power_off_all_devices()
   run(["make", "clean-queue"])
 
   parser = cmd_arg_parser()
@@ -163,9 +170,13 @@ if __name__ == "__main__":
   tx_power = args.tx_power
   cipher_num = args.encryption
 
-  power_on("Main USB Hub")
-  build_flash_rcp(cipher_num)
+  await power_on("Main USB Hub")
+  await build_flash_rcp(cipher_num)
 
   # border_router_process = Process(target=border_router_monitor,
   #                                 args=(tx_power, cipher_num))
   # border_router_process.start()
+  return
+
+if __name__ == "__main__":
+  asyncio.run(main())

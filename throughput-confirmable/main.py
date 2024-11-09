@@ -83,10 +83,8 @@ async def build_flash_rcp(cipher_num):
   await power_off("Border Router")
   await power_on("Radio Co-Processor")
 
-  print("Starting bash script")
   run(["bash", "./rcp.sh", "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
       stdout=PIPE, stderr=STDOUT)
-  print("Done with bash script")
 
   await power_off("Radio Co-Processor")
   return

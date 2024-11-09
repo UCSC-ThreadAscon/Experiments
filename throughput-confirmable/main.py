@@ -7,8 +7,7 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
-import asyncio
-from kasa_wrapper import get_all_devices # type: ignore
+from kasa_wrapper import power_on, power_off # type: ignore
 
 SHOW_LOGS = False
 
@@ -71,6 +70,16 @@ def to_cipher_string(cipher_num):
 def print_line(line):
   if SHOW_LOGS:
     print(line.strip("\n"))
+  return
+
+def build_flash_rcp(cipher_num):
+  power_off("Border Router")
+  power_on("Radio Co-Processor")
+
+  run(["bash", "./rcp.sh", "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
+      stdout=PIPE, stderr=STDOUT)
+
+  power_off("Radio Co-Processor")
   return
 
 def ftd_monitor(tx_power, cipher_num):
@@ -143,14 +152,15 @@ def border_router_monitor(tx_power, cipher_num):
   return
 
 if __name__ == "__main__":
-  print(asyncio.run(get_all_devices()))
-  # run(["make", "clean-queue"])
+  run(["make", "clean-queue"])
 
-  # parser = cmd_arg_parser()
-  # args = parser.parse_args()
+  parser = cmd_arg_parser()
+  args = parser.parse_args()
 
-  # tx_power = args.tx_power
-  # cipher_num = args.encryption
+  tx_power = args.tx_power
+  cipher_num = args.encryption
+
+  build_flash_rcp(cipher_num)
 
   # border_router_process = Process(target=border_router_monitor,
   #                                 args=(tx_power, cipher_num))

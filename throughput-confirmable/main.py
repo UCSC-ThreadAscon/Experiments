@@ -4,6 +4,9 @@ from subprocess import run, STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
+import imports
+imports.import_common()
+
 SHOW_LOGS = False
 
 BORDER_ROUTER_PORT = "/dev/cu.usbmodem2101"

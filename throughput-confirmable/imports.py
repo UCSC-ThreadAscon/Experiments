@@ -1,4 +1,4 @@
-""" The function defined in this file imports all the Python modules
+""" The source code in this file imports all the Python modules
     defined in the "common" directory in this repository, even when
     the caller is running in a Python script that is defined outside
     of "/common".

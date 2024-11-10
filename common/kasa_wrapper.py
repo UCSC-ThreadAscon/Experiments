@@ -1,4 +1,5 @@
 import asyncio
+import serial.tools.list_ports as pyserial_tools
 from kasa import Discover
 
 DEBUG = True
@@ -45,4 +46,25 @@ async def power_off_all_devices():
     of the smart plugs powering the USB hubs.
 """
 async def check_main_usb_hub_ports_off():
+  get_num_ports = lambda port : len(list(pyserial_tools.grep(port)))
+
+  await power_on("Main USB Hub")
+
+  for device_alias in  DEVICES.keys():
+    if device_alias != "Main USB Hub":
+      try:
+        await power_on(device_alias)
+        assert(get_num_ports("/dev/ttyACM0") == 1)
+
+        await power_off(device_alias)
+        assert(get_num_ports("/dev/ttyACM0") == 0)
+
+      except AssertionError:
+        await power_off_all_devices()
+        error_message = f"""The Main USB Hub port that the {device_alias} is connected to
+                            is powered on. Please power off all ports in the Main USB Hub
+                            using the power buttons at each port."""
+        raise print(error_message)
+  
+  await power_off_all_devices()
   return

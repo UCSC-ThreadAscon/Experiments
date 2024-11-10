@@ -15,6 +15,7 @@ add_to_path.add_common_to_path()
 
 import asyncio
 from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
+from kasa_wrapper import check_main_usb_hub_ports_off # type: ignore
 
 SHOW_LOGS = True
 
@@ -195,4 +196,5 @@ async def main():
   return
 
 if __name__ == "__main__":
-  asyncio.run(main())
+  asyncio.run(check_main_usb_hub_ports_off())
+  # asyncio.run(main())

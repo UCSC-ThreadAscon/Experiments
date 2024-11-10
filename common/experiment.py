@@ -45,6 +45,19 @@ def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
   num_trials = len(experiment_dirs)
   return num_trials
 
+""" https://stackoverflow.com/a/52774612/6621292
+"""
+def post_process(experiment_enum, cipher_num, tx_power):
+  last_trial = get_last_exp_trial(experiment_enum, cipher_num, tx_power)
+  trial_num = last_trial + 1
+
+  data_dir = get_dir_path(experiment_enum, "data")
+  queue_dir = get_dir_path(experiment_enum, "queue")
+
+  print(data_dir)
+  print(queue_dir)
+  return
+
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()
 

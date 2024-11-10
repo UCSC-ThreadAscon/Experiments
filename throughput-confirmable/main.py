@@ -30,6 +30,7 @@ THREAD_NETWORK_CHANNEL = 20
 
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
+EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
 
 def print_line(line):
   if SHOW_LOGS:
@@ -66,6 +67,10 @@ def ftd_monitor(tx_power, cipher_num):
 
             line = line_bytes.decode()
             print_line(line)
+
+            if EXPERIMENT_TRIAL_FAILURE in line:
+              print("An experimental trial has failed. " +
+                    "The FTD is going to restart the trial.")
 
             if EXPERIMENT_END_STRING in line:
               print("FTD has completed the experiment.")

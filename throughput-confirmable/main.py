@@ -142,6 +142,10 @@ async def main():
   tx_power = args.tx_power
   cipher_num = args.encryption
 
+  last_trial = get_last_exp_trial(Experiment.THROUGHPUT_CONFIRMABLE.value,
+                                  cipher_num, tx_power)
+  trial_num = last_trial + 1
+
   await power_on("Main USB Hub")
   await build_flash_rcp(cipher_num)
 

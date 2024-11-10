@@ -8,3 +8,5 @@ do
     python3 ./main.py --tx-power $tx_power --encryption $encryption
   done
 done
+
+sudo shutdown -h now

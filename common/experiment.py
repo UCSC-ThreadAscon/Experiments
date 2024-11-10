@@ -23,7 +23,7 @@ def to_cipher_string(cipher_num):
     case _:
       raise Exception("Number does not correspond to an Encryption Algorithm.")
 
-def get_data_dir_path(experiment_enum):
+def get_dir_path(experiment_enum, subdir_name):
   experiment_dir = ""
 
   match experiment_enum:
@@ -35,10 +35,10 @@ def get_data_dir_path(experiment_enum):
       raise Exception("Invalid Enum value for Experiment.")
 
   return Path(Path.home(), "Desktop", "Repositories",
-              "Experiments", experiment_dir, "data")
+              "Experiments", experiment_dir, subdir_name)
 
 def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
-  data_dir = get_data_dir_path(experiment_enum)
+  data_dir = get_dir_path(experiment_enum, "data")
   exp_dirname_pattern = f"{to_cipher_string(cipher_num)}-{tx_power}dbm-trial-*"
 
   experiment_dirs = list(data_dir.glob(exp_dirname_pattern))

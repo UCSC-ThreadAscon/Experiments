@@ -6,17 +6,19 @@ class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
 
-def get_queue_path(exp_enum):
-  exp_dir = ""
+def get_queue_path(experiment_enum):
+  experiment_dir = ""
 
-  match exp_enum:
+  match experiment_enum:
     case Experiment.DELAY.value:
-      exp_dir = "delay"
+      experiment_dir = "delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
-      exp_dir = "throughput-confirmable"
+      experiment_dir = "throughput-confirmable"
+    case _:
+      raise Exception("Invalid Enum value for Experiment.")
 
   return Path(Path.home(), "Desktop", "Repositories",
-              "Experiments", exp_dir, "queue")
+              "Experiments", experiment_dir, "queue")
 
 def get_last_exp_trial(exp_enum, ):
   return

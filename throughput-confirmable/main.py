@@ -123,7 +123,6 @@ def ftd_monitor(tx_power, cipher_num):
 
 def border_router_monitor(tx_power, cipher_num):
   async def _border_router_monitor(tx_power, cipher_num):
-    await power_off("Radio Co-Processor")
     await power_on("Border Router")
 
     run(["bash", "./border_router.sh", "-t", tx_power,

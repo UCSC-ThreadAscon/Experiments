@@ -6,6 +6,23 @@ class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
 
+def to_cipher_string(cipher_num):
+  match cipher_num:
+    case "0":
+      return "AES"
+    case "1":
+      return "NoEncrypt"
+    case "2":
+      return "Ascon128a-esp32"
+    case "3":
+      return "Ascon128a-ref"
+    case "4":
+      return "LibAscon-128a"
+    case "5":
+      return "LibAscon-128"
+    case _:
+      raise Exception("Number does not correspond to an Encryption Algorithm.")
+
 def get_queue_path(experiment_enum):
   experiment_dir = ""
 
@@ -20,10 +37,13 @@ def get_queue_path(experiment_enum):
   return Path(Path.home(), "Desktop", "Repositories",
               "Experiments", experiment_dir, "queue")
 
-def get_last_exp_trial(experiment_enum):
+def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
   queue_path = get_queue_path(experiment_enum)
-  print(queue_path.iterdir())
-  return
+  exp_dirname_pattern = f"{to_cipher_string(cipher_num)}-{tx_power}dbm-trial-*"
+
+  experiment_dirs = list(queue_path.glob(exp_dirname_pattern))
+  num_trials = len(experiment_dirs)
+  return num_trials
 
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()
@@ -54,20 +74,3 @@ def cmd_arg_parser():
     """
   parser.add_argument("--encryption", help=helper_text, required=True)
   return parser
-
-def to_cipher_string(cipher_num):
-  match cipher_num:
-    case "0":
-      return "AES"
-    case "1":
-      return "NoEncrypt"
-    case "2":
-      return "Ascon128a-esp32"
-    case "3":
-      return "Ascon128a-ref"
-    case "4":
-      return "LibAscon-128a"
-    case "5":
-      return "LibAscon-128"
-    case _:
-      raise Exception("Number does not correspond to an Encryption Algorithm.")

@@ -67,10 +67,11 @@ async def check_main_usb_hub_ports_off():
 
       except AssertionError:
         await power_off_all_devices()
-        error_message = f"""The Main USB Hub port that the {device_alias} is connected to
-                            is powered on. Please power off all ports in the Main USB Hub
-                            using the power buttons at each port."""
-        raise print(error_message)
+        error_message = \
+          f"The Main USB Hub port that the {device_alias} is connected to " + \
+           "is powered on. Please power off all ports in the Main USB Hub " + \
+           "using the power buttons at each port."
+        raise AssertionError(error_message)
   
   await power_off_all_devices()
   return

@@ -181,6 +181,8 @@ async def main():
   await power_off_all_devices()
   run(["make", "clean-queue"])
 
+  await check_main_usb_hub_ports_off()
+
   parser = cmd_arg_parser()
   args = parser.parse_args()
 
@@ -196,5 +198,4 @@ async def main():
   return
 
 if __name__ == "__main__":
-  asyncio.run(check_main_usb_hub_ports_off())
-  # asyncio.run(main())
+  asyncio.run(main())

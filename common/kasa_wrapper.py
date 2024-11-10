@@ -1,8 +1,9 @@
 import asyncio
 import serial.tools.list_ports as pyserial_tools
+from time import sleep
 from kasa import Discover
 
-DEBUG = True
+DEBUG = False
 
 async def get_all_devices():
   devicesDict = await Discover().discover()
@@ -47,6 +48,7 @@ async def power_off_all_devices():
 """
 async def check_main_usb_hub_ports_off():
   get_num_ports = lambda port : len(list(pyserial_tools.grep(port)))
+  port_connect_wait_time = 5
 
   await power_on("Main USB Hub")
 
@@ -54,9 +56,11 @@ async def check_main_usb_hub_ports_off():
     if device_alias != "Main USB Hub":
       try:
         await power_on(device_alias)
+        sleep(port_connect_wait_time)
         assert(get_num_ports("/dev/ttyACM0") == 1)
 
         await power_off(device_alias)
+        sleep(port_connect_wait_time)
         assert(get_num_ports("/dev/ttyACM0") == 0)
 
       except AssertionError:

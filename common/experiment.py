@@ -51,11 +51,15 @@ def post_process(experiment_enum, cipher_num, tx_power):
   last_trial = get_last_exp_trial(experiment_enum, cipher_num, tx_power)
   trial_num = last_trial + 1
 
+  experiment_dir_name = \
+    f"{to_cipher_string(cipher_num)}-{tx_power}dbm-trial-{trial_num}"
+
   data_dir = get_dir_path(experiment_enum, "data")
   queue_dir = get_dir_path(experiment_enum, "queue")
 
   print(data_dir)
   print(queue_dir)
+  print(experiment_dir_name)
   return
 
 def cmd_arg_parser():

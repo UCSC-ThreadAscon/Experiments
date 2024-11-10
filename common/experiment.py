@@ -23,23 +23,6 @@ def get_queue_path(experiment_enum):
 def get_last_exp_trial(exp_enum, ):
   return
 
-def to_cipher_string(cipher_num):
-  match cipher_num:
-    case "0":
-      return "AES"
-    case "1":
-      return "NoEncrypt"
-    case "2":
-      return "Ascon128a-esp32"
-    case "3":
-      return "Ascon128a-ref"
-    case "4":
-      return "LibAscon-128a"
-    case "5":
-      return "LibAscon-128"
-    case _:
-      raise Exception("Number does not correspond to an Encryption Algorithm.")
-
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()
 
@@ -69,3 +52,20 @@ def cmd_arg_parser():
     """
   parser.add_argument("--encryption", help=helper_text, required=True)
   return parser
+
+def to_cipher_string(cipher_num):
+  match cipher_num:
+    case "0":
+      return "AES"
+    case "1":
+      return "NoEncrypt"
+    case "2":
+      return "Ascon128a-esp32"
+    case "3":
+      return "Ascon128a-ref"
+    case "4":
+      return "LibAscon-128a"
+    case "5":
+      return "LibAscon-128"
+    case _:
+      raise Exception("Number does not correspond to an Encryption Algorithm.")

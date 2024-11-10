@@ -155,7 +155,7 @@ async def main():
   border_router_process.start()
 
   border_router_process.join()
-  post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20")
+  post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, cipher_num, tx_power)
   return
 
 if __name__ == "__main__":

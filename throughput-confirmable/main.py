@@ -6,7 +6,8 @@
 """
 import serial
 import argparse
-from subprocess import run, STDOUT, PIPE
+import subprocess
+from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
@@ -86,7 +87,7 @@ async def build_flash_rcp(cipher_num):
   await power_off("Border Router")
   await power_on("Radio Co-Processor")
 
-  run(["bash", "./rcp.sh", "-e", cipher_num, "-p", RCP_PORT],
+  subprocess.run(["bash", "./rcp.sh", "-e", cipher_num, "-p", RCP_PORT],
       stdout=PIPE, stderr=STDOUT)
 
   await power_off("Radio Co-Processor")
@@ -96,7 +97,7 @@ def ftd_monitor(tx_power, cipher_num):
   async def _ftd_monitor(tx_power, cipher_num):
     await power_on("Full Thread Device")
 
-    run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
+    subprocess.run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
         stdout=PIPE, stderr=STDOUT)
 
     log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
@@ -126,9 +127,9 @@ def border_router_monitor(tx_power, cipher_num):
   async def _border_router_monitor(tx_power, cipher_num):
     await power_on("Border Router")
 
-    run(["bash", "./border_router.sh", "-t", tx_power,
-        "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
-        stdout=PIPE, stderr=STDOUT)
+    subprocess.run(["bash", "./border_router.sh", "-t", tx_power,
+                   "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
+                   stdout=PIPE, stderr=STDOUT)
 
     log_filename = \
       f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
@@ -179,7 +180,7 @@ def border_router_monitor(tx_power, cipher_num):
 
 async def main():
   await power_off_all_devices()
-  run(["make", "clean-queue"])
+  subprocess.run(["make", "clean-queue"])
 
   await check_main_usb_hub_ports_off()
 

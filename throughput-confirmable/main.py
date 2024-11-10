@@ -151,5 +151,5 @@ async def main():
   return
 
 if __name__ == "__main__":
-  get_last_exp_trial(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20")
+  print(get_last_exp_trial(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20"))
   # asyncio.run(main())

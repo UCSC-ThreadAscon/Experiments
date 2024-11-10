@@ -74,4 +74,5 @@ async def check_main_usb_hub_ports_off():
         raise AssertionError(error_message)
   
   await power_off_all_devices()
+  print("All smart plugs have been powered off. Ready to begin experiment.")
   return

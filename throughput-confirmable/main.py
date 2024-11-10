@@ -7,6 +7,7 @@
 import serial
 import asyncio
 import subprocess
+from time import sleep
 from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
@@ -143,6 +144,7 @@ async def main():
   await power_on("Main USB Hub")
   await build_flash_rcp(cipher_num)
 
+  sleep(PORT_CONNECT_WAIT_SECONDS)
   border_router_process = Process(target=border_router_monitor,
                                   args=(tx_power, cipher_num))
   border_router_process.start()

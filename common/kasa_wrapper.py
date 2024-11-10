@@ -4,6 +4,7 @@ from time import sleep
 from kasa import Discover
 
 DEBUG = False
+PORT_CONNECT_WAIT_SECONDS = 5
 
 async def get_all_devices():
   devicesDict = await Discover().discover()
@@ -58,11 +59,11 @@ async def check_main_usb_hub_ports_off():
     if device_alias != "Main USB Hub":
       try:
         await power_on(device_alias)
-        sleep(port_connect_wait_time)
+        sleep(PORT_CONNECT_WAIT_SECONDS)
         assert(get_num_ports("/dev/ttyACM0") == 1)
 
         await power_off(device_alias)
-        sleep(port_connect_wait_time)
+        sleep(PORT_CONNECT_WAIT_SECONDS)
         assert(get_num_ports("/dev/ttyACM0") == 0)
 
       except AssertionError:

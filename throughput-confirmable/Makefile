@@ -4,6 +4,13 @@ FTD_PORT=/dev/cu.usbserial-120
 clean-queue:
 	rm -r -f queue/*
 
+power-off:
+	kasa --alias "Border Router" off
+	kasa --alias "Radio Co-Processor" off
+	kasa --alias "Full Thread Device" oof
+	kasa --alias "Main USB Hub" off
+	kasa --alias "Packet Sniffer" off
+
 # When executing Bash scripts on Ubuntu, I need to use "bash [script name]",
 # rather than "./[script name]" on Ubuntu. Otherwise, the script will give a
 # syntax error regarding "(".

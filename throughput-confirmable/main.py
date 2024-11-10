@@ -16,7 +16,7 @@ add_to_path.add_common_to_path()
 import asyncio
 from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
 
-SHOW_LOGS = False
+SHOW_LOGS = True
 
 RCP_PORT = "/dev/ttyACM0"
 BORDER_ROUTER_PORT = "/dev/ttyACM0"

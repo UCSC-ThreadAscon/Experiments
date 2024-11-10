@@ -7,7 +7,7 @@ clean-queue:
 power-off:
 	kasa --alias "Border Router" off
 	kasa --alias "Radio Co-Processor" off
-	kasa --alias "Full Thread Device" oof
+	kasa --alias "Full Thread Device" off
 	kasa --alias "Main USB Hub" off
 	kasa --alias "Packet Sniffer" off
 

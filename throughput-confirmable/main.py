@@ -148,8 +148,10 @@ async def main():
   border_router_process = Process(target=border_router_monitor,
                                   args=(tx_power, cipher_num))
   border_router_process.start()
+
+  border_router_process.join()
+  post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20")
   return
 
 if __name__ == "__main__":
-  post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20")
-  # asyncio.run(main())
+  asyncio.run(main())

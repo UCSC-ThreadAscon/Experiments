@@ -5,9 +5,8 @@
     https://docs.python.org/3/library/multiprocessing.html
 """
 import serial
-import argparse
-import subprocess
 import asyncio
+import subprocess
 from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
@@ -17,6 +16,8 @@ add_to_path.add_common_to_path()
 
 from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
 from kasa_wrapper import check_main_usb_hub_ports_off # type: ignore
+
+from experiment import to_cipher_string, cmd_arg_parser # type: ignore
 
 SHOW_LOGS = True
 
@@ -30,53 +31,6 @@ THREAD_NETWORK_CHANNEL = 20
 
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
 EXPERIMENT_END_STRING = "Finished running 1 trials for current experiment."
-
-def cmd_arg_parser():
-  parser = argparse.ArgumentParser()
-
-  helper_text = \
-    """The transmission (TX) power that all devices will use in the experiment.
-       The TX power must be number between -24 dBm or 20 dBm (both numbers inclusive).
-    """
-  parser.add_argument("--tx-power", help=helper_text, required=True)
-
-  helper_text = \
-    """The encryption algorithm to use in the experiment. Set the argument
-       to one of the following integers to use the corresponding encryption algorithms:
-
-        Option "0" will use AES encryption.
-
-        Option "1" will use no encryption (plaintext).
-
-        Option "2" wil use the ESP32 optimized version of ASCON-128a.
-
-        Option "3" will use the reference implementation of ASCON-128a.
-
-        Option "4" will use the ASCON-128a implemenation from LibAscon,
-        which uses variable tag length.
-
-        Option "5" will use the ASCON-128 implementation of LibAscon,
-        which uses variable tag length.
-    """
-  parser.add_argument("--encryption", help=helper_text, required=True)
-  return parser
-
-def to_cipher_string(cipher_num):
-  match cipher_num:
-    case "0":
-      return "AES"
-    case "1":
-      return "NoEncrypt"
-    case "2":
-      return "Ascon128a-esp32"
-    case "3":
-      return "Ascon128a-ref"
-    case "4":
-      return "LibAscon-128a"
-    case "5":
-      return "LibAscon-128"
-    case _:
-      raise Exception("Number does not correspond to an Encryption Algorithm.")
 
 def print_line(line):
   if SHOW_LOGS:
@@ -180,7 +134,7 @@ def border_router_monitor(tx_power, cipher_num):
 
 async def main():
   await power_off_all_devices()
-  subprocess.run(["make", "clean-queue"])
+  # subprocess.run(["make", "clean-queue"])
 
   await check_main_usb_hub_ports_off()
 

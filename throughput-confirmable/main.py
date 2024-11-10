@@ -17,7 +17,7 @@ add_to_path.add_common_to_path()
 from kasa_wrapper import *
 from experiment import *
 
-SHOW_LOGS = True
+SHOW_LOGS = False
 
 RCP_PORT = "/dev/ttyACM0"
 BORDER_ROUTER_PORT = "/dev/ttyACM0"

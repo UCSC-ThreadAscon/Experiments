@@ -45,7 +45,9 @@ def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
   num_trials = len(experiment_dirs)
   return num_trials
 
-""" https://stackoverflow.com/a/52774612/6621292
+""" I learned that is it possible to use `Path.rename()` to move
+    files and directories from:
+    https://stackoverflow.com/a/52774612/6621292
 """
 def post_process(experiment_enum, cipher_num, tx_power):
   last_trial = get_last_exp_trial(experiment_enum, cipher_num, tx_power)
@@ -54,7 +56,8 @@ def post_process(experiment_enum, cipher_num, tx_power):
   experiment_dir_name = \
     f"{to_cipher_string(cipher_num)}-{tx_power}dbm-trial-{trial_num}"
 
-  data_dir = get_dir_path(experiment_enum, "data")
+  data_dir = Path(get_dir_path(experiment_enum, "data").as_posix(),
+                  experiment_dir_name)
   queue_dir = get_dir_path(experiment_enum, "queue")
 
   print(data_dir)

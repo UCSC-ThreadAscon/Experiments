@@ -14,10 +14,8 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
-from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
-from kasa_wrapper import check_main_usb_hub_ports_off # type: ignore
-
-from experiment import to_cipher_string, cmd_arg_parser # type: ignore
+from kasa_wrapper import *
+from experiment import *
 
 SHOW_LOGS = True
 

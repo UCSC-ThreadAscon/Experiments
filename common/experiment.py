@@ -20,7 +20,9 @@ def get_queue_path(experiment_enum):
   return Path(Path.home(), "Desktop", "Repositories",
               "Experiments", experiment_dir, "queue")
 
-def get_last_exp_trial(exp_enum, ):
+def get_last_exp_trial(experiment_enum):
+  queue_path = get_queue_path(experiment_enum)
+  print(queue_path.iterdir())
   return
 
 def cmd_arg_parser():

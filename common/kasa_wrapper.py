@@ -45,6 +45,8 @@ async def power_off_all_devices():
     that the corresponding port that it is plugged into in the Main USB Hub
     is off. If this is not the case, we end the experiment and power of all
     of the smart plugs powering the USB hubs.
+
+    https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
 """
 async def check_main_usb_hub_ports_off():
   get_num_ports = lambda port : len(list(pyserial_tools.grep(port)))

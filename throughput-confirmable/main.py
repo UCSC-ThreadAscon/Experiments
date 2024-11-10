@@ -45,14 +45,16 @@ async def build_flash_rcp(cipher_num):
   await power_off("Radio Co-Processor")
   return
 
-def ftd_monitor(tx_power, cipher_num):
+def ftd_monitor(tx_power, cipher_num, trial_num):
   async def _ftd_monitor(tx_power, cipher_num):
     await power_on("Full Thread Device")
 
     subprocess.run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
         stdout=PIPE, stderr=STDOUT)
 
-    log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    cipher = to_cipher_string(cipher_num)
+    log_filename = f"queue/{cipher}-{tx_power}-dbm-trial-{trial_num}/" + \
+                   f"tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(FTD_PORT, timeout=1) as ftd:
@@ -75,7 +77,7 @@ def ftd_monitor(tx_power, cipher_num):
 
   return asyncio.run(_ftd_monitor(tx_power, cipher_num))
 
-def border_router_monitor(tx_power, cipher_num):
+def border_router_monitor(tx_power, cipher_num, trial_num):
   async def _border_router_monitor(tx_power, cipher_num):
     await power_on("Border Router")
 
@@ -83,11 +85,15 @@ def border_router_monitor(tx_power, cipher_num):
                    "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
                    stdout=PIPE, stderr=STDOUT)
 
+    cipher = to_cipher_string(cipher_num)
+
     log_filename = \
-      f"queue/tp-con-BR-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+      f"queue/{cipher}-{tx_power}-dbm-trial-{trial_num}/" + \
+      f"tp-con-BR-{cipher}-{tx_power}dbm.txt"
     
     sniffer_filename = \
-      f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+      f"queue/{cipher}-{tx_power}-dbm-trial-{trial_num}/" + \
+      f"tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
     await power_on("Packet Sniffer")
     sniffer = Nrf802154Sniffer()
@@ -102,7 +108,7 @@ def border_router_monitor(tx_power, cipher_num):
       with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
         print("Border Router monitoring has started.")
 
-        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num))
+        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num, trial_num))
         ftd_started = False
 
         while (not ftd_started) or (ftd_process.is_alive()):
@@ -132,7 +138,6 @@ def border_router_monitor(tx_power, cipher_num):
 
 async def main():
   await power_off_all_devices()
-  # subprocess.run(["make", "clean-queue"])
 
   await check_main_usb_hub_ports_off()
 
@@ -145,11 +150,14 @@ async def main():
   await power_on("Main USB Hub")
   await build_flash_rcp(cipher_num)
 
+  last_trial = get_last_exp_trial(Experiment.THROUGHPUT_CONFIRMABLE.value,
+                                  cipher_num, tx_power)
+  trial_num = last_trial + 1
+
   border_router_process = Process(target=border_router_monitor,
-                                  args=(tx_power, cipher_num))
+                                  args=(tx_power, cipher_num, trial_num))
   border_router_process.start()
   return
 
 if __name__ == "__main__":
-  get_last_exp_trial(Experiment.THROUGHPUT_CONFIRMABLE.value, "0", "20")
-  # asyncio.run(main())
+  asyncio.run(main())

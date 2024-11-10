@@ -7,6 +7,7 @@
 import serial
 import argparse
 import subprocess
+import asyncio
 from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
@@ -14,7 +15,6 @@ from nrf802154_sniffer import Nrf802154Sniffer
 import add_to_path
 add_to_path.add_common_to_path()
 
-import asyncio
 from kasa_wrapper import power_on, power_off, power_off_all_devices # type: ignore
 from kasa_wrapper import check_main_usb_hub_ports_off # type: ignore
 

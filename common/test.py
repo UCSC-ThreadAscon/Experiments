@@ -25,6 +25,10 @@ async def test_main_usb_hub_one_port_on():
   instructions = "Please POWER ON ONLY A SINGLE PORT on the Main USB Hub."
   show_instructions(instructions)
 
-  with pytest.raises(AssertionError):
+  with pytest.raises(AssertionError) as exception_info:
     await check_main_usb_hub_ports_off()
+
+    assert(exception_info.type == AssertionError)
+    assert("Main USB Hub has ports powered on that should not be powered on."
+           in str(exception_info.value))
   return

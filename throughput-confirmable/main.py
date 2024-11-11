@@ -137,7 +137,6 @@ def border_router_monitor(tx_power, cipher_num):
   return asyncio.run(_border_router_monitor(tx_power, cipher_num))
 
 async def main():
-  await power_off_all_devices()
   await check_main_usb_hub_ports_off()
 
   parser = cmd_arg_parser()

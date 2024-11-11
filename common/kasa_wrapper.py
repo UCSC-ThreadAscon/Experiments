@@ -75,6 +75,8 @@ def _assert_num_ports(ports, num_ports):
     https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
 """
 async def check_main_usb_hub_ports_off():
+  await power_off_all_devices()
+
   try:
     print("Begin test to check that that all Main USB Hub ports are powered off.")
     await power_on("Main USB Hub")
@@ -108,8 +110,10 @@ async def check_main_usb_hub_ports_off():
     ports = _get_ports("/dev/ttyACM*")
     _assert_num_ports(ports, 3)
     
-    print("Main USB Hub has no ports powered on. Ready to begin experiment.")
+    print("Main USB Hub has no ports powered on.")
+
     await power_off_all_devices()
+    print("All devices have been powered off. Ready to begin experiment.")
   except AssertionError:
     await power_off_all_devices()
   return

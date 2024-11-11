@@ -41,8 +41,13 @@ def _print_ports(ports):
   return
 
 async def _assert_no_ports(ports):
-  error = f"Ports {ports} found when no ports should have been found. " + \
-            "Main USB has ports powered on they should not be on."
+  error = "Port(s) "
+  for i in range(0, len(ports)):
+    port = ports[i]
+    error += str(port) + (", " if i < len(ports) - 1 else "")
+
+  error += " found when no ports should have been found. " + \
+           "Main USB has ports powered on that should not be powered on."
 
   if len(ports) > 0:
     await power_off_all_devices()

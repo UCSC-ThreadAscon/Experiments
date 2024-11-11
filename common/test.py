@@ -21,9 +21,9 @@ async def test_main_usb_hub_all_ports_off(capsys):
   return
 
 @pytest.mark.asyncio(loop_scope="module")
-async def test_main_usb_hub_all_ports_on():
-  instructions = "Please POWER ON the nRF Sniffer, FTD, and Border Router "
-  instructions += "PORTS on the Main USB Hub. DO NOT power on the RCP."
+async def test_main_usb_hub_three_ports_on():
+  instructions = "Please POWER ON ANY THREE PORTS on the Main USB Hub. "
+  instructions += "Do not power on the Border Router and RCP at the same time."
   show_instructions(instructions)
 
   with pytest.raises(AssertionError) as exception_info:

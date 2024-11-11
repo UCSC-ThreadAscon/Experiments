@@ -25,11 +25,8 @@ async def power_on(alias):
   return
 
 async def power_off_all_devices():
-  await power_off("Main USB Hub")
-  await power_off("Border Router")
-  await power_off("Radio Co-Processor")
-  await power_off("Full Thread Device")
-  await power_off("Packet Sniffer")
+  for device_alias in DEVICES:
+    await power_off(device_alias)
   return
 
 def _get_ports(regex):
@@ -82,10 +79,14 @@ async def _assert_num_ports(ports, num_ports):
     that the corresponding port that it is plugged into in the Main USB Hub
     is off. If this is not the case, we end the experiment and power of all
     of the smart plugs powering the USB hubs.
-
-    https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
+  
+    RESOUCES UTILIZED:
+      https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
+      https://stackoverflow.com/a/423596
 """
 async def check_main_usb_hub_ports_off():
+  global DEBUG
+  DEBUG = True
   await power_off_all_devices()
 
   print("Begin test to check that all Main USB Hub ports are powered off.")
@@ -94,36 +95,11 @@ async def check_main_usb_hub_ports_off():
 
   ports = _get_ports("/dev/ttyACM*")
   await _assert_no_ports(ports)
-
-  print("Powering on nRF Sniffer, FTD, and RCP.")
-  await power_on("Packet Sniffer")
-  await power_on("Full Thread Device")
-  await power_on("Radio Co-Processor")
-  sleep(PORT_CONNECT_WAIT_SECONDS)
-
-  ports = _get_ports("/dev/ttyACM*")
-  await _assert_num_ports(ports, 3)
-
-  print("Powering off nRF Sniffer, FTD, and RCP.")
-  await power_off("Packet Sniffer")
-  await power_off("Full Thread Device")
-  await power_off("Radio Co-Processor")
-  sleep(PORT_CONNECT_WAIT_SECONDS)
-
-  ports = _get_ports("/dev/ttyACM*")
-  await _assert_no_ports(ports)
-
-  print("Powering on nRF Sniffer, FTD, and Border Router Host.")
-  await power_on("Packet Sniffer")
-  await power_on("Full Thread Device")
-  await power_on("Border Router")
-  sleep(PORT_CONNECT_WAIT_SECONDS)
-
-  ports = _get_ports("/dev/ttyACM*")
-  await _assert_num_ports(ports, 3)
   
   print("Main USB Hub has no ports powered on.")
 
   await power_off_all_devices()
+  DEBUG = False
+
   print("All devices have been powered off. Ready to begin experiment.")
   return

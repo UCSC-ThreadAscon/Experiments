@@ -21,8 +21,8 @@ async def test_main_usb_hub_all_ports_off(capsys):
   return
 
 @pytest.mark.asyncio(loop_scope="module")
-async def test_main_usb_hub_sniffer_on():
-  instructions = "Please POWER ON ONLY the NRF SNIFFER port on the Main USB Hub."
+async def test_main_usb_hub_one_port_on():
+  instructions = "Please POWER ON ONLY A SINGLE PORT on the Main USB Hub."
   show_instructions(instructions)
 
   with pytest.raises(AssertionError):

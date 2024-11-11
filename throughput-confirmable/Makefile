@@ -19,6 +19,9 @@ power-off:
 tp-con-run-all:
 	bash ./run_experiments.sh
 
+test:
+	pytest /home/simeon/Desktop/Repositories/Experiments/common/test.py
+
 tp-con-aes-20:
 	python3 ./main.py --tx-power 20 --encryption 0
 tp-con-aes-9:

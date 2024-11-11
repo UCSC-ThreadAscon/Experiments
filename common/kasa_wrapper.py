@@ -38,15 +38,24 @@ def _get_ports(regex):
 def _print_ports(ports):
   for port in ports:
     print(f"{port} has been found.")
+  return
 
 def _assert_no_ports(ports):
   error = f"Ports {ports} found when no ports should have been found. " + \
             "Main USB has ports powered on they should not be on."
-  raise AssertionError(error) if len(ports) > 0 else _print_ports(ports)
+  if len(ports) > 0:
+    raise AssertionError(error)
+  else:
+    _print_ports(ports)
+  return
 
 def _assert_num_ports(ports, num_ports):
   error = f"{len(ports)} found when {num_ports} ports expected."
-  raise AssertionError(error) if len(ports != num_ports) else _print_ports(ports)
+  if len(ports != num_ports):
+    raise AssertionError(error)
+  else:
+    _print_ports(ports)
+  return
 
 """ All USB ports in the Main USB Hub has on/off switches to toggle
     on/off the power of a given USB port. Even though the power for a given
@@ -66,38 +75,41 @@ def _assert_num_ports(ports, num_ports):
     https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
 """
 async def check_main_usb_hub_ports_off():
-  print("Begin test to check that that all Main USB Hub ports are powered off.")
-  await power_on("Main USB Hub")
+  try:
+    print("Begin test to check that that all Main USB Hub ports are powered off.")
+    await power_on("Main USB Hub")
 
-  ports = _get_ports("/dev/ttyACM*")
-  _assert_no_ports(ports)
+    ports = _get_ports("/dev/ttyACM*")
+    _assert_no_ports(ports)
 
-  print("Powering on nRF Sniffer, FTD, and RCP.")
-  await power_on("Packet Sniffer")
-  await power_on("Full Thread Device")
-  await power_on("Radio Co-Processor")
-  sleep(PORT_CONNECT_WAIT_SECONDS)
+    print("Powering on nRF Sniffer, FTD, and RCP.")
+    await power_on("Packet Sniffer")
+    await power_on("Full Thread Device")
+    await power_on("Radio Co-Processor")
+    sleep(PORT_CONNECT_WAIT_SECONDS)
 
-  ports = _get_ports("/dev/ttyACM*")
-  _assert_num_ports(ports, 3)
+    ports = _get_ports("/dev/ttyACM*")
+    _assert_num_ports(ports, 3)
 
-  print("Powering off nRF Sniffer, FTD, and RCP.")
-  await power_off("Packet Sniffer")
-  await power_off("Full Thread Device")
-  await power_off("Radio Co-Processor")
-  sleep(PORT_CONNECT_WAIT_SECONDS)
+    print("Powering off nRF Sniffer, FTD, and RCP.")
+    await power_off("Packet Sniffer")
+    await power_off("Full Thread Device")
+    await power_off("Radio Co-Processor")
+    sleep(PORT_CONNECT_WAIT_SECONDS)
 
-  print("Powering on nRF Sniffer, FTD, and Border Router Host.")
-  await power_on("Packet Sniffer")
-  await power_on("Full Thread Device")
-  await power_on("Border Router")
+    print("Powering on nRF Sniffer, FTD, and Border Router Host.")
+    await power_on("Packet Sniffer")
+    await power_on("Full Thread Device")
+    await power_on("Border Router")
 
-  ports = _get_ports("/dev/ttyACM*")
-  _assert_no_ports(ports)
+    ports = _get_ports("/dev/ttyACM*")
+    _assert_no_ports(ports)
 
-  ports = _get_ports("/dev/ttyACM*")
-  _assert_num_ports(ports, 3)
-  
-  print("Main USB Hub has no ports powered on. Ready to begin experiment.")
-  await power_off_all_devices()
+    ports = _get_ports("/dev/ttyACM*")
+    _assert_num_ports(ports, 3)
+    
+    print("Main USB Hub has no ports powered on. Ready to begin experiment.")
+    await power_off_all_devices()
+  except AssertionError:
+    await power_off_all_devices()
   return

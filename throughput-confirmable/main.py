@@ -158,4 +158,5 @@ async def main():
   return
 
 if __name__ == "__main__":
-  asyncio.run(main())
+  asyncio.run(check_main_usb_hub_ports_off())
+  # asyncio.run(main())

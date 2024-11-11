@@ -44,7 +44,7 @@ async def _assert_no_ports(ports):
     error += str(port) + (", " if i < len(ports) - 1 else "")
 
   error += " found when no ports should have been found. " + \
-           "Main USB has ports powered on that should not be powered on."
+           "Main USB Hub has ports powered on that should not be powered on."
 
   if len(ports) > 0:
     await power_off_all_devices()

@@ -85,6 +85,7 @@ async def check_main_usb_hub_ports_off():
 
   print("Begin test to check that all Main USB Hub ports are powered off.")
   await power_on("Main USB Hub")
+  sleep(PORT_CONNECT_WAIT_SECONDS)
 
   ports = _get_ports("/dev/ttyACM*")
   await _assert_no_ports(ports)

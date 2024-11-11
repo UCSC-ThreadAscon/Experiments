@@ -51,7 +51,6 @@ async def power_off_all_devices():
 """
 async def check_main_usb_hub_ports_off():
   get_num_ports = lambda port : len(list(pyserial_tools.grep(port)))
-  port_connect_wait_time = 5
 
   await power_on("Main USB Hub")
 

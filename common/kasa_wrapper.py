@@ -32,6 +32,22 @@ async def power_off_all_devices():
   await power_off("Packet Sniffer")
   return
 
+def _get_ports(regex):
+  return list(pyserial_tools.grep(regex))
+
+def _print_ports(ports):
+  for port in ports:
+    print(f"{port} has been found.")
+
+def _assert_no_ports(ports):
+  error = f"Ports {ports} found when no ports should have been found. " + \
+            "Main USB has ports powered on they should not be on."
+  raise AssertionError(error) if len(ports) > 0 else _print_ports(ports)
+
+def _assert_num_ports(ports, num_ports):
+  error = f"{len(ports)} found when {num_ports} ports expected."
+  raise AssertionError(error) if len(ports != num_ports) else _print_ports(ports)
+
 """ All USB ports in the Main USB Hub has on/off switches to toggle
     on/off the power of a given USB port. Even though the power for a given
      USB port is off, the Main USB Hub will still allow USB data transfer
@@ -50,29 +66,38 @@ async def power_off_all_devices():
     https://pyserial.readthedocs.io/en/latest/tools.html#serial.tools.list_ports.grep
 """
 async def check_main_usb_hub_ports_off():
-  get_num_ports = lambda port : len(list(pyserial_tools.grep(port)))
-
+  print("Begin test to check that that all Main USB Hub ports are powered off.")
   await power_on("Main USB Hub")
 
-  for device_alias in  DEVICES.keys():
-    if device_alias != "Main USB Hub":
-      try:
-        await power_on(device_alias)
-        sleep(PORT_CONNECT_WAIT_SECONDS)
-        assert(get_num_ports("/dev/ttyACM0") == 1)
+  ports = _get_ports("/dev/ttyACM*")
+  _assert_no_ports(ports)
 
-        await power_off(device_alias)
-        sleep(PORT_CONNECT_WAIT_SECONDS)
-        assert(get_num_ports("/dev/ttyACM0") == 0)
+  print("Powering on nRF Sniffer, FTD, and RCP.")
+  await power_on("Packet Sniffer")
+  await power_on("Full Thread Device")
+  await power_on("Radio Co-Processor")
+  sleep(PORT_CONNECT_WAIT_SECONDS)
 
-      except AssertionError:
-        await power_off_all_devices()
-        error_message = \
-          f"The Main USB Hub port that the {device_alias} is connected to " + \
-           "is powered on. Please power off all ports in the Main USB Hub " + \
-           "using the power buttons at each port."
-        raise AssertionError(error_message)
+  ports = _get_ports("/dev/ttyACM*")
+  _assert_num_ports(ports, 3)
+
+  print("Powering off nRF Sniffer, FTD, and RCP.")
+  await power_off("Packet Sniffer")
+  await power_off("Full Thread Device")
+  await power_off("Radio Co-Processor")
+  sleep(PORT_CONNECT_WAIT_SECONDS)
+
+  print("Powering on nRF Sniffer, FTD, and Border Router Host.")
+  await power_on("Packet Sniffer")
+  await power_on("Full Thread Device")
+  await power_on("Border Router")
+
+  ports = _get_ports("/dev/ttyACM*")
+  _assert_no_ports(ports)
+
+  ports = _get_ports("/dev/ttyACM*")
+  _assert_num_ports(ports, 3)
   
+  print("Main USB Hub has no ports powered on. Ready to begin experiment.")
   await power_off_all_devices()
-  print("All smart plugs have been powered off. Ready to begin experiment.")
   return

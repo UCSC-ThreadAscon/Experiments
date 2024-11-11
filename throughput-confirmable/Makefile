@@ -1,3 +1,8 @@
+# RESOURCES UTILIZED:
+# https://stackoverflow.com/a/62929158/6621292
+# https://stackoverflow.com/questions/36804181/long-running-py-test-stop-at-first-failure
+# https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html#setting-capturing-methods-or-disabling-capturing
+
 BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
 FTD_PORT=/dev/cu.usbserial-120
 
@@ -10,11 +15,6 @@ power-off:
 	kasa --alias "Full Thread Device" off
 	kasa --alias "Main USB Hub" off
 	kasa --alias "Packet Sniffer" off
-
-# When executing Bash scripts on Ubuntu, I need to use "bash [script name]",
-# rather than "./[script name]" on Ubuntu. Otherwise, the script will give a
-# syntax error regarding "(".
-#	https://stackoverflow.com/a/62929158/6621292
 
 tp-con-run-all:
 	bash ./run_experiments.sh

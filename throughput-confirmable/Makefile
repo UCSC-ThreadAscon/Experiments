@@ -2,7 +2,6 @@
 # https://stackoverflow.com/a/62929158/6621292
 # https://stackoverflow.com/questions/36804181/long-running-py-test-stop-at-first-failure
 # https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html#setting-capturing-methods-or-disabling-capturing
-# https://askubuntu.com/a/187072
 
 BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
 FTD_PORT=/dev/cu.usbserial-120

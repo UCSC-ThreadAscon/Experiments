@@ -8,9 +8,7 @@ jobs:
     - name: Tailscale
       uses: tailscale/github-action@v2
       with:
-        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-        tags: tag:github-actions
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
   # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
   # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."

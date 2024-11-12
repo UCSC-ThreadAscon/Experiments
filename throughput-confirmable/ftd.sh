@@ -86,7 +86,7 @@ echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) |& tee -a $output_file_path
 echo "-----------------------------------------"
 
-# idf.py fullclean |& tee -a $output_file_path
+idf.py fullclean |& tee -a $output_file_path
 idf.py build flash --port $ftd_port |& tee -a $output_file_path
 
 cd -

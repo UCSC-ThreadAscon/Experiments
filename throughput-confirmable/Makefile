@@ -2,6 +2,7 @@
 # https://stackoverflow.com/a/62929158/6621292
 # https://stackoverflow.com/questions/36804181/long-running-py-test-stop-at-first-failure
 # https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html#setting-capturing-methods-or-disabling-capturing
+# https://askubuntu.com/a/187072
 
 BORDER_ROUTER_PORT=/dev/cu.usbmodem2101
 FTD_PORT=/dev/cu.usbserial-120
@@ -24,31 +25,43 @@ test:
 
 tp-con-aes-20:
 	python3 ./main.py --tx-power 20 --encryption 0
+	shutdown -r now
 tp-con-aes-9:
 	python3 ./main.py --tx-power 9 --encryption 0
+	shutdown -r now
 tp-con-aes-0:
 	python3 ./main.py --tx-power 0 --encryption 0
+	shutdown -r now
 
 tp-con-noencrypt-20:
 	python3 ./main.py --tx-power 20 --encryption 1
+	shutdown -r now
 tp-con-noencrypt-9:
 	python3 ./main.py --tx-power 9 --encryption 1
+	shutdown -r now
 tp-con-noencrypt-0:
 	python3 ./main.py --tx-power 0 --encryption 1
+	shutdown -r now
 
 tp-con-ascon128a-20:
 	python3 ./main.py --tx-power 20 --encryption 4
+	shutdown -r now
 tp-con-ascon128a-9:
 	python3 ./main.py --tx-power 9 --encryption 4
+	shutdown -r now
 tp-con-ascon128a-0:
 	python3 ./main.py --tx-power 0 --encryption 4
+	shutdown -r now
 
 tp-con-ascon128-20:
 	python3 ./main.py --tx-power 20 --encryption 5
+	shutdown -r now
 tp-con-ascon128-9:
 	python3 ./main.py --tx-power 9 --encryption 5
+	shutdown -r now
 tp-con-ascon128-0:
 	python3 ./main.py --tx-power 0 --encryption 5
+	shutdown -r now
 
 tp-con-border-router-aes-20:
 	bash ./border_router.sh -t 20 -e 0 -p $(BORDER_ROUTER_PORT)

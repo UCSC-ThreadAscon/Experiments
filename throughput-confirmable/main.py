@@ -155,6 +155,8 @@ async def main():
 
   border_router_process.join()
   post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, cipher_num, tx_power)
+
+  await power_off("Main USB Hub")
   return
 
 if __name__ == "__main__":

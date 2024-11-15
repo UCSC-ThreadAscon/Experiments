@@ -12,7 +12,7 @@ SYNOLOGY_PASSWORD = getenv("SYNOLOGY_PASSWORD")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--otp",
-                    helper="The one time password given by the Synology Secure SignIn app.",
+                    help="The one time password given by the Synology Secure SignIn app.",
                     required=True)
 
 fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,

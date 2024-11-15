@@ -88,8 +88,6 @@ def post_process(experiment_enum, cipher_num, tx_power):
   print(f"Moved all experiment data from the queue directory and into {data_dir.name}.")
   return
 
-post_process(1, "0", "20")
-
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()
 

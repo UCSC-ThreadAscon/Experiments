@@ -15,9 +15,10 @@ parser.add_argument("--otp",
                     help="The one time password given by the Synology Secure SignIn app.",
                     required=True)
 
-fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,
-                             SYNOLOGY_PASSWORD, secure=True, cert_verify=False,
-                             debug=True, dsm_version=7,
-                             otp_code=parser.parse_args().otp)
 
-print(fs.get_info())
+if __name__ == "__main__":
+  fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,
+                              SYNOLOGY_PASSWORD, secure=True, cert_verify=False,
+                              debug=True, dsm_version=7,
+                              otp_code=parser.parse_args().otp)
+  print(fs.get_info())

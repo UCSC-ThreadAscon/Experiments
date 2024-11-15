@@ -16,7 +16,8 @@ parser.add_argument("--otp",
                     required=True)
 
 fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,
-                             SYNOLOGY_PASSWORD, secure=True, cert_verify=True,
-                             debug=True, dsm_version=7, otp_code=parser.otp)
+                             SYNOLOGY_PASSWORD, secure=True, cert_verify=False,
+                             debug=True, dsm_version=7,
+                             otp_code=parser.parse_args().otp)
 
 print(fs.get_info())

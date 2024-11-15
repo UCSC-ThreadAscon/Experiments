@@ -12,11 +12,3 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
-    - name: ssh onto Experiment Server
-      uses: appleboy/ssh-action@v1.1.0
-      with:
-        host: ${{ secrets.EXPERIMENT_SERVER }}
-        username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
-        script:
-          echo "Hello World!"

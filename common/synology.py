@@ -39,14 +39,12 @@ def upload_folder(fs, local_path, nas_path_str):
 
     if element.is_dir():
       fs.create_folder(folder_path=nas_path_str, name=element.name)
-    
-      local_path = local_path / element.name
-      nas_path_str += f"/{element.name}"
-      upload_folder(fs, local_path, nas_path_str)
-    
+      upload_folder(fs, local_path / element.name, nas_path_str + f"/{element.name}")
+
     elif element.is_file():
+      file_path = local_path / element
       fs.upload_file(dest_path=nas_path_str,
-                     file_path=local_path.as_posix(),
+                     file_path=file_path.as_posix(),
                      overwrite=False,
                      progress_bar=True)
 
@@ -55,24 +53,13 @@ def upload_folder(fs, local_path, nas_path_str):
 
 if __name__ == "__main__":
   args = parser.parse_args()
-  # fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,
-  #                             SYNOLOGY_PASSWORD, secure=True, cert_verify=False,
-  #                             debug=True, dsm_version=7,
-  #                             otp_code=args.otp)
+  fs = filestation.FileStation(SYNOLOGY_IP, SYNOLOGY_PORT, SYNOLOGY_USERNAME,
+                              SYNOLOGY_PASSWORD, secure=True, cert_verify=False,
+                              debug=True, dsm_version=7,
+                              otp_code=args.otp)
 
   for exp_enum in Experiment.__iter__():
     local_data_dir = get_dir_path(exp_enum.value, "data")
     nas_data_dir_string = get_nas_exp_dir_string(exp_enum.value)
 
-    for exp_dir in local_data_dir.iterdir():
-      exp_dirname = exp_dir.stem
-      # fs.create_folder(folder_path=nas_data_dir_string, name=exp_dirname)
-  
-      for file in exp_dir.iterdir():
-        print(file)
-
-      # nas_exp_dir = get_nas_exp_dir(exp_enum.value)
-      # fs.upload_file(dest_path=f"home/Master's Thesis{nas_exp_dir}/Results",
-      #                file_path=data_dir.as_posix(),
-      #                overwrite=False,
-      #                progress_bar=True)
+    upload_folder(fs, local_data_dir, nas_data_dir_string)

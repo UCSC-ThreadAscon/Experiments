@@ -10,7 +10,7 @@ jobs:
       with:
         oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-        tags: tag:ssh
+        tags: tag:github-actions
         version: 1.76.6
     - run: tailscale ip
   # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

@@ -85,7 +85,7 @@ def post_process(experiment_enum, cipher_num, tx_power):
   for element in queue_dir.iterdir():
     element.rename(Path(data_dir.as_posix(), element.name))
 
-  print(f"Moved all experiment data from the queue directory and into {data_dir.name}.")
+  print(f"Moved the experiment data from the queue directory and into {data_dir.name}.")
   return
 
 def cmd_arg_parser():

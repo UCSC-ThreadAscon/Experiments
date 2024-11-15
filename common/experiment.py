@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 from enum import Enum
+from synology_api_wrapper import upload_folder
 
 class Experiment(Enum):
   DELAY=0
@@ -37,6 +38,17 @@ def get_dir_path(experiment_enum, subdir_name):
   return Path(Path.home(), "Desktop", "Repositories",
               "Experiments", experiment_dir, subdir_name)
 
+def get_nas_exp_dir_string(experiment_enum):
+  dirname = None
+  match experiment_enum:
+    case Experiment.DELAY.value:
+      dirname = "Delay"
+    case Experiment.THROUGHPUT_CONFIRMABLE.value:
+      dirname = "Throughput-Confirmable"
+    case _:
+      raise Exception(f"{experiment_enum} is not a valid Experiment Enum.")
+  return "/Thesis-Experiments-Data/" + dirname
+
 def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
   data_dir = get_dir_path(experiment_enum, "data")
   exp_dirname_pattern = f"{to_cipher_string(cipher_num)}-{tx_power}dbm-trial-*"
@@ -44,6 +56,13 @@ def get_last_exp_trial(experiment_enum, cipher_num, tx_power):
   experiment_dirs = list(data_dir.glob(exp_dirname_pattern))
   num_trials = len(experiment_dirs)
   return num_trials
+
+def upload_experiment_data(experiment_enum, queue_path, dirname):
+  nas_path_str = get_nas_exp_dir_string(experiment_enum) + f"/{dirname}"
+  upload_folder(queue_path, nas_path_str)
+
+  print("Experiment data has been uploaded to the Synology NAS.")
+  return
 
 """ I learned that is it possible to use `Path.rename()` to move
     files and directories from:
@@ -58,12 +77,18 @@ def post_process(experiment_enum, cipher_num, tx_power):
   data_dir = Path(get_dir_path(experiment_enum, "data").as_posix(), exp_dir_name)
   queue_dir = get_dir_path(experiment_enum, "queue")
 
+  # Upload the experiment data to the Synology Server.
+  upload_experiment_data(experiment_enum, queue_dir, exp_dir_name)
+
+  # Move the experiment data to the local `data` folder.
   data_dir.mkdir()
   for element in queue_dir.iterdir():
     element.rename(Path(data_dir.as_posix(), element.name))
 
   print(f"Moved all experiment data from the queue directory and into {data_dir.name}.")
   return
+
+post_process(1, "0", "20")
 
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()

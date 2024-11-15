@@ -2,3 +2,4 @@ python-kasa
 pyserial
 pytest
 pytest-asyncio
+git@github.com:N4S4/synology-api.git

@@ -12,12 +12,8 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
-    
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.1.0
-      with:
-        host: ${{ secrets.EXPERIMENT_SERVER }}
-        username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
-        port: ${{ secrets.EXPERIMENT_SERVER_PORT }}
-        script: whoami
+      run: |
+        tailscale ip
+        ssh $ {{ secrets.EXPERIMENT_SERVER }}
+        whoami
+        exit

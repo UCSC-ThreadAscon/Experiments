@@ -1,5 +1,5 @@
 name: GitHub Actions Demo
-run-name: $Start Throughput Experiment ⏱️
+run-name: Start Throughput Experiment ⏱️
 on: workflow_dispatch
 jobs:
   Explore-GitHub-Actions:

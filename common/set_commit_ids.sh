@@ -1,5 +1,5 @@
 # The commit ID of the ESP-IDF repository.
-ESP_IDF_COMMIT=e3f9cdfcb78de50a6e8c817d498eb8a400b09a74
+ESP_IDF_COMMIT=58f5dc26e3614db3a55d6a6f413195f72d2481de
 
 # The commit ID of the FTD.
 FTD_COMMIT=f7ef3925cd1a775539d71b819e1c7d3ddb6c9651

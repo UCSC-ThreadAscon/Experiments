@@ -14,7 +14,7 @@ jobs:
         version: 1.76.6
     
     - name: Tailscale SSH
-      run:
+      run: |
         ssh $EXPERIMENT_SERVER
         echo "Hello World"
         exit

@@ -13,20 +13,11 @@ jobs:
         tags: tag:github-actions
         version: 1.76.6
 
-    # https://blog.benoitblanchon.fr/github-action-run-ssh-commands/
-    - name: Configure SSH
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ~/.ssh/experiment_server.key
-        chmod 600 ~/.ssh/experiment_server.key
-        cat >> ~/.ssh/config << END
-        Host ExperimentServer
-          HostName $SSH_HOST
-          User $SSH_USER
-          IdentityFile ~/.ssh/experiment_server.key
-          StrictHostKeyChecking no
-        END
-      env:
-        SSH_USER: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        SSH_KEY: ${{ secrets.EXPERIMENT_SERVER_SSH_KEY }}
-        SSH_HOST: ${{ secrets.EXPERIMENT_SERVER }}
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.1.0
+      with:
+        host: ${{ secrets.EXPERIMENT_SERVER }}
+        username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+        password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
+        port: ${{ secrets.EXPERIMENT_SERVER_PORT }}
+        script: whoami

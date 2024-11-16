@@ -12,8 +12,21 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
+
+    # https://blog.benoitblanchon.fr/github-action-run-ssh-commands/
+    - name: Configure SSH
       run: |
-        tailscale ip
-        ssh $ {{ secrets.EXPERIMENT_SERVER }}
-        whoami
-        exit
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/experiment_server.key
+        chmod 600 ~/.ssh/experiment_server.key
+        cat >> ~/.ssh/config << END
+        Host ExperimentServer
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/experiment_server.key
+          StrictHostKeyChecking no
+        END
+      env:
+        SSH_USER: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+        SSH_KEY: ${{ secrets.EXPERIMENT_SERVER_SSH_KEY }}
+        SSH_HOST: ${{ secrets.EXPERIMENT_SERVER }}

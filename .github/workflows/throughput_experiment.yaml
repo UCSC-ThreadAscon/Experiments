@@ -18,5 +18,5 @@ jobs:
       with:
         host: ${{ secrets.EXPERIMENT_SERVER }}
         username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
+        password: ""
         script: whoami

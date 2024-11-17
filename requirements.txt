@@ -2,5 +2,5 @@ python-kasa
 pyserial
 pytest
 pytest-asyncio
-synology-api @ git+https://github.com/N4S4/synology-api@main
+synology-api @ git+https://github.com/N4S4/synology-api@master
 python-dotenv

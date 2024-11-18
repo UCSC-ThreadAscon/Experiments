@@ -23,7 +23,7 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-        cat $KNOWN_HOSTS_ENTRY >> ~/.ssh/known_hosts
+        echo $KNOWN_HOSTS_ENTRY >> ~/.ssh/known_hosts
       env:
         KNOWN_HOSTS_ENTRY: ${{ secrets.EXPERIMENT_SERVER_KNOWN_HOSTS_ENTRY }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

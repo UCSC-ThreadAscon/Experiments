@@ -3,36 +3,43 @@
 # https://tailscale.com/blog/2021-05-github-actions-and-tailscale
 # https://stackoverflow.com/a/63030126
 # https://unix.stackexchange.com/a/304864/635993
+# https://graphite.dev/guides/github-actions-inputs
 #
 name: Throughput Experiments ⏱️
 run-name: Start Throughput Experiment ⏱️
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      txpower:
+        description: 'Transmission (TX) Power'
         required: true
-        default: 'warning'
+        default: 20
         type: choice
         options:
-        - info
-        - warning
-        - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
+        - 0
+        - 9
+        - 20
+      encryption:
+        description: 'Encryption algorithm to use.'
+        required: true
+        type: choice:
+        options:
+          - AES
+          - NoEncrypt
+          - LibAscon-128a
+          - LibAscon-128
+
 jobs:
   Start-Throughput-Experiment:
     runs-on: ubuntu-latest
     steps:
       - name: Log the inputs
         run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
+          echo "TX-Power: $TX-POWER"
+          echo "Encryption Algorithm: $ENCRYPTION"
         env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
+          TX-POWER: ${{ inputs.txpower }}
+          ENCRYPTION: ${{ inputs.encryption }}
 
     # - name: Set up Tailscale
     #   uses: tailscale/github-action@v2

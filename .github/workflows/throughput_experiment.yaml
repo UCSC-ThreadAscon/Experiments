@@ -53,6 +53,10 @@ jobs:
         
     - name: Start the Experiment
       run: |
+        cd /home/$USERNAME/Desktop/Repositories/Experiments
+        source ./common/load_pyenv.sh
+        python3 --version
+
         function to_cipher_num() {
           case $1 in
             "AES") echo 0 ;;
@@ -63,10 +67,10 @@ jobs:
         }
         cipher_num=$(to_cipher_num $encryption)
 
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "tmux new -s github-actions -d \
-            'python3 /home/$USERNAME/Desktop/Repositories/Experiments/throughput-confirmable/main.py --tx-power $txpower --encryption $cipher_num' \
-           && tmux ls"
+        # ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+        #   "tmux new -s github-actions -d \
+        #     'python3 /home/$USERNAME/Desktop/Repositories/Experiments/throughput-confirmable/main.py --tx-power $txpower --encryption $cipher_num' \
+        #    && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

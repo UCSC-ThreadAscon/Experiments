@@ -26,7 +26,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
         HOSTNAME: ${{ secrets.RASPBERRY_PI }}
-        MAC_ADDR: $${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
+        MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
         
     - name: Start the Experiment
       run: |

@@ -53,13 +53,13 @@ jobs:
     - name: Start the Experiment
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "tmux new -s github-actions -d \
+          "goto Experiments && cd throughput-confirmable && \
+           tmux new -s github-actions -d \
             'python3 ./main.py --tx-power $txpower \
-            --encryption $(bash $to_cipher_num $encryption)' \
-          && tmux ls"
+             --encryption $(../common/to_cipher_num.sh $encryption)' \
+           && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
-        to_cipher_num: "~/Desktop/Repositories/Experiments/common/to_cipher_num.sh"

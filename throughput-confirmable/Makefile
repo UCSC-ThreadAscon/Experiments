@@ -10,11 +10,11 @@ clean-queue:
 	rm -r -f queue/*
 
 power-off:
-	kasa --alias "Border Router" off
-	kasa --alias "Radio Co-Processor" off
-	kasa --alias "Full Thread Device" off
-	kasa --alias "Main USB Hub" off
-	kasa --alias "Packet Sniffer" off
+	kasa --host 10.0.0.6 off
+	kasa --host 10.0.0.8 off
+	kasa --host 10.0.0.9 off
+	kasa --host 10.0.0.10 off
+	kasa --host 10.0.0.11 off
 
 tp-con-run-all:
 	bash ./run_experiments.sh

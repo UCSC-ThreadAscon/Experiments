@@ -33,35 +33,31 @@ jobs:
   Start-Throughput-Experiment:
     runs-on: ubuntu-latest
     steps:
-      - name: Log the inputs
-        run: |
-          echo "TX-Power: $TXPOWER"
-          echo "Encryption Algorithm: $ENCRYPTION"
-        env:
-          TXPOWER: ${{ inputs.txpower }}
-          ENCRYPTION: ${{ inputs.encryption }}
-
-    # - name: Set up Tailscale
-    #   uses: tailscale/github-action@v2
-    #   with:
-    #     oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-    #     oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-    #     tags: tag:github-actions
-    #     version: 1.76.6
+    - name: Set up Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+        tags: tag:github-actions
+        version: 1.76.6
     
-    # - name: Wake on LAN
-    #   run: |
-    #     ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-    #       "wakeonlan $MAC_ADDR"
-    #   env:
-    #     USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
-    #     HOSTNAME: ${{ secrets.RASPBERRY_PI }}
-    #     MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
+    - name: Wake on LAN
+      run: |
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+          "wakeonlan $MAC_ADDR"
+      env:
+        USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
+        HOSTNAME: ${{ secrets.RASPBERRY_PI }}
+        MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
         
-    # - name: Start the Experiment
-    #   run: |
-    #     ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-    #       "tmux new -s github-actions -d 'sleep 60' && tmux ls"
-    #   env:
-    #     USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-    #     HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+    - name: Start the Experiment
+      run: |
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+          "tmux new -s github-actions -d \
+            'python3 ./main.py --tx-power $TXPOWER --encryption $(to_cipher_num $ENCRYPTION)' \
+          && tmux ls"
+      env:
+        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+        TXPOWER: ${{ inputs.txpower }}
+        ENCRYPTION: ${{ inputs.encryption }}

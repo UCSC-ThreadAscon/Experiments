@@ -21,7 +21,7 @@ jobs:
 
     - name: Tailscale SSH
       run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'tmux new -s test -d -- echo "Hello World" && sleep 60'
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'tmux new -s test -d -- sleep 15'
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

@@ -54,10 +54,11 @@ jobs:
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d \
-            'python3 ./main.py --tx-power $TXPOWER --encryption $(to_cipher_num $ENCRYPTION)' \
+            'python3 ./main.py --tx-power $txpower --encryption $(bash $to_cipher_num $encryption)' \
           && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
-        TXPOWER: ${{ inputs.txpower }}
-        ENCRYPTION: ${{ inputs.encryption }}
+        txpower: ${{ inputs.txpower }}
+        encryption: ${{ inputs.encryption }}
+        to_cipher_num: "../common/to_cipher_num.sh"

@@ -52,11 +52,21 @@ jobs:
         
     - name: Start the Experiment
       run: |
+        function to_cipher_num() {
+          case $1 in
+            "AES") echo 0 ;;
+            "NoEncrypt") echo 1 ;;
+            "LibAscon-128a") echo 4 ;;
+            "LibAscon-128") echo 5;;
+          esac
+        }
+        cipher_num=$(to_cipher_num $encryption)
+
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d \
             'python3 ./main.py --tx-power $txpower \
              --encryption \
-             $(~/Desktop/Repositories/Experiments/common/to_cipher_num.sh $encryption)' \
+             $cipher_num' \
            && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}

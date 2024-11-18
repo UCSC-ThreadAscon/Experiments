@@ -6,32 +6,60 @@
 #
 name: Throughput Experiments ⏱️
 run-name: Start Throughput Experiment ⏱️
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+      tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
 jobs:
   Start-Throughput-Experiment:
     runs-on: ubuntu-latest
     steps:
-    - name: Set up Tailscale
-      uses: tailscale/github-action@v2
-      with:
-        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-        tags: tag:github-actions
-        version: 1.76.6
+      - name: Log the inputs
+      - run: |
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
+    # - name: Set up Tailscale
+    #   uses: tailscale/github-action@v2
+    #   with:
+    #     oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+    #     oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+    #     tags: tag:github-actions
+    #     version: 1.76.6
     
-    - name: Wake on LAN
-      run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "wakeonlan $MAC_ADDR"
-      env:
-        USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
-        HOSTNAME: ${{ secrets.RASPBERRY_PI }}
-        MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
+    # - name: Wake on LAN
+    #   run: |
+    #     ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+    #       "wakeonlan $MAC_ADDR"
+    #   env:
+    #     USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
+    #     HOSTNAME: ${{ secrets.RASPBERRY_PI }}
+    #     MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
         
-    - name: Start the Experiment
-      run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "tmux new -s github-actions -d 'sleep 60' && tmux ls"
-      env:
-        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+    # - name: Start the Experiment
+    #   run: |
+    #     ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+    #       "tmux new -s github-actions -d 'sleep 60' && tmux ls"
+    #   env:
+    #     USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+    #     HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

@@ -24,31 +24,43 @@ test:
 
 tp-con-aes-20:
 	python3 ./main.py --tx-power 20 --encryption 0
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-aes-9:
 	python3 ./main.py --tx-power 9 --encryption 0
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-aes-0:
 	python3 ./main.py --tx-power 0 --encryption 0
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 
 tp-con-noencrypt-20:
 	python3 ./main.py --tx-power 20 --encryption 1
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-noencrypt-9:
 	python3 ./main.py --tx-power 9 --encryption 1
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-noencrypt-0:
 	python3 ./main.py --tx-power 0 --encryption 1
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 
 tp-con-ascon128a-20:
 	python3 ./main.py --tx-power 20 --encryption 4
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-ascon128a-9:
 	python3 ./main.py --tx-power 9 --encryption 4
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-ascon128a-0:
 	python3 ./main.py --tx-power 0 --encryption 4
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 
 tp-con-ascon128-20:
 	python3 ./main.py --tx-power 20 --encryption 5
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-ascon128-9:
 	python3 ./main.py --tx-power 9 --encryption 5
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 tp-con-ascon128-0:
 	python3 ./main.py --tx-power 0 --encryption 5
+	cat ../common/sudo_password.env | sudo -S systemctl suspend
 
 tp-con-border-router-aes-20:
 	bash ./border_router.sh -t 20 -e 0 -p $(BORDER_ROUTER_PORT)

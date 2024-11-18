@@ -8,7 +8,7 @@ name: Throughput Experiments ⏱️
 run-name: Start Throughput Experiment ⏱️
 on: workflow_dispatch
 jobs:
-  Explore-GitHub-Actions:
+  Start-Throughput-Experiment:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Tailscale

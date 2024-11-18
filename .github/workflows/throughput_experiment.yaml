@@ -72,4 +72,4 @@ jobs:
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
-        start_experiment: ~/Desktop/Repositories/Experiments/throughput-confirmable/main.py 
+        start_experiment: /home/simeon/Desktop/Repositories/Experiments/throughput-confirmable/main.py 

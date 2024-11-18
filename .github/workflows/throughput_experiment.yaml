@@ -54,7 +54,7 @@ jobs:
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d \
-            'goto Experiments && cd throughput-confirmable \
+            'goto Experiments && cd throughput-confirmable && \
             python3 ./main.py --tx-power $txpower \
             --encryption $(bash $to_cipher_num $encryption)' \
           && tmux ls"

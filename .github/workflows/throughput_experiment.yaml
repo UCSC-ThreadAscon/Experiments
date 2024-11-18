@@ -4,6 +4,7 @@
 # https://stackoverflow.com/a/63030126
 # https://unix.stackexchange.com/a/304864/635993
 # https://graphite.dev/guides/github-actions-inputs
+# https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
 #
 name: Throughput Experiments ⏱️
 run-name: Start Throughput Experiment ⏱️
@@ -64,12 +65,11 @@ jobs:
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d \
-            'python3 ./main.py --tx-power $txpower \
-             --encryption \
-             $cipher_num' \
+            'python3 $start_experiment --tx-power $txpower --encryption $cipher_num' \
            && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
+        start_experiment: ~/Desktop/Repositories/Experiments/throughput-confirmable/main.py 

@@ -4,7 +4,7 @@
 # https://stackoverflow.com/a/63030126
 # https://unix.stackexchange.com/a/304864/635993
 #
-name: GitHub Actions Demo
+name: Throughput Experiments ⏱️
 run-name: Start Throughput Experiment ⏱️
 on: workflow_dispatch
 jobs:

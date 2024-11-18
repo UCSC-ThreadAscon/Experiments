@@ -14,9 +14,10 @@ jobs:
         version: 1.76.6
 
     - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.3
+      uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ secrets.EXPERIMENT_SERVER }}
         username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        password: ""
-        script: whoami
+        password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
+        script: |
+          ~/Desktop/Repositories/Experiments

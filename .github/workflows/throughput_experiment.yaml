@@ -65,11 +65,10 @@ jobs:
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d \
-            'python3 $start_experiment --tx-power $txpower --encryption $cipher_num' \
+            'python3 /home/$USERNAME/Desktop/Repositories/Experiments/throughput-confirmable/main.py --tx-power $txpower --encryption $cipher_num' \
            && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
-        start_experiment: /home/simeon/Desktop/Repositories/Experiments/throughput-confirmable/main.py 

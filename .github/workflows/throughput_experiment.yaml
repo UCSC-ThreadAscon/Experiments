@@ -15,4 +15,4 @@ jobs:
 
     - name: Tailscale SSH
       run: |
-        ssh ${{ secrets.EXPERIMENT_SERVER }} 'whoami'
+        ssh ${{ secrets.EXPERIMENT_SERVER }} -o "StrictHostKeyChecking no" 'whoami'

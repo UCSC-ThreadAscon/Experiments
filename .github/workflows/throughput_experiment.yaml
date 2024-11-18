@@ -64,7 +64,8 @@ jobs:
         cipher_num=$(to_cipher_num $encryption)
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "cd /home/$USERNAME/Desktop/Repositories/Experiments && \
+          "python3 --version
+           cd /home/$USERNAME/Desktop/Repositories/Experiments && \
            source ./common/load_pyenv.sh && \
            python3 --version"
 

@@ -18,11 +18,20 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
-
+    
+    - name: Wake on LAN
+      run: |
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+          "wakeonlan '$MAC_ADDR' && sleep 15"
+      env:
+        USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
+        HOSTNAME: ${{ secrets.RASPBERRY_PI }}
+        MAC_ADDR: $${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
+        
     - name: Start the Experiment
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "tmux new -s github-actions -d && tmux ls"
+          "tmux new -s github-actions -d 'sleep 60' && tmux ls"
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

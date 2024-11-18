@@ -23,7 +23,7 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-        ssh-keyscan ${{ secrets.EXPERIMENT_SERVER }}] >> ~/.ssh/known_hosts
+        ssh-keyscan ${{ secrets.EXPERIMENT_SERVER }} >> ~/.ssh/known_hosts
 
     - name: Tailscale SSH
       run: |

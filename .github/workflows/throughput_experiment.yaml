@@ -35,10 +35,10 @@ jobs:
     steps:
       - name: Log the inputs
         run: |
-          echo "TX-Power: $TX-POWER"
+          echo "TX-Power: $TXPOWER"
           echo "Encryption Algorithm: $ENCRYPTION"
         env:
-          TX-POWER: ${{ inputs.txpower }}
+          TXPOWER: ${{ inputs.txpower }}
           ENCRYPTION: ${{ inputs.encryption }}
 
     # - name: Set up Tailscale

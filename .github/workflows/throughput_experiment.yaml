@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       txpower:
-        description: 'Transmission (TX) Power'
+        description: 'Transmission (TX) Power (dBm)'
         required: true
         default: 20
         type: choice

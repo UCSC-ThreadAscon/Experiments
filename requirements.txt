@@ -1,4 +1,4 @@
-python-kasa
+python-kasa @ git+https://github.com/python-kasa/python-kasa.git@master
 pyserial
 pytest
 pytest-asyncio

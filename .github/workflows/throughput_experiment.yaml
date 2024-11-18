@@ -64,16 +64,17 @@ jobs:
         cipher_num=$(to_cipher_num $encryption)
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "python3 --version
-           cd /home/$USERNAME/Desktop/Repositories/Experiments && \
-           source ./common/load_pyenv.sh && \
+          "cd /home/$USERNAME/Desktop/Repositories/Experiments
+           source ./common/load_pyenv.sh
            python3 --version
-           pip3 list"
+           pip3 list
 
-        # ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-        #   "tmux new -s github-actions -d \
-        #     'python3 /home/$USERNAME/Desktop/Repositories/Experiments/throughput-confirmable/main.py --tx-power $txpower --encryption $cipher_num' \
-        #    && tmux ls"
+           cd ./throughput-confirmable
+           tmux new -s github-actions -d \
+            'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
+             && tmux ls
+            '
+          "
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

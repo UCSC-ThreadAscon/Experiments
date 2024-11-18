@@ -13,16 +13,16 @@ on:
       txpower:
         description: 'Transmission (TX) Power'
         required: true
-        default: "20"
+        default: 20
         type: choice
         options:
-        - "0"
-        - "0"
-        - "20"
+        - 0
+        - 9
+        - 20
       encryption:
         description: 'Encryption algorithm to use.'
         required: true
-        type: choice:
+        type: choice
         options:
           - AES
           - NoEncrypt

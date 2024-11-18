@@ -25,7 +25,7 @@ jobs:
         mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
         cat $KNOWN_HOSTS_ENTRY >> ~/.ssh/known_hosts
       env:
-        KNOWN_HOSTS_ENTRY: ${{ secrets. EXPERIMENT_SERVER_KNOWN_HOSTS_ENTRY }}
+        KNOWN_HOSTS_ENTRY: ${{ secrets.EXPERIMENT_SERVER_KNOWN_HOSTS_ENTRY }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
 
     - name: Tailscale SSH

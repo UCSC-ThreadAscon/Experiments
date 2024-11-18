@@ -15,7 +15,7 @@ jobs:
 
     - name: Tailscale SSH
       run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'whoami'
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'ls ~/Desktop/Respositories/Experiments'
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

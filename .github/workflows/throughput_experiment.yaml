@@ -71,9 +71,9 @@ jobs:
 
            cd ./throughput-confirmable
            tmux new -s github-actions -d \
-            'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
-             && tmux ls
-            '
+            'python3 ./main.py --tx-power $txpower --encryption $cipher_num'
+
+           tmux ls
           "
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}

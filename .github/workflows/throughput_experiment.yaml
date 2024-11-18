@@ -23,7 +23,6 @@ jobs:
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "wakeonlan $MAC_ADDR"
-        sleep 5
       env:
         USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
         HOSTNAME: ${{ secrets.RASPBERRY_PI }}

@@ -1,3 +1,9 @@
+# RESOURCES UTILIZED:
+# https://blog.benoitblanchon.fr/github-action-run-ssh-commands/
+# https://tailscale.com/blog/2021-05-github-actions-and-tailscale
+# https://stackoverflow.com/q/63012327
+# https://stackoverflow.com/a/63030126
+#
 name: GitHub Actions Demo
 run-name: Start Throughput Experiment ⏱️
 on: workflow_dispatch

@@ -67,7 +67,6 @@ jobs:
           "cd /home/$USERNAME/Desktop/Repositories/Experiments
            source ./common/load_pyenv.sh
            python3 --version
-           pip3 list
 
            cd ./throughput-confirmable
            tmux new -s github-actions -d \

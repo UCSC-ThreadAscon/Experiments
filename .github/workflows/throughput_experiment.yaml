@@ -11,7 +11,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-    - name: Tailscale
+    - name: Set up Tailscale
       uses: tailscale/github-action@v2
       with:
         oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
@@ -19,7 +19,7 @@ jobs:
         tags: tag:github-actions
         version: 1.76.6
 
-    - name: Tailscale SSH
+    - name: Start the Experiment
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "tmux new -s github-actions -d && tmux ls"

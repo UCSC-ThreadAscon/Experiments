@@ -67,7 +67,8 @@ jobs:
           "python3 --version
            cd /home/$USERNAME/Desktop/Repositories/Experiments && \
            source ./common/load_pyenv.sh && \
-           python3 --version"
+           python3 --version
+           pip3 list"
 
         # ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
         #   "tmux new -s github-actions -d \

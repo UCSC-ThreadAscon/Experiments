@@ -29,10 +29,10 @@ jobs:
         HOSTNAME: ${{ secrets.RASPBERRY_PI }}
         MAC_ADDR: $${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
         
-    - name: Start the Experiment
-      run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "tmux new -s github-actions -d 'sleep 60' && tmux ls"
-      env:
-        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+    # - name: Start the Experiment
+    #   run: |
+    #     ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+    #       "tmux new -s github-actions -d 'sleep 60' && tmux ls"
+    #   env:
+    #     USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+    #     HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

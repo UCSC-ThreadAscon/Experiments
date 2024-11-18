@@ -63,4 +63,4 @@ jobs:
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
-        to_cipher_num: "../common/to_cipher_num.sh"
+        to_cipher_num: "~/Desktop/Repositories/Experiments/common/to_cipher_num.sh"

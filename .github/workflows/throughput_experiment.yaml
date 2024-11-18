@@ -2,6 +2,7 @@
 # https://blog.benoitblanchon.fr/github-action-run-ssh-commands/
 # https://tailscale.com/blog/2021-05-github-actions-and-tailscale
 # https://stackoverflow.com/a/63030126
+# https://unix.stackexchange.com/a/304864/635993
 #
 name: GitHub Actions Demo
 run-name: Start Throughput Experiment ⏱️
@@ -20,7 +21,7 @@ jobs:
 
     - name: Tailscale SSH
       run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'ls ~/Desktop/Repositories/Experiments/throughput-confirmable/data'
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'tmux new -s test -d -- echo "Hello World" && sleep 60'
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

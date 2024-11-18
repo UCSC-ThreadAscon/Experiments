@@ -27,7 +27,7 @@ jobs:
 
     - name: Tailscale SSH
       run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'ls ~/Desktop/Repositories/Experiments/throughput-confirmable/data'
+        ssh $USERNAME@$HOSTNAME 'ls ~/Desktop/Repositories/Experiments/throughput-confirmable/data'
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

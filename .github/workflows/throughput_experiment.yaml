@@ -20,4 +20,4 @@ jobs:
         username: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         password: ${{ secrets.EXPERIMENT_SERVER_PASSWORD }}
         script: |
-          ~/Desktop/Repositories/Experiments
+          ls ~/Desktop/Repositories/Experiments

@@ -23,7 +23,10 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-        ssh-keyscan ${{ secrets.EXPERIMENT_SERVER }} >> ~/.ssh/known_hosts
+        cat $KNOWN_HOSTS_ENTRY >> ~/.ssh/known_hosts
+      env:
+        KNOWN_HOSTS_ENTRY: ${{ secerets. EXPERIMENT_SERVER_KNOWN_HOSTS_ENTRY }}
+        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
 
     - name: Tailscale SSH
       run: |

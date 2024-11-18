@@ -1,7 +1,6 @@
 # RESOURCES UTILIZED:
 # https://blog.benoitblanchon.fr/github-action-run-ssh-commands/
 # https://tailscale.com/blog/2021-05-github-actions-and-tailscale
-# https://stackoverflow.com/q/63012327
 # https://stackoverflow.com/a/63030126
 #
 name: GitHub Actions Demo
@@ -18,19 +17,10 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
-    
-    # https://stackoverflow.com/a/76465877
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-        echo $KNOWN_HOSTS_ENTRY >> ~/.ssh/known_hosts
-      env:
-        KNOWN_HOSTS_ENTRY: ${{ secrets.EXPERIMENT_SERVER_KNOWN_HOSTS_ENTRY }}
-        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
 
     - name: Tailscale SSH
       run: |
-        ssh $USERNAME@$HOSTNAME 'ls ~/Desktop/Repositories/Experiments/throughput-confirmable/data'
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" 'ls ~/Desktop/Repositories/Experiments/throughput-confirmable/data'
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

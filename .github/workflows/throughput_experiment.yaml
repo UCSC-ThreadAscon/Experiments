@@ -18,6 +18,12 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
+    
+    # https://stackoverflow.com/a/76465877
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+        ssh-keyscan ${{ secrets.EXPERIMENT_SERVER }}] >> ~/.ssh/known_hosts
 
     - name: Tailscale SSH
       run: |

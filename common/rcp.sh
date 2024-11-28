@@ -52,7 +52,7 @@ output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/
 rm -f $output_file_path
 date |& tee $output_file_path
 
-set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/throughput-confirmable/set_commit_ids.sh
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
 $set_commit_ids_exec |& tee -a $output_file_path
 # --------------------------------
 

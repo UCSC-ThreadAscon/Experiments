@@ -33,7 +33,7 @@ def get_dir_path(experiment_enum, subdir_name):
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       experiment_dir = "throughput-confirmable"
     case _:
-      raise Exception("Invalid Enum value for Experiment.")
+      raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
   return Path(Path.home(), "Desktop", "Repositories",
               "Experiments", experiment_dir, subdir_name)

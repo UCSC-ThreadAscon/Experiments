@@ -38,12 +38,13 @@ function to_cipher_string() {
   esac
 }
 
-while getopts t:e:p: arg
+while getopts t:e:p:x; arg
 do
   case "${arg}" in
     t) tx_power=${OPTARG};;
     e) cipher_num=${OPTARG};;
     p) border_router_port=${OPTARG};;
+    x) experiment_num=${OPTARG};;
   esac
 done
 
@@ -64,7 +65,6 @@ source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 # ---- Build & Flash the Border Router ----
 border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
 border_router_sdkconfig=$border_router_path/sdkconfig
-tp_con_experiment_flag=1
 
 # Make sure RCP Auto Update is ENABLED on the Thread Border Router.
 rcp_auto_update_flag=$(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)
@@ -78,7 +78,7 @@ fi
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
-sdkconfig_set CONFIG_EXPERIMENT $tp_con_experiment_flag $border_router_sdkconfig
+sdkconfig_set CONFIG_EXPERIMENT $experiment_num $border_router_sdkconfig
 
 echo "-------Border Router KConfig Variables-----------" |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) |& tee -a $output_file_path

@@ -3,6 +3,7 @@
 NOTES.md
 data
 *.env
+*.pcapng
 
 __pycache__
 .pytest_cache

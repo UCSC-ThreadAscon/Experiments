@@ -44,11 +44,12 @@ async def build_flash_rcp(cipher_num):
   await power_off("Radio Co-Processor")
   return
 
-def ftd_monitor(tx_power, cipher_num):
-  async def _ftd_monitor(tx_power, cipher_num):
+def ftd_monitor(tx_power, cipher_num, exp_client_num):
+  async def _ftd_monitor(tx_power, cipher_num, exp_client_num):
     await power_on("Full Thread Device")
 
-    subprocess.run(["bash", "./ftd.sh", "-t", tx_power, "-e", cipher_num, "-p", FTD_PORT],
+    subprocess.run(["bash", "./ftd.sh", "-t", tx_power, "-e",
+                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
         stdout=PIPE, stderr=STDOUT)
 
     log_filename = f"queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
@@ -76,14 +77,22 @@ def ftd_monitor(tx_power, cipher_num):
     await power_off("Full Thread Device")
     return
 
-  return asyncio.run(_ftd_monitor(tx_power, cipher_num))
+  return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num))
 
-def border_router_monitor(tx_power, cipher_num):
-  async def _border_router_monitor(tx_power, cipher_num):
-    await power_on("Border Router")
+def get_server_name(exp_server_num):
+  return "Delay Server" if exp_server_num == 3 else "Border Router"
 
-    subprocess.run(["bash", "./border_router.sh", "-t", tx_power,
-                   "-e", cipher_num, "-p", BORDER_ROUTER_PORT],
+def get_server_script(exp_server_num):
+  return "ftd.sh" if exp_server_num == 3 else "border_router.sh"
+
+def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
+  async def _server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
+    server_name = get_server_name(exp_server_num)
+    await power_on(server_name)
+
+    subprocess.run(["bash", get_server_script(exp_server_num), "-t", tx_power,
+                   "-e", cipher_num, "-p", BORDER_ROUTER_PORT,
+                   "-x", exp_server_num],
                    stdout=PIPE, stderr=STDOUT)
 
     log_filename = \
@@ -103,9 +112,10 @@ def border_router_monitor(tx_power, cipher_num):
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(BORDER_ROUTER_PORT, timeout=1) as border_router:
-        print("Border Router monitoring has started.")
+        print(f"{server_name} monitoring has started.")
 
-        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num))
+        ftd_process = Process(target=ftd_monitor,
+                              args=(tx_power, cipher_num, exp_client_num))
         ftd_started = False
 
         while (not ftd_started) or (ftd_process.is_alive()):
@@ -122,8 +132,8 @@ def border_router_monitor(tx_power, cipher_num):
                 ftd_process.start()
                 ftd_started = True
 
-    print("Border Router monitoring has stopped.")
-    await power_off("Border Router")
+    print(f"{server_name} monitoring has stopped.")
+    await power_off(server_name)
 
     sniffer.stop_sig_handler()
     print("Stopped Packet Sniffer capture.")
@@ -131,7 +141,7 @@ def border_router_monitor(tx_power, cipher_num):
 
     return
 
-  return asyncio.run(_border_router_monitor(tx_power, cipher_num))
+  return asyncio.run(_server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num))
 
 async def main():
   await check_main_usb_hub_ports_off()
@@ -141,17 +151,31 @@ async def main():
 
   tx_power = args.tx_power
   cipher_num = args.encryption
+  experiment_num = args.experiment_num
+
+  match (experiment_num):
+    case Experiment.DELAY.value:
+      exp_server_num = 3
+      exp_client_num = 4
+    case Experiment.THROUGHPUT_CONFIRMABLE.value:
+      exp_server_num = 1
+      exp_client_num = 1
+    case _:
+      raise Exception("Invalid Experiment Number.")
 
   await power_on("Main USB Hub")
-  await build_flash_rcp(cipher_num)
+
+  if experiment_num != Experiment.DELAY.value:
+    await build_flash_rcp(cipher_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
-  border_router_process = Process(target=border_router_monitor,
-                                  args=(tx_power, cipher_num))
-  border_router_process.start()
+  server_process = Process(target=server_monitor,
+                                  args=(tx_power, cipher_num,
+                                        exp_server_num, exp_client_num))
+  server_process.start()
 
-  border_router_process.join()
-  post_process(Experiment.THROUGHPUT_CONFIRMABLE.value, cipher_num, tx_power)
+  server_process.join()
+  post_process(experiment_num, cipher_num, tx_power)
 
   await power_off("Main USB Hub")
   return

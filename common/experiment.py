@@ -116,4 +116,12 @@ def cmd_arg_parser():
         which uses variable tag length.
     """
   parser.add_argument("--encryption", help=helper_text, required=True)
+
+  helper_text = \
+    """The network performance experiment to run.
+        
+       Set the flag to '0' to run the Delay experiment.
+       Set the flag to '1' to run the Throughput Confirmable experiment.
+    """
+  parser.add_argument("--experiment", help=helper_text, required=True)
   return parser

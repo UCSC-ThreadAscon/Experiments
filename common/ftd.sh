@@ -31,12 +31,13 @@ function to_cipher_string() {
   esac
 }
 
-while getopts t:e:p: arg
+while getopts t:e:p:x: arg
 do
   case "${arg}" in
     t) tx_power=${OPTARG};;
     e) cipher_num=${OPTARG};;
     p) ftd_port=${OPTARG};;
+    x) experiment_num=${OPTARG};;
   esac
 done
 
@@ -58,9 +59,7 @@ source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
 ftd_sdkconfig=$ftd_path/sdkconfig
 
-# `CONFIG_EXPERIMENT=1` sets the FTD to run the throughput confirmable experiment.
-tp_con_client_flag=1
-sdkconfig_set CONFIG_EXPERIMENT $tp_con_client_flag $ftd_sdkconfig
+sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
 
 # Change both the cipher suite and TX power settings in `sdkconfig`.
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig

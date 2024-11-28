@@ -3,6 +3,11 @@ from pathlib import Path
 from enum import Enum
 from synology_api_wrapper import upload_folder
 
+RCP_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/rcp.sh"
+BORDER_ROUTER_SCRIPT = \
+  "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
+FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
+
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1

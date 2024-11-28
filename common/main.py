@@ -38,8 +38,8 @@ async def build_flash_rcp(cipher_num):
   await power_off("Border Router")
   await power_on("Radio Co-Processor")
 
-  subprocess.run(["bash", "./rcp.sh", "-e", cipher_num, "-p", RCP_PORT],
-      stdout=PIPE, stderr=STDOUT)
+  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT,],
+                 stdout=PIPE, stderr=STDOUT)
 
   print("Hello")
   await power_off("Radio Co-Processor")
@@ -49,7 +49,7 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num):
   async def _ftd_monitor(tx_power, cipher_num, exp_client_num):
     await power_on("Full Thread Device")
 
-    subprocess.run(["bash", "./ftd.sh", "-t", tx_power, "-e",
+    subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
                     cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
         stdout=PIPE, stderr=STDOUT)
 
@@ -84,7 +84,7 @@ def get_server_name(exp_server_num):
   return "Delay Server" if exp_server_num == 3 else "Border Router"
 
 def get_server_script(exp_server_num):
-  return "./ftd.sh" if exp_server_num == 3 else ".border_router.sh"
+  return FTD_SCRIPT if exp_server_num == 3 else BORDER_ROUTER_SCRIPT
 
 def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
   async def _server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
@@ -167,8 +167,7 @@ async def main():
 
   await power_on("Main USB Hub")
 
-  if int(experiment_num) != Experiment.DELAY.value:
-    await build_flash_rcp(cipher_num)
+  await build_flash_rcp(cipher_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
   server_process = Process(target=server_monitor,

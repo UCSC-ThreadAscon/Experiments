@@ -12,9 +12,6 @@ from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
-import add_to_path
-add_to_path.add_common_to_path()
-
 from kasa_wrapper import *
 from experiment import *
 

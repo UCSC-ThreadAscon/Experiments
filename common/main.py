@@ -41,7 +41,6 @@ async def build_flash_rcp(cipher_num):
   subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT],
                  stdout=PIPE, stderr=STDOUT)
 
-  print("Hello")
   await power_off("Radio Co-Processor")
   return
 

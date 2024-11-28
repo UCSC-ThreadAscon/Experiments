@@ -8,6 +8,8 @@ BORDER_ROUTER_SCRIPT = \
   "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
 FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
 
+EXPERIMENT_DIR = "/home/simeon/Desktop/Repositories/Experiments"
+
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1

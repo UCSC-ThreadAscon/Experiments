@@ -38,7 +38,7 @@ function to_cipher_string() {
   esac
 }
 
-while getopts t:e:p:x; arg
+while getopts t:e:p:x: arg
 do
   case "${arg}" in
     t) tx_power=${OPTARG};;

@@ -5,7 +5,7 @@ BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_bo
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 DELAY_CLIENT_LOC=$HOME/Desktop/Repositories/delay-client
 
-SET_COMMIT_IDS_SCRIPT=$HOME/Desktop/Repositories/Experiments/common/set-commit-ids.sh
+SET_COMMIT_IDS_SCRIPT=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
 
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"

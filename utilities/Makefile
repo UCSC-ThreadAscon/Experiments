@@ -14,11 +14,11 @@ br-netperf:
 br-energy:
 	bash ./br-flash.sh -p $(BORDER_ROUTER_PORT) -f $(ENERGY_FILE_LOC)
 
+update-commits: update
+	bash ./update-commits.sh
+
 update:
 	bash ./update.sh
 
 install:
 	bash ./install.sh
-
-update-commits:
-	bash ./update-commits.sh

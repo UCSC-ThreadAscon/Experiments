@@ -6,6 +6,7 @@
 # https://askubuntu.com/a/420983
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#ifelif
 # https://stackoverflow.com/a/18856472/6621292
+# https://stackoverflow.com/a/525612/6621292
 
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)

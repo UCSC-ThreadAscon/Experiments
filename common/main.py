@@ -92,7 +92,7 @@ def get_server_script(exp_server_num):
   return FTD_SCRIPT if exp_server_num == "3" else BORDER_ROUTER_SCRIPT
 
 def get_server_file_abbr(exp_server_num):
-  return "delay-server" if exp_server_num == "3" else "BR"
+  return "server" if exp_server_num == "3" else "BR"
 
 def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experiment_num):
   async def _server_monitor(tx_power, cipher_num, exp_server_num,

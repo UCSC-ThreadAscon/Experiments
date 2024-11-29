@@ -1,6 +1,9 @@
 DELAY_SERVER_PORT=/dev/ttyUSB0
 DELAY_CLIENT_PORT=/dev/ttyUSB1
 
+clean-queue:
+	rm -r -f ./queue/*
+
 post-process:
 	rm -f ./queue/full-log.txt ./queue/delay-final-average*
 	python3 ./parse.py

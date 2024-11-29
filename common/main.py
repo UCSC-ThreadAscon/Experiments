@@ -50,8 +50,8 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
     await power_on("Full Thread Device")
 
     subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
-                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num])
-                    # stdout=PIPE, stderr=STDOUT)
+                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
+                    stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename(experiment_num)}-" + \

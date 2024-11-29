@@ -149,3 +149,4 @@ fi
 if $setup_delay_client;
 then
   change_repo_commit "Delay Client" $DELAY_CLIENT_LOC $DELAY_CLIENT_COMMIT
+fi

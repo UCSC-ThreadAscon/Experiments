@@ -21,6 +21,8 @@ function update_commit() {
   cd $2
   printf "Currently at repository: %s.\n" "$(pwd)"
 
+  printf "Old commit is at %s.\n" $(cat $SET_COMMIT_IDS_SCRIPT | grep $3=) 
+
   new_commit=$(git rev-parse HEAD)
   printf "New commit is at %s.\n" $new_commit
 
@@ -28,10 +30,12 @@ function update_commit() {
   new_commit_string="$3=$new_commit"
   sed -i -e "s/$current_commit_string/$new_commit_string/g" $SET_COMMIT_IDS_SCRIPT
 
-  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3)."
+  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3=).\n"
   print_delimiter
 }
 
-bash ./update.sh
-
 update_commit "main" $ESP_IDF_LOC ESP_IDF_COMMIT
+update_commit "main" $BORDER_ROUTER_LOC BORDER_ROUTER_COMMIT
+update_commit "main" $FTD_LOC FTD_COMMIT
+update_commit "main" $DELAY_SERVER_LOC DELAY_SERVER_COMMIT
+update_commit "main" $DELAY_CLIENT_LOC DELAY_CLIENT_COMMIT

@@ -4,7 +4,13 @@ ESP_IDF_COMMIT=068af40ce0973a4a3a87f4aa52ff94c01c1e2e25
 # The commit ID of the FTD.
 FTD_COMMIT=407414e8b5ddaa27d312286223854b6e0cf7f24a
 
-# The commit ID of the border router
+# The commit ID of the Delay Server.
+DELAY_SERVER_COMMIT=ad76e1ad16580fb52965401cb1bcba8730cc17dd
+
+# The commit ID of the Delay Client.
+DELAY_CLIENT_COMMIT=3977afc3fde2d74f89b9e9696854e311fa718594
+
+# The commit ID of the Border Router.
 BORDER_ROUTER_COMMIT=322e96fc897167fa3134e21fa1c74c950f8a9d10
 
 # The location of each of the repositories.
@@ -13,6 +19,7 @@ OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
+DELAY_CLIENT_LOC=$HOME/Desktop/Repositories/delay-client
 
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"
@@ -92,9 +99,10 @@ function print_commit() {
 setup_ftd=false
 setup_border_router=false
 setup_delay_server=false
+setup_delay_client=false
 
 # https://www.atatus.com/blog/bash-scripting/
-while getopts "fbs" flag; do
+while getopts "fbsc" flag; do
   case $flag in
     f)
       echo "Setting the Commit IDs for the FTD."
@@ -107,6 +115,9 @@ while getopts "fbs" flag; do
     s)
       echo "Setting the Commit IDs for the DELAY SERVER."
       setup_delay_server=true
+      ;;
+    c) echo "Setting the Commit IDs for the Delay Client."
+      setup_delay_client=true
       ;;
     \?)
       "Flag -${flag} is in invalid option."
@@ -132,5 +143,9 @@ fi
 
 if $setup_delay_server;
 then
-  change_repo_commit "Delay Server" $DELAY_SERVER_LOC $FTD_COMMIT
+  change_repo_commit "Delay Server" $DELAY_SERVER_LOC $DELAY_SERVER_COMMIT
 fi
+
+if $setup_delay_client;
+then
+  change_repo_commit "Delay Client" $DELAY_CLIENT_LOC $DELAY_CLIENT_COMMIT

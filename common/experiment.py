@@ -8,8 +8,6 @@ BORDER_ROUTER_SCRIPT = \
   "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
 FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
 
-EXPERIMENT_DIR = "/home/simeon/Desktop/Repositories/Experiments"
-
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
@@ -42,8 +40,11 @@ def get_dir_path(experiment_enum, subdir_name):
     case _:
       raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
-  return Path(Path.home(), "Desktop", "Repositories",
-              "Experiments", experiment_dir, subdir_name)
+  if subdir_name == None:
+    return Path(Path.home(), "Desktop", "Repositories", "Experiments", experiment_dir)
+  else:
+    return Path(Path.home(), "Desktop", "Repositories", "Experiments",experiment_dir,
+                subdir_name)
 
 def get_nas_exp_dir_string(experiment_enum):
   dirname = None

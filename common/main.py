@@ -26,7 +26,7 @@ FTD_PORT = "/dev/ttyACM2"
 THREAD_NETWORK_CHANNEL = 20
 
 SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
-EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
+EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
 
 def print_line(line):
@@ -44,15 +44,15 @@ async def build_flash_rcp(cipher_num):
   await power_off("Radio Co-Processor")
   return
 
-def ftd_monitor(tx_power, cipher_num, exp_client_num):
-  async def _ftd_monitor(tx_power, cipher_num, exp_client_num):
+def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
+  async def _ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
     await power_on("Full Thread Device")
 
     subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
                     cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
         stdout=PIPE, stderr=STDOUT)
 
-    log_filename = EXPERIMENT_DIR + \
+    log_filename = get_dir_path(experiment_num, None).as_posix() + \
       f"/queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
@@ -78,7 +78,7 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num):
     await power_off("Full Thread Device")
     return
 
-  return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num))
+  return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
 
 def get_server_name(exp_server_num):
   return "Delay Server" if exp_server_num == 3 else "Border Router"
@@ -89,8 +89,9 @@ def get_server_script(exp_server_num):
 def get_server_file_abbr(exp_server_num):
   return "server" if exp_server_num == 3 else "BR"
 
-def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
-  async def _server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
+def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experiment_num):
+  async def _server_monitor(tx_power, cipher_num, exp_server_num,
+                            exp_client_num, experiment_num):
     server_name = get_server_name(exp_server_num)
     await power_on(server_name)
 
@@ -100,12 +101,14 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
                    "-x", exp_server_num],
                    stdout=PIPE, stderr=STDOUT)
 
-    log_filename = EXPERIMENT_DIR + \
+    exp_dir_path = get_dir_path(experiment_num, None).as_posix()
+
+    log_filename = exp_dir_path + \
       f"/queue/tp-con-{get_server_file_abbr(exp_server_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
-    sniffer_filename = \
-      f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+    sniffer_filename = exp_dir_path + \
+      f"/queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
     await power_on("Packet Sniffer")
     sniffer = Nrf802154Sniffer()
@@ -120,8 +123,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
       with serial.Serial(SERVER_PORT, timeout=1) as server:
         print(f"{server_name} monitoring has started.")
 
-        ftd_process = Process(target=ftd_monitor,
-                              args=(tx_power, cipher_num, exp_client_num))
+        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num,
+                                                        exp_client_num, experiment_num))
         ftd_started = False
 
         while (not ftd_started) or (ftd_process.is_alive()):
@@ -147,7 +150,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
 
     return
 
-  return asyncio.run(_server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num))
+  return asyncio.run(_server_monitor(tx_power, cipher_num, exp_server_num,
+                                     exp_client_num, experiment_num))
 
 async def main():
   await check_main_usb_hub_ports_off()
@@ -174,7 +178,8 @@ async def main():
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
   server_process = Process(target=server_monitor,
-                           args=(tx_power, cipher_num, exp_server_num, exp_client_num))
+                           args=(tx_power, cipher_num, exp_server_num, exp_client_num,
+                                 experiment_num))
   server_process.start()
 
   server_process.join()

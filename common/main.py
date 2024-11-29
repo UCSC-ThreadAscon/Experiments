@@ -178,7 +178,9 @@ async def main():
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 
   await power_on("Main USB Hub")
-  await build_flash_rcp(cipher_num)
+
+  if experiment_num != Experiment.DELAY.value:
+    await build_flash_rcp(cipher_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
   server_process = Process(target=server_monitor,

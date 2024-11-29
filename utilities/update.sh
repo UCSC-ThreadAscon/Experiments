@@ -18,15 +18,15 @@ function print_delimiter() {
 }
 
 # Command Line Format:
-#   update_repo [branch] [path to repository]
+#   update_repo [branch] [main branch] [path to repository]
 #
-# Sources Used:
+# Sources Utilized:
 #   https://stackoverflow.com/a/61751340/6621292
 #   https://stackoverflow.com/a/7737071/6621292
 #
 function update_repo() {
   print_delimiter
-  cd $2
+  cd $3
   printf "Currently at repository: %s\n" "$(pwd)"
 
   git restore . --recurse-submodules
@@ -42,6 +42,13 @@ function update_repo() {
 
   git restore . --recurse-submodules
   echo "Doing a GIT RESTORE (--recursed-submodules) to make sure that the submodules (if any) are at the correct commits."
+
+  if [ $1 != $2 ]
+  then
+    echo "Merging branch $1 with $2".
+    git merge $2 --commit --no-edit
+    git push
+  fi
   print_delimiter
 }
 

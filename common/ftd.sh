@@ -5,6 +5,7 @@
 # https://stackoverflow.com/a/57766728/6621292
 # https://askubuntu.com/a/420983
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#ifelif
+# https://stackoverflow.com/a/18856472/6621292
 
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
@@ -46,16 +47,16 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-if [ experiment_num == 1 ]
+if [ $experiment_num == 1 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-FTD-$cipher_string-$txpower_string.txt"
-elif [ experiment_num == 3 ]
+elif [ $experiment_num == 3 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
-elif [ experiment_num == 4 ]
+elif [ $experiment_num == 4 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-FTD-$cipher_string-$txpower_string.txt"
-done
+fi
 
 rm -f $output_file_path
 date |& tee $output_file_path

@@ -21,7 +21,7 @@ RCP_PORT = "/dev/ttyACM0"
 SERVER_PORT = "/dev/ttyACM0"
 
 SNIFFER_PORT = "/dev/ttyACM1"
-FTD_PORT = "/dev/ttyACM2"
+FTD_PORT = "/dev/ttyACM0"
 
 THREAD_NETWORK_CHANNEL = 20
 
@@ -49,8 +49,7 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
     await power_on("Full Thread Device")
 
     subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
-                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
-        stdout=PIPE, stderr=STDOUT)
+                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num])
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
       f"/queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"

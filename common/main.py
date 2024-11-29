@@ -52,8 +52,8 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num):
                     cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
         stdout=PIPE, stderr=STDOUT)
 
-    log_filename = \
-      f"{EXPERIMENT_DIR}/queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    log_filename = EXPERIMENT_DIR + \
+      f"/queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(FTD_PORT, timeout=1) as ftd:
@@ -97,8 +97,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
                    "-x", exp_server_num],
                    stdout=PIPE, stderr=STDOUT)
 
-    log_filename = \
-      f"queue/tp-con-server-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    log_filename = EXPERIMENT_DIR + \
+      f"/queue/tp-con-server-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = \
       f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"

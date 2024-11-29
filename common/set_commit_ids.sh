@@ -116,7 +116,7 @@ while getopts "fbsc" flag; do
       echo "Setting the Commit IDs for the DELAY SERVER."
       setup_delay_server=true
       ;;
-    c) echo "Setting the Commit IDs for the Delay Client."
+    c) echo "Setting the Commit IDs for the DELAY CLIENT."
       setup_delay_client=true
       ;;
     \?)

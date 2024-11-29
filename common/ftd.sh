@@ -63,11 +63,23 @@ rm -f $output_file_path
 date |& tee $output_file_path
 
 set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
-$set_commit_ids_exec -f |& tee -a $output_file_path
+
+if [ $experiment_num == 3 ]
+then
+  $set_commit_ids_exec -s |& tee -a $output_file_path
+  ftd_path="$HOME/Desktop/Repositories/delay-server"
+fi
+elif [ $experiment_num == 4 ]
+then
+  $set_commit_ids_exec -c |& tee -a $output_file_path
+  ftd_path="$HOME/Desktop/Repositories/delay-client"
+else
+  $set_commit_ids_exec -f |& tee -a $output_file_path
+  ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
+fi
 # --------------------------------
 
 # ---- Set the KConfig variables ----
-ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
 ftd_sdkconfig=$ftd_path/sdkconfig
 
 sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
@@ -110,7 +122,6 @@ source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 
 idf.py fullclean |& tee -a $output_file_path
 idf.py build flash --port $ftd_port |& tee -a $output_file_path
-echo $(cat sdkconfig | grep CONFIG_OPENTHREAD_TIME_SYNC)
 
 cd -
 # ---------------------------------

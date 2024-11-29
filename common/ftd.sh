@@ -77,6 +77,13 @@ sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 
+if [ $experiment_num == 4 ]
+then
+  sdkconfig_set CONFIG_OPENTHREAD_TIME_SYNC 1 $ftd_sdkconfig
+else
+  sed -i -e "s/CONFIG_OPENTHREAD_TIME_SYNC=1/# CONFIG_OPENTHREAD_TIME_SYNC is not set/g" $ftd_sdkconfig
+fi
+
 # Make sure USB/Serial JTAG monitoring is ENABLED on the FTD.
 usb_serial_monitor_flag=$(cat $ftd_sdkconfig | grep 'CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=')
 if [[ "$usb_serial_monitor_flag" != "CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y" ]]
@@ -95,6 +102,7 @@ echo "--------- FTD KConfig Variables ---------"
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_TIME_SYNC $ftd_sdkconfig) |& tee -a $output_file_path
 echo "-----------------------------------------"
 
 idf.py fullclean |& tee -a $output_file_path

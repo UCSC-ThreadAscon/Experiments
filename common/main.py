@@ -103,8 +103,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
     server_script = get_server_script(exp_server_num)
     subprocess.run(["bash", server_script, "-t", tx_power,
                    "-e", cipher_num, "-p", SERVER_PORT,
-                   "-x", exp_server_num])
-                  #  stdout=PIPE, stderr=STDOUT)
+                   "-x", exp_server_num],
+                   stdout=PIPE, stderr=STDOUT)
 
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
     exp_filename = get_exp_filename(experiment_num)

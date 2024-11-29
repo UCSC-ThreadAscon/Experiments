@@ -77,7 +77,7 @@ sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 
-if [ $experiment_num == 4 ]
+if [ $experiment_num == 3 ] || [ $experiment_num == 4 ]
 then
   sdkconfig_set CONFIG_OPENTHREAD_TIME_SYNC 1 $ftd_sdkconfig
 else

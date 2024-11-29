@@ -5,7 +5,7 @@ BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_bo
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
 DELAY_CLIENT_LOC=$HOME/Desktop/Repositories/delay-client
 
-SET_COMMIT_IDS_SCRIPT=$HOME/Desktop/Repositories/Experiments/utilities/update-commits.sh
+SET_COMMIT_IDS_SCRIPT=$HOME/Desktop/Repositories/Experiments/common/set-commit-ids.sh
 
 function print_delimiter() {
   echo "-----------------------------------------------------------------------------------------"
@@ -22,15 +22,15 @@ function update_commit() {
   printf "Currently at repository: %s.\n" "$(pwd)"
 
   new_commit=$(git rev-parse HEAD)
-  printf "New commit is at %s.\n" $new_commit
+  printf"New commit is at %s.\n" $new_commit
 
   current_commit_string=$(cat $SET_COMMIT_IDS_SCRIPT | grep $3)
   sed -i -e "s/$current_commit_string/$3=$new_commit/g" $SET_COMMIT_IDS_SCRIPT
 
-  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3).\n"
+  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3)."
   print_delimiter
 }
 
 bash ./update.sh
 
-ESP_IDF_COMMIT=068af40ce0973a4a3a87f4aa52ff94c01c1e2e25
+update_commit "main" $ESP_IDF_LOC "ESP_IDF_COMMIT"

@@ -19,3 +19,6 @@ update:
 
 install:
 	bash ./install.sh
+
+update-commits:
+	bash ./update-commits.sh

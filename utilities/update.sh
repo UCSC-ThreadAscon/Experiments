@@ -38,10 +38,10 @@ function update_repo() {
   git checkout --recurse-submodules $1
   git pull
 
-  git --no-pager log --pretty=oneline -n1
-
   git restore . --recurse-submodules
   echo "Doing a GIT RESTORE (--recursed-submodules) to make sure that the submodules (if any) are at the correct commits."
+
+  git --no-pager log --pretty=oneline -n1
 
   print_delimiter
 }

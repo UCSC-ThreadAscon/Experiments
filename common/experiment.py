@@ -29,6 +29,15 @@ def to_cipher_string(cipher_num):
     case _:
       raise Exception("Number does not correspond to an Encryption Algorithm.")
 
+def get_exp_filename(experiment_enum):
+  match experiment_enum:
+    case Experiment.DELAY.value:
+      return "delay"
+    case Experiment.THROUGHPUT_CONFIRMABLE.value:
+      return "tp-con"
+    case _:
+      raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
+
 def get_dir_path(experiment_enum, subdir_name):
   experiment_dir = ""
 

@@ -54,7 +54,8 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
                     stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
-      f"/queue/tp-con-FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+                   f"/queue/{get_exp_filename(experiment_num)}-" + \
+                   f"FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(FTD_PORT, timeout=1) as ftd:
@@ -85,13 +86,13 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
   return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
 
 def get_server_name(exp_server_num):
-  return "Delay Server" if exp_server_num == 3 else "Border Router"
+  return "Delay Server" if exp_server_num == "3" else "Border Router"
 
 def get_server_script(exp_server_num):
-  return FTD_SCRIPT if exp_server_num == 3 else BORDER_ROUTER_SCRIPT
+  return FTD_SCRIPT if exp_server_num == "3" else BORDER_ROUTER_SCRIPT
 
 def get_server_file_abbr(exp_server_num):
-  return "server" if exp_server_num == 3 else "BR"
+  return "delay-server" if exp_server_num == "3" else "BR"
 
 def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experiment_num):
   async def _server_monitor(tx_power, cipher_num, exp_server_num,
@@ -108,7 +109,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
 
     log_filename = exp_dir_path + \
-      f"/queue/tp-con-{get_server_file_abbr(exp_server_num)}-" + \
+      f"/queue/{get_exp_filename(experiment_num)}-" + \
+      f"{get_server_file_abbr(exp_server_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = exp_dir_path + \
@@ -167,7 +169,7 @@ async def main():
   cipher_num = args.encryption
   experiment_num = int(args.experiment)
 
-  match (experiment_num):
+  match experiment_num:
     case Experiment.DELAY.value:
       exp_server_num = "3"
       exp_client_num = "4"

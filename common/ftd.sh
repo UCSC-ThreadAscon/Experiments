@@ -68,7 +68,6 @@ if [ $experiment_num == 3 ]
 then
   $set_commit_ids_exec -s |& tee -a $output_file_path
   ftd_path="$HOME/Desktop/Repositories/delay-server"
-fi
 elif [ $experiment_num == 4 ]
 then
   $set_commit_ids_exec -c |& tee -a $output_file_path

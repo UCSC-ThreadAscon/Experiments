@@ -86,6 +86,9 @@ def get_server_name(exp_server_num):
 def get_server_script(exp_server_num):
   return FTD_SCRIPT if exp_server_num == 3 else BORDER_ROUTER_SCRIPT
 
+def get_server_file_abbr(exp_server_num):
+  return "server" if exp_server_num == 3 else "BR"
+
 def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
   async def _server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
     server_name = get_server_name(exp_server_num)
@@ -98,7 +101,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num):
                    stdout=PIPE, stderr=STDOUT)
 
     log_filename = EXPERIMENT_DIR + \
-      f"/queue/tp-con-server-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+      f"/queue/tp-con-{get_server_file_abbr(exp_server_num)}-" + \
+      f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = \
       f"queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"

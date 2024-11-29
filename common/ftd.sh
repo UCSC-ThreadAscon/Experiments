@@ -4,6 +4,7 @@
 # https://unix.stackexchange.com/questions/159367/using-sed-to-find-and-replace
 # https://stackoverflow.com/a/57766728/6621292
 # https://askubuntu.com/a/420983
+# https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#ifelif
 
 function sdkconfig_set() {
   to_replace=$(cat $3 | grep $1=)
@@ -45,7 +46,17 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-FTD-$cipher_string-$txpower_string.txt"
+if [ experiment_num == 1 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-FTD-$cipher_string-$txpower_string.txt"
+elif [ experiment_num == 3 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"
+elif [ experiment_num == 4 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-FTD-$cipher_string-$txpower_string.txt"
+done
+
 rm -f $output_file_path
 date |& tee $output_file_path
 

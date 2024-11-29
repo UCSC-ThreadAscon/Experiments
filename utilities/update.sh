@@ -2,6 +2,7 @@ ESP_IDF_LOC=${HOME}/esp/esp-idf
 OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 
 DELAY_SERVER_LOC=$HOME/Desktop/Repositories/delay-server
+DELAY_CLIENT_LOC=$HOME/Desktop/Repositories/delay-client
 
 NET_PERF_FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 NET_PERF_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf
@@ -50,7 +51,8 @@ update_repo "main" $OPENTHREAD_LOC
 update_repo "experiment" $OPENTHREAD_LOC
 update_repo "master" $ESP_IDF_LOC
 
-update_repo "main" $DELAY_SERVER_LOC
+update_repo "delay-server" $DELAY_SERVER_LOC
+update_repo "delay-client" $DELAY_CLIENT_LOC
 
 update_repo "main" $NET_PERF_FTD_LOC
 update_repo "main" $NET_PERF_BORDER_ROUTER_LOC

@@ -50,8 +50,8 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
     await power_on("Full Thread Device")
 
     subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
-                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
-                    stdout=PIPE, stderr=STDOUT)
+                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num])
+                    # stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename(experiment_num)}-" + \
@@ -107,14 +107,15 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
                    stdout=PIPE, stderr=STDOUT)
 
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
+    exp_filename = get_exp_filename(experiment_num)
 
     log_filename = exp_dir_path + \
-      f"/queue/{get_exp_filename(experiment_num)}-" + \
+      f"/queue/{exp_filename}-" + \
       f"{get_server_file_abbr(exp_server_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = exp_dir_path + \
-      f"/queue/tp-con-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+      f"/queue/{exp_filename}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
     await power_on("Packet Sniffer")
     sniffer = Nrf802154Sniffer()

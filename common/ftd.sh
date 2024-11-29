@@ -66,8 +66,6 @@ set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids
 $set_commit_ids_exec -f |& tee -a $output_file_path
 # --------------------------------
 
-source $HOME/esp/esp-idf/export.sh &>> $output_file_path
-
 # ---- Set the KConfig variables ----
 ftd_path="$HOME/Desktop/Repositories/network-performance-ftd"
 ftd_sdkconfig=$ftd_path/sdkconfig
@@ -82,9 +80,9 @@ time_sync_not_set="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
 time_sync_set="CONFIG_OPENTHREAD_TIME_SYNC=1"
 if [ $experiment_num == 3 ] || [ $experiment_num == 4 ]
 then
-  sed -i "" "s/$time_sync_not_set/$time_sync_set/g" $ftd_sdkconfig
+  sed -i -e "s/$time_sync_not_set/$time_sync_set/g" $ftd_sdkconfig
 else
-  sed -i "" "s/$time_sync_set/$time_sync_not_set/g" $ftd_sdkconfig
+  sed -i -e "s/$time_sync_set/$time_sync_not_set/g" $ftd_sdkconfig
 fi
 
 # Make sure USB/Serial JTAG monitoring is ENABLED on the FTD.
@@ -107,6 +105,8 @@ echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(cat sdkconfig | grep CONFIG_OPENTHREAD_TIME_SYNC) |& tee -a $output_file_path
 echo "-----------------------------------------" |& tee -a $output_file_path
+
+source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 
 idf.py fullclean |& tee -a $output_file_path
 idf.py build flash --port $ftd_port |& tee -a $output_file_path

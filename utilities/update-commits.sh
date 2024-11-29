@@ -22,10 +22,10 @@ function update_commit() {
   printf "Currently at repository: %s.\n" "$(pwd)"
 
   new_commit=$(git rev-parse HEAD)
-  printf" Current commit is at %s.\n" $current_commit
+  printf" Current commit is at %s.\n" $new_commit
 
   current_commit_string=$(cat $SET_COMMIT_IDS_SCRIPT | grep $3)
-  sed -i -e "s/$current_commit_string/$3=$current_commit/g" $SET_COMMIT_IDS_SCRIPT
+  sed -i -e "s/$current_commit_string/$3=$new_commit/g" $SET_COMMIT_IDS_SCRIPT
 
   print_delimiter
 }

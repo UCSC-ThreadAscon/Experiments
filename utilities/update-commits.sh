@@ -24,14 +24,14 @@ function update_commit() {
   new_commit=$(git rev-parse HEAD)
   printf "New commit is at %s.\n" $new_commit
 
-  current_commit_string=$(cat $SET_COMMIT_IDS_SCRIPT | grep $3)
+  current_commit_string=$(cat $SET_COMMIT_IDS_SCRIPT | grep $3=)
   new_commit_string="$3=$new_commit"
-  sed -i "" "s/$current_commit_string/$new_commit_string/g" $SET_COMMIT_IDS_SCRIPT
+  sed -i -e "s/$current_commit_string/$new_commit_string/g" $SET_COMMIT_IDS_SCRIPT
 
   printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3)."
   print_delimiter
 }
 
-bash ./update.sh > /dev/null
+bash ./update.sh
 
-update_commit "main" $ESP_IDF_LOC "ESP_IDF_COMMIT"
+update_commit "main" $ESP_IDF_LOC ESP_IDF_COMMIT

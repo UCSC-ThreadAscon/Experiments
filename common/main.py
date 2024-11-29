@@ -25,7 +25,7 @@ FTD_PORT = "/dev/ttyACM2"
 
 THREAD_NETWORK_CHANNEL = 20
 
-SERVER_START_STRING = "Created Throughput Confirmable server at 'throughput-confirmable'."
+SERVER_START_STRING = "Started CoAP server"
 EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."

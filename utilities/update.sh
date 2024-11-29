@@ -18,7 +18,7 @@ function print_delimiter() {
 }
 
 # Command Line Format:
-#   update_repo [branch] [main branch] [path to repository]
+#   update_repo [branch] [path to repository]
 #
 # Sources Utilized:
 #   https://stackoverflow.com/a/61751340/6621292
@@ -43,12 +43,19 @@ function update_repo() {
   git restore . --recurse-submodules
   echo "Doing a GIT RESTORE (--recursed-submodules) to make sure that the submodules (if any) are at the correct commits."
 
-  if [ $1 != $2 ]
-  then
-    echo "Merging branch $1 with $2".
-    git merge $2 --commit --no-edit
-    git push
-  fi
+  print_delimiter
+}
+
+# Command Line Format:
+#   update_repo [branch] [main branch]
+#
+function merge_with_main() {
+  print_delimiter
+
+  echo "Merging branch $1 with $2".
+  git merge $2 --commit --no-edit
+  git push
+
   print_delimiter
 }
 
@@ -58,17 +65,26 @@ update_repo "main" $OPENTHREAD_LOC
 update_repo "experiment" $OPENTHREAD_LOC
 update_repo "master" $ESP_IDF_LOC
 
-update_repo "delay-server" $DELAY_SERVER_LOC
-update_repo "delay-client" $DELAY_CLIENT_LOC
-
-update_repo "main" $NET_PERF_FTD_LOC
 update_repo "main" $NET_PERF_BORDER_ROUTER_LOC
-
-update_repo "main" $ENERGY_SED_LOC
-update_repo "air-quality" $ENERGY_SED_LOC
-update_repo "back-door" $ENERGY_SED_LOC
-update_repo "front-door" $ENERGY_SED_LOC
 update_repo "main" $ENERGY_BORDER_ROUTER_LOC
-
 update_repo "main" $EXPERIMENTS_LOC
 update_repo "main" $GRAPHS_LOC
+
+update_repo "main" $NET_PERF_FTD_LOC
+
+update_repo "delay-server" $DELAY_SERVER_LOC
+merge_with_main "delay-server" "main" $DELAY_SERVER_LOC
+
+update_repo "delay-client" $DELAY_CLIENT_LOC
+merge_with_main "delay-client" "main" $DELAY_CLIENT_LOC
+
+update_repo "main" $ENERGY_SED_LOC
+
+update_repo "air-quality" $ENERGY_SED_LOC
+merge_with_main "air-quality" "main" $ENERGY_SED_LOC
+
+update_repo "back-door" $ENERGY_SED_LOC
+merge_with_main "back-door" "main" $ENERGY_SED_LOC
+
+update_repo "front-door" $ENERGY_SED_LOC
+merge_with_main "front-door" "main" $ENERGY_SED_LOC

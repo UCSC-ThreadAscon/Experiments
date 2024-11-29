@@ -26,7 +26,7 @@ function print_delimiter() {
 #
 function update_repo() {
   print_delimiter
-  cd $3
+  cd $2
   printf "Currently at repository: %s\n" "$(pwd)"
 
   git restore . --recurse-submodules
@@ -48,6 +48,9 @@ function update_repo() {
 
 # Command Line Format:
 #   update_repo [branch] [main branch]
+#
+# Sources Utilized:
+#   https://stackoverflow.com/a/62797361/6621292
 #
 function merge_with_main() {
   print_delimiter

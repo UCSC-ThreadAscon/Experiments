@@ -22,15 +22,15 @@ function update_commit() {
   printf "Currently at repository: %s.\n" "$(pwd)"
 
   new_commit=$(git rev-parse HEAD)
-  printf"New commit is at %s.\n" $new_commit
+  printf "New commit is at %s.\n" $new_commit
 
   current_commit_string=$(cat $SET_COMMIT_IDS_SCRIPT | grep $3)
   sed -i -e "s/$current_commit_string/$3=$new_commit/g" $SET_COMMIT_IDS_SCRIPT
 
-  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3)."
+  printf "The commit is now set to be at $(cat $SET_COMMIT_IDS_SCRIPT | grep $3).\n"
   print_delimiter
 }
 
 bash ./update.sh
 
-update_commit "main" $ESP_IDF_LOC "ESP_IDF_COMMIT"
+ESP_IDF_COMMIT=068af40ce0973a4a3a87f4aa52ff94c01c1e2e25

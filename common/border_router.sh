@@ -52,7 +52,7 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-BR-$cipher_string-$txpower_string.txt"
+output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-server-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
 date |& tee $output_file_path
 

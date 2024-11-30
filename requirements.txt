@@ -3,4 +3,5 @@ pyserial
 pytest
 pytest-asyncio
 synology-api @ git+https://github.com/N4S4/synology-api@master
+yamllint @ git+https://github.com/adrienverge/yamllint@master
 python-dotenv

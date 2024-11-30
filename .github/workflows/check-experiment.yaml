@@ -1,0 +1,28 @@
+# RESOURCES UTILIZED:
+# https://unix.stackexchange.com/a/168384/635993
+#
+name: Check Experiments 🔎
+run-name: Check Experiments
+on: workflow dispatch
+
+jobs:
+  Check-Experiment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+        tags: tag:github-actions
+        version: 1.76.6
+    
+    name: Check the Experiment Status
+    run: |
+      ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+      "tmux ls
+       tmux capture-pane -pt 'github-actions'
+      "
+    env:
+        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

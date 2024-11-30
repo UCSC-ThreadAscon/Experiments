@@ -55,6 +55,9 @@ function update_repo() {
 function merge_with_main() {
   print_delimiter
 
+  git checkout --recurse-submodules $2
+  git pull
+
   echo "Merging branch $1 with $2".
   git merge $2 --commit --no-edit
   git push

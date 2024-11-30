@@ -5,11 +5,12 @@
 # https://unix.stackexchange.com/a/304864/635993
 # https://graphite.dev/guides/github-actions-inputs
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
+# https://stackoverflow.com/a/21699210/6621292
 #
 name: Experiments Automation 🔬
 run-name: >
   Start Experiment ${{ inputs.experiment }} ${{ inputs.encryption }}
-  ${{ inputs.txpower }}} dBm
+  ${{ inputs.txpower }} dBm
 on:
   workflow_dispatch:
     inputs:
@@ -79,7 +80,7 @@ jobs:
         }
 
         cipher_num=$(to_cipher_num $encryption)
-        experiment_num$(to_experiment_num $experiment)
+        experiment_num=$(to_experiment_num $experiment)
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "cd /home/$USERNAME/Desktop/Repositories/Experiments

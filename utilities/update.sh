@@ -57,6 +57,7 @@ function merge_with_main() {
 
   git checkout --recurse-submodules $2
   git pull
+  git checkout --recurse-submodules $1
 
   echo "Merging branch $1 with $2".
   git merge $2 --commit --no-edit

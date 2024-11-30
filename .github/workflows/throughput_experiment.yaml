@@ -6,6 +6,7 @@
 # https://graphite.dev/guides/github-actions-inputs
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
 # https://stackoverflow.com/a/21699210/6621292
+# https://unix.stackexchange.com/a/168384/635993
 #
 name: Start Experiments 🔬
 run-name: >
@@ -92,6 +93,7 @@ jobs:
              --experiment $experiment_num'
 
            tmux ls
+           tmux capture-pane -pt "github-actions"
           "
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}

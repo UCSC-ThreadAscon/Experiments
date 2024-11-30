@@ -24,5 +24,5 @@ jobs:
         tmux capture-pane -pt 'github-actions'
         "
       env:
-          USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-          HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

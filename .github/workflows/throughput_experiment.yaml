@@ -87,13 +87,12 @@ jobs:
            source ./common/load_pyenv.sh
            python3 --version
 
-           cd ./throughput-confirmable
+           cd ./common
            tmux new -s github-actions -d \
             'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
              --experiment $experiment_num'
 
            tmux ls
-           tmux capture-pane -pt "github-actions"
           "
       env:
         USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}

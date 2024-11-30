@@ -7,10 +7,9 @@
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
 # https://stackoverflow.com/a/21699210/6621292
 #
-name: Experiments Automation 🔬
+name: Start Experiments 🔬
 run-name: >
-  Start Experiment ${{ inputs.experiment }} ${{ inputs.encryption }}
-  ${{ inputs.txpower }} dBm
+  ${{ inputs.experiment }} ${{ inputs.encryption }} ${{ inputs.txpower }} dBm
 on:
   workflow_dispatch:
     inputs:

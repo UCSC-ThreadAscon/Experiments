@@ -17,12 +17,12 @@ jobs:
         tags: tag:github-actions
         version: 1.76.6
     
-    name: Check the Experiment Status
-    run: |
-      ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-      "tmux ls
-       tmux capture-pane -pt 'github-actions'
-      "
-    env:
-        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+    - name: Check the Experiment Status
+      run: |
+        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+        "tmux ls
+        tmux capture-pane -pt 'github-actions'
+        "
+      env:
+          USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+          HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}

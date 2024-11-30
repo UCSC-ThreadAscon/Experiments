@@ -19,9 +19,9 @@ on:
         default: 20
         type: choice
         options:
-        - 0
-        - 9
-        - 20
+          - 0
+          - 9
+          - 20
       encryption:
         description: 'Encryption algorithm to use.'
         required: true
@@ -43,59 +43,59 @@ jobs:
   Start-Experiment:
     runs-on: ubuntu-latest
     steps:
-    - name: Set up Tailscale
-      uses: tailscale/github-action@v2
-      with:
-        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-        tags: tag:github-actions
-        version: 1.76.6
-    
-    - name: Wake on LAN
-      run: |
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "wakeonlan $MAC_ADDR"
-      env:
-        USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
-        HOSTNAME: ${{ secrets.RASPBERRY_PI }}
-        MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
-        
-    - name: Start the Experiment
-      run: |
-        function to_cipher_num() {
-          case $1 in
-            "AES") echo 0 ;;
-            "NoEncrypt") echo 1 ;;
-            "LibAscon-128a") echo 4 ;;
-            "LibAscon-128") echo 5;;
-          esac
-        }
+      - name: Set up Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+          version: 1.76.6
 
-        function to_experiment_num() {
-          case $1 in
-            "Delay") echo 0 ;;
-            "Throughput-Confirmable")  echo 1 ;;
-          esac
-        }
+      - name: Wake on LAN
+        run: |
+          ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+            "wakeonlan $MAC_ADDR"
+        env:
+          USERNAME: ${{ secrets.RASPBERRY_PI_USERNAME }}
+          HOSTNAME: ${{ secrets.RASPBERRY_PI }}
+          MAC_ADDR: ${{ secrets.EXPERIMENT_SERVER_MAC_ADDR }}
 
-        cipher_num=$(to_cipher_num $encryption)
-        experiment_num=$(to_experiment_num $experiment)
+      - name: Start the Experiment
+        run: |
+          function to_cipher_num() {
+            case $1 in
+              "AES") echo 0 ;;
+              "NoEncrypt") echo 1 ;;
+              "LibAscon-128a") echo 4 ;;
+              "LibAscon-128") echo 5;;
+            esac
+          }
 
-        ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
-          "cd /home/$USERNAME/Desktop/Repositories/Experiments
-           source ./common/load_pyenv.sh
-           python3 --version
+          function to_experiment_num() {
+            case $1 in
+              "Delay") echo 0 ;;
+              "Throughput-Confirmable")  echo 1 ;;
+            esac
+          }
 
-           cd ./common
-           tmux new -s github-actions -d \
-            'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
-             --experiment $experiment_num'
+          cipher_num=$(to_cipher_num $encryption)
+          experiment_num=$(to_experiment_num $experiment)
 
-           tmux ls
-          "
-      env:
-        USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
-        HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
-        txpower: ${{ inputs.txpower }}
-        encryption: ${{ inputs.encryption }}
-        experiment: ${{ inputs.experiment }}
+          ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
+            "cd /home/$USERNAME/Desktop/Repositories/Experiments
+            source ./common/load_pyenv.sh
+            python3 --version
+
+            cd ./common
+            tmux new -s github-actions -d \
+              'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
+              --experiment $experiment_num'
+
+            tmux ls
+            "
+        env:
+          USERNAME: ${{ secrets.EXPERIMENT_SERVER_USERNAME }}
+          HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
+          txpower: ${{ inputs.txpower }}
+          encryption: ${{ inputs.encryption }}
+          experiment: ${{ inputs.experiment }}

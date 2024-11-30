@@ -6,8 +6,9 @@
 # https://graphite.dev/guides/github-actions-inputs
 # https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
 #
-name: Throughput Experiments ⏱️
-run-name: Start Throughput Experiment ⏱️
+name: Experiments Automation 🔬
+run-name: |
+  Start Experiment ${{ inputs.experiment }} ${{ inputs.encryption }} ${{ inputs.txpower }}} dBm
 on:
   workflow_dispatch:
     inputs:
@@ -29,9 +30,16 @@ on:
           - NoEncrypt
           - LibAscon-128a
           - LibAscon-128
+      experiment:
+        description: 'The experiment to run.'
+        required: true
+        type: choice
+        options:
+          - Delay
+          - Throughput-Confirmable
 
 jobs:
-  Start-Throughput-Experiment:
+  Start-Experiment:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Tailscale
@@ -61,7 +69,16 @@ jobs:
             "LibAscon-128") echo 5;;
           esac
         }
+
+        function to_experiment_num() {
+          case $1 in
+            "Delay") echo 0 ;;
+            "Throughput-Confirmable")  echo 1 ;;
+          esac
+        }
+
         cipher_num=$(to_cipher_num $encryption)
+        experiment_num$(to_experiment_num $experiment)
 
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
           "cd /home/$USERNAME/Desktop/Repositories/Experiments
@@ -70,7 +87,8 @@ jobs:
 
            cd ./throughput-confirmable
            tmux new -s github-actions -d \
-            'python3 ./main.py --tx-power $txpower --encryption $cipher_num'
+            'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
+             --experiment $experiment_num'
 
            tmux ls
           "
@@ -79,3 +97,4 @@ jobs:
         HOSTNAME: ${{ secrets.EXPERIMENT_SERVER }}
         txpower: ${{ inputs.txpower }}
         encryption: ${{ inputs.encryption }}
+        experiment ${{ inputs.experiment }}

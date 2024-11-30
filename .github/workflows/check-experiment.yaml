@@ -7,8 +7,8 @@ on: workflow dispatch
 
 jobs:
   Check-Experiment:
-    runs-on: ubuntu-latest
-    steps:
+  runs-on: ubuntu-latest
+  steps:
     - name: Set up Tailscale
       uses: tailscale/github-action@v2
       with:
@@ -16,7 +16,7 @@ jobs:
         oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
         tags: tag:github-actions
         version: 1.76.6
-    
+
     - name: Check the Experiment Status
       run: |
         ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \

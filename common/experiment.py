@@ -30,7 +30,7 @@ def to_cipher_string(cipher_num):
     case _:
       raise Exception("Number does not correspond to an Encryption Algorithm.")
 
-def get_exp_filename(experiment_enum):
+def get_exp_filename_prefix(experiment_enum):
   match experiment_enum:
     case Experiment.DELAY.value:
       return "delay"

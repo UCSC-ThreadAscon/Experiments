@@ -54,7 +54,7 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
                     stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
-                   f"/queue/{get_exp_filename(experiment_num)}-" + \
+                   f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
                    f"FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
@@ -107,15 +107,15 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
                    stdout=PIPE, stderr=STDOUT)
 
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
-    exp_filename = get_exp_filename(experiment_num)
+    exp_filename_prefix = get_exp_filename_prefix(experiment_num)
 
     log_filename = exp_dir_path + \
-      f"/queue/{exp_filename}-" + \
+      f"/queue/{exp_filename_prefix}-" + \
       f"{get_server_file_abbr(exp_server_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = exp_dir_path + \
-      f"/queue/{exp_filename}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+      f"/queue/{exp_filename_prefix}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
     await power_on("Packet Sniffer")
     sniffer = Nrf802154Sniffer()

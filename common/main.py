@@ -21,7 +21,7 @@ RCP_PORT = "/dev/ttyACM0"
 leader_PORT = "/dev/ttyACM0"
 
 SNIFFER_PORT = "/dev/ttyACM1"
-FTD_PORT = "/dev/ttyACM2"
+CALCULATOR_PORT = "/dev/ttyACM2"
 
 THREAD_NETWORK_CHANNEL = 20
 
@@ -48,23 +48,25 @@ async def build_flash_rcp(cipher_num, exp_rcp_num):
   await power_off("Radio Co-Processor")
   return
 
-def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
-  async def _ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
-    await power_on("Full Thread Device")
+def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
+  async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
+    calculator_name = get_calculator_name(experiment_num)
+    await power_on(calculator_name)
 
-    subprocess.run(["bash", FTD_SCRIPT, "-t", tx_power, "-e",
-                    cipher_num, "-p", FTD_PORT, "-x", exp_client_num],
+    subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
+                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
                     stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
-                   f"FTD-{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+                   f"{get_calculator_file_abbr(experiment_num)}-" + \
+                   f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:
-      with serial.Serial(FTD_PORT, timeout=1) as ftd:
-        print("FTD monitoring has started.")
+      with serial.Serial(CALCULATOR_PORT, timeout=1) as calculator:
+        print(f"{calculator_name} monitoring has started.")
         while True:
-          line_bytes = ftd.readline()
+          line_bytes = calculator.readline()
 
           if line_bytes != b"":
             logfile.write(line_bytes)
@@ -74,48 +76,23 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
 
             if EXPERIMENT_TRIAL_FAILURE in line:
               print("An experimental trial has failed. " +
-                    "The FTD is going to restart the trial.")
+                    f"The {calculator_name} is going to restart the trial.")
             
             elif TRIAL_COMPLETION_SUBSTRING in line:
               print(line.replace('\n', ''))
 
             elif EXPERIMENT_END_STRING in line:
-              print("FTD has completed the experiment.")
+              print(f"{calculator_name} has completed the experiment.")
               break
     
-    await power_off("Full Thread Device")
+    await power_off(calculator_name)
     return
 
-  return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
+  return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num))
 
-def get_leader_name(experiment_num):
-  match (experiment_num):
-    case Experiment.DELAY.value:
-      return "Delay Server"
-    case Experiment.THROUGHPUT_UDP.value:
-      return "Full Thread Device"
-    case _:
-      return "Border Router"
-
-def get_leader_script(experiment_num):
-  if (experiment_num == Experiment.DELAY.value) or \
-     (experiment_num == Experiment.THROUGHPUT_UDP.value):
-    return FTD_SCRIPT
-  else:
-    return BORDER_ROUTER_SCRIPT
-
-def get_leader_file_abbr(experiment_num):
-  match (experiment_num):
-    case Experiment.DELAY.value:
-      return "server"
-    case Experiment.THROUGHPUT_UDP.value:
-      return "FTD"
-    case _:
-      return "BR"
-
-def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experiment_num):
+def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, experiment_num):
   async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
-                            exp_client_num, experiment_num):
+                            exp_calculator_num, experiment_num):
     leader_name = get_leader_name(experiment_num)
     await power_on(leader_name)
 
@@ -149,11 +126,11 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experim
       with serial.Serial(leader_PORT, timeout=1) as leader:
         print(f"{leader_name} monitoring has started.")
 
-        ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num,
-                                                        exp_client_num, experiment_num))
-        ftd_started = False
+        calculator_process = Process(target=calculator_monitor, args=(tx_power, cipher_num,
+                                                        exp_calculator_num, experiment_num))
+        calculator_started = False
 
-        while (not ftd_started) or (ftd_process.is_alive()):
+        while (not calculator_started) or (calculator_process.is_alive()):
           line_bytes = leader.readline()
 
           if line_bytes != b"":
@@ -162,10 +139,10 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experim
             line = line_bytes.decode()
             print_line(line)
 
-            if not ftd_started:
+            if not calculator_started:
               if COAP_START_STRING or UDP_START_STRING in line:
-                ftd_process.start()
-                ftd_started = True
+                calculator_process.start()
+                calculator_started = True
 
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)
@@ -177,7 +154,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experim
     return
 
   return asyncio.run(_leader_monitor(tx_power, cipher_num, exp_leader_num,
-                                     exp_client_num, experiment_num))
+                                     exp_calculator_num, experiment_num))
 
 async def main():
   await check_main_usb_hub_ports_off()
@@ -191,15 +168,15 @@ async def main():
 
   match experiment_num:
     case Experiment.DELAY.value:
-      exp_leader_num = "3"
-      exp_client_num = "4"
+      exp_leader_num = "3"        # FTD (Delay Server)
+      exp_calculator_num = "4"    # FTD (Delay Client)
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
-      exp_leader_num = "1"
-      exp_client_num = "1"
+      exp_leader_num = "1"        # Border Router
+      exp_calculator_num = "1"    # FTD
       exp_rcp_num = "1"
     case Experiment.THROUGHPUT_UDP.value:
-      exp_leader_num = "3"
-      exp_client_num = "5"
+      exp_leader_num = "5"        # FTD
+      exp_calculator_num = "3"    # Border Router
       exp_rcp_num = "2"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
@@ -211,7 +188,7 @@ async def main():
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
   leader_process = Process(target=leader_monitor,
-                           args=(tx_power, cipher_num, exp_leader_num, exp_client_num,
+                           args=(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
                                  experiment_num))
   leader_process.start()
 

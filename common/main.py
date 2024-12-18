@@ -18,7 +18,7 @@ from experiment import *
 SHOW_LOGS = False
 
 RCP_PORT = "/dev/ttyACM0"
-leader_PORT = "/dev/ttyACM0"
+LEADER_PORT = "/dev/ttyACM0"
 
 SNIFFER_PORT = "/dev/ttyACM1"
 CALCULATOR_PORT = "/dev/ttyACM2"
@@ -98,7 +98,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
 
     leader_script = get_leader_script(experiment_num)
     subprocess.run(["bash", leader_script, "-t", tx_power,
-                   "-e", cipher_num, "-p", leader_PORT,
+                   "-e", cipher_num, "-p", LEADER_PORT,
                    "-x", exp_leader_num],
                    stdout=PIPE, stderr=STDOUT)
 
@@ -123,7 +123,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
     print("Started 802.15.4 Packet Sniffer Wireshark capture.")
 
     with open(log_filename, "ba") as logfile:
-      with serial.Serial(leader_PORT, timeout=1) as leader:
+      with serial.Serial(LEADER_PORT, timeout=1) as leader:
         print(f"{leader_name} monitoring has started.")
 
         calculator_process = Process(target=calculator_monitor, args=(tx_power, cipher_num,

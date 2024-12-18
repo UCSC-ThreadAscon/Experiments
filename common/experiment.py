@@ -192,6 +192,6 @@ def get_calculator_script(experiment_num):
 def get_calculator_file_abbr(experiment_num):
   match (experiment_num):
     case Experiment.THROUGHPUT_UDP.value:
-      return BORDER_ROUTER_SCRIPT
+      return "BR"
     case _:
-      return FTD_SCRIPT
+      return "FTD"

@@ -18,7 +18,7 @@ from experiment import *
 SHOW_LOGS = False
 
 RCP_PORT = "/dev/ttyACM0"
-SERVER_PORT = "/dev/ttyACM0"
+leader_PORT = "/dev/ttyACM0"
 
 SNIFFER_PORT = "/dev/ttyACM1"
 FTD_PORT = "/dev/ttyACM2"
@@ -88,25 +88,25 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
 
   return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
 
-def get_server_name(experiment_num):
-  return "Delay Server" if experiment_num == Experiment.DELAY.value else "Border Router"
+def get_leader_name(experiment_num):
+  return "Delay leader" if experiment_num == Experiment.DELAY.value else "Border Router"
 
-def get_server_script(experiment_num):
+def get_leader_script(experiment_num):
   return FTD_SCRIPT if experiment_num == Experiment.DELAY.value else BORDER_ROUTER_SCRIPT
 
-def get_server_file_abbr(experiment_num):
-  return "server" if experiment_num == Experiment.DELAY.value else "BR"
+def get_leader_file_abbr(experiment_num):
+  return "leader" if experiment_num == Experiment.DELAY.value else "BR"
 
-def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experiment_num):
-  async def _server_monitor(tx_power, cipher_num, exp_server_num,
+def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experiment_num):
+  async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
                             exp_client_num, experiment_num):
-    server_name = get_server_name(experiment_num)
-    await power_on(server_name)
+    leader_name = get_leader_name(experiment_num)
+    await power_on(leader_name)
 
-    server_script = get_server_script(experiment_num)
-    subprocess.run(["bash", server_script, "-t", tx_power,
-                   "-e", cipher_num, "-p", SERVER_PORT,
-                   "-x", exp_server_num],
+    leader_script = get_leader_script(experiment_num)
+    subprocess.run(["bash", leader_script, "-t", tx_power,
+                   "-e", cipher_num, "-p", leader_PORT,
+                   "-x", exp_leader_num],
                    stdout=PIPE, stderr=STDOUT)
 
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
@@ -114,7 +114,7 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
 
     log_filename = exp_dir_path + \
       f"/queue/{exp_filename_prefix}-" + \
-      f"{get_server_file_abbr(experiment_num)}-" + \
+      f"{get_leader_file_abbr(experiment_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = exp_dir_path + \
@@ -130,15 +130,15 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
     print("Started 802.15.4 Packet Sniffer Wireshark capture.")
 
     with open(log_filename, "ba") as logfile:
-      with serial.Serial(SERVER_PORT, timeout=1) as server:
-        print(f"{server_name} monitoring has started.")
+      with serial.Serial(leader_PORT, timeout=1) as leader:
+        print(f"{leader_name} monitoring has started.")
 
         ftd_process = Process(target=ftd_monitor, args=(tx_power, cipher_num,
                                                         exp_client_num, experiment_num))
         ftd_started = False
 
         while (not ftd_started) or (ftd_process.is_alive()):
-          line_bytes = server.readline()
+          line_bytes = leader.readline()
 
           if line_bytes != b"":
             logfile.write(line_bytes)
@@ -151,8 +151,8 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
                 ftd_process.start()
                 ftd_started = True
 
-    print(f"{server_name} monitoring has stopped.")
-    await power_off(server_name)
+    print(f"{leader_name} monitoring has stopped.")
+    await power_off(leader_name)
 
     sniffer.stop_sig_handler()
     print("Stopped Packet Sniffer capture.")
@@ -160,7 +160,7 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
 
     return
 
-  return asyncio.run(_server_monitor(tx_power, cipher_num, exp_server_num,
+  return asyncio.run(_leader_monitor(tx_power, cipher_num, exp_leader_num,
                                      exp_client_num, experiment_num))
 
 async def main():
@@ -175,14 +175,14 @@ async def main():
 
   match experiment_num:
     case Experiment.DELAY.value:
-      exp_server_num = "3"
+      exp_leader_num = "3"
       exp_client_num = "4"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
-      exp_server_num = "1"
+      exp_leader_num = "1"
       exp_client_num = "1"
       exp_rcp_num = "1"
     case Experiment.THROUGHPUT_UDP.value:
-      exp_server_num = "3"
+      exp_leader_num = "3"
       exp_client_num = "5"
       exp_rcp_num = "2"
     case _:
@@ -194,12 +194,12 @@ async def main():
     await build_flash_rcp(cipher_num, exp_rcp_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
-  server_process = Process(target=server_monitor,
-                           args=(tx_power, cipher_num, exp_server_num, exp_client_num,
+  leader_process = Process(target=leader_monitor,
+                           args=(tx_power, cipher_num, exp_leader_num, exp_client_num,
                                  experiment_num))
-  server_process.start()
+  leader_process.start()
 
-  server_process.join()
+  leader_process.join()
   post_process(experiment_num, cipher_num, tx_power)
 
   await power_off("Main USB Hub")

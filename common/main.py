@@ -26,7 +26,7 @@ FTD_PORT = "/dev/ttyACM2"
 THREAD_NETWORK_CHANNEL = 20
 
 COAP_START_STRING = "Started CoAP server"
-UDP_START_STRING = "Created UDP server"
+UDP_START_STRING = "Starting the Throughput UDP experiment trial!"
 
 EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
@@ -89,13 +89,29 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
   return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
 
 def get_leader_name(experiment_num):
-  return "Delay leader" if experiment_num == Experiment.DELAY.value else "Border Router"
+  match (experiment_num):
+    case Experiment.DELAY.value:
+      return "Delay Server"
+    case Experiment.THROUGHPUT_UDP.value:
+      return "Full Thread Device"
+    case _:
+      return "Border Router"
 
 def get_leader_script(experiment_num):
-  return FTD_SCRIPT if experiment_num == Experiment.DELAY.value else BORDER_ROUTER_SCRIPT
+  if (experiment_num == Experiment.DELAY.value) or \
+     (experiment_num == Experiment.THROUGHPUT_UDP.value):
+    return FTD_SCRIPT
+  else:
+    return BORDER_ROUTER_SCRIPT
 
 def get_leader_file_abbr(experiment_num):
-  return "leader" if experiment_num == Experiment.DELAY.value else "BR"
+  match (experiment_num):
+    case Experiment.DELAY.value:
+      return "server"
+    case Experiment.THROUGHPUT_UDP.value:
+      return "FTD"
+    case _:
+      return "BR"
 
 def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_client_num, experiment_num):
   async def _leader_monitor(tx_power, cipher_num, exp_leader_num,

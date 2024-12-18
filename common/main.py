@@ -25,7 +25,9 @@ FTD_PORT = "/dev/ttyACM2"
 
 THREAD_NETWORK_CHANNEL = 20
 
-SERVER_START_STRING = "Started CoAP server"
+COAP_START_STRING = "Started CoAP server"
+UDP_START_STRING = "Created UDP server"
+
 EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
@@ -145,7 +147,7 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
             print_line(line)
 
             if not ftd_started:
-              if SERVER_START_STRING in line:
+              if COAP_START_STRING or UDP_START_STRING in line:
                 ftd_process.start()
                 ftd_started = True
 

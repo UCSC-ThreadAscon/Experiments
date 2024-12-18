@@ -177,6 +177,9 @@ async def main():
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       exp_server_num = "1"
       exp_client_num = "1"
+    case Experiment.THROUGHPUT_UDP.value:
+      exp_server_num = "3"
+      exp_client_num = "5"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 

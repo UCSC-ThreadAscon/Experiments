@@ -57,6 +57,9 @@ then
 elif [ $experiment_num == 4 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-FTD-$cipher_string-$txpower_string.txt"
+elif [ $experiment_num == 5 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-udp/queue/tp-udp-FTD-$cipher_string-$txpower_string.txt"
 fi
 
 rm -f $output_file_path

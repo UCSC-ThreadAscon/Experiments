@@ -11,6 +11,7 @@ FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
+  THROUGHPUT_UDP=2
 
 def to_cipher_string(cipher_num):
   match cipher_num:
@@ -35,6 +36,8 @@ def get_exp_filename(experiment_enum):
       return "delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       return "tp-con"
+    case Experiment.THROUGHPUT_UDP.value:
+      return "tp-udp"
     case _:
       raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
@@ -46,6 +49,8 @@ def get_dir_path(experiment_enum, subdir_name):
       experiment_dir = "delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       experiment_dir = "throughput-confirmable"
+    case Experiment.THROUGHPUT_UDP.value:
+      experiment_dir = "throughput-udp"
     case _:
       raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
@@ -62,6 +67,8 @@ def get_nas_exp_dir_string(experiment_enum):
       dirname = "Delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       dirname = "Throughput-Confirmable"
+    case Experiment.THROUGHPUT_UDP.value:
+      dirname = "Throughput-UDP"
     case _:
       raise Exception(f"{experiment_enum} is not a valid Experiment Enum.")
   return "/Thesis-Experiments-Data/" + dirname

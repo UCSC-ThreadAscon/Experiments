@@ -38,6 +38,12 @@ function to_cipher_string() {
   esac
 }
 
+function get_exp_prefix() {
+  case $1 in 
+  1) echo "tp-con" ;;
+  3) echo "tp-udp" ;;
+}
+
 while getopts t:e:p:x: arg
 do
   case "${arg}" in
@@ -52,7 +58,7 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-BR-$cipher_string-$txpower_string.txt"
+output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/$get_exp_prefix-BR-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
 date |& tee $output_file_path
 

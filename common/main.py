@@ -86,22 +86,22 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
 
   return asyncio.run(_ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num))
 
-def get_server_name(exp_server_num):
-  return "Delay Server" if exp_server_num == "3" else "Border Router"
+def get_server_name(experiment_num):
+  return "Delay Server" if experiment_num == Experiment.DELAY.value else "Border Router"
 
-def get_server_script(exp_server_num):
-  return FTD_SCRIPT if exp_server_num == "3" else BORDER_ROUTER_SCRIPT
+def get_server_script(experiment_num):
+  return FTD_SCRIPT if experiment_num == Experiment.DELAY.value else BORDER_ROUTER_SCRIPT
 
-def get_server_file_abbr(exp_server_num):
-  return "server" if exp_server_num == "3" else "BR"
+def get_server_file_abbr(experiment_num):
+  return "server" if experiment_num == Experiment.DELAY.value else "BR"
 
 def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experiment_num):
   async def _server_monitor(tx_power, cipher_num, exp_server_num,
                             exp_client_num, experiment_num):
-    server_name = get_server_name(exp_server_num)
+    server_name = get_server_name(experiment_num)
     await power_on(server_name)
 
-    server_script = get_server_script(exp_server_num)
+    server_script = get_server_script(experiment_num)
     subprocess.run(["bash", server_script, "-t", tx_power,
                    "-e", cipher_num, "-p", SERVER_PORT,
                    "-x", exp_server_num],
@@ -112,7 +112,7 @@ def server_monitor(tx_power, cipher_num, exp_server_num, exp_client_num, experim
 
     log_filename = exp_dir_path + \
       f"/queue/{exp_filename_prefix}-" + \
-      f"{get_server_file_abbr(exp_server_num)}-" + \
+      f"{get_server_file_abbr(experiment_num)}-" + \
       f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
     
     sniffer_filename = exp_dir_path + \

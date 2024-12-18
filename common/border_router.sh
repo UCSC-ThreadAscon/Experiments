@@ -42,6 +42,7 @@ function get_exp_prefix() {
   case $1 in 
   1) echo "tp-con" ;;
   3) echo "tp-udp" ;;
+  esac
 }
 
 while getopts t:e:p:x: arg

@@ -75,7 +75,7 @@ def ftd_monitor(tx_power, cipher_num, exp_client_num, experiment_num):
                     "The FTD is going to restart the trial.")
             
             elif TRIAL_COMPLETION_SUBSTRING in line:
-              print(line)
+              print(line.replace('\n', ''))
 
             elif EXPERIMENT_END_STRING in line:
               print("FTD has completed the experiment.")

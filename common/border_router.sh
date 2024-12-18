@@ -38,6 +38,13 @@ function to_cipher_string() {
   esac
 }
 
+function get_exp_dir() {
+  case $1 in
+  1) echo "throughput-confirmable" ;;
+  3) echo "throughput-udp" ;;
+  esac
+}
+
 function get_exp_prefix() {
   case $1 in 
   1) echo "tp-con" ;;
@@ -59,7 +66,11 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/$get_exp_prefix-BR-$cipher_string-$txpower_string.txt"
+echo "The experiment number is $experiment_num"
+exp_dir=$(get_exp_dir $experiment_num)
+exp_prefix=$(get_exp_prefix $experiment_num)
+
+output_file_path="$HOME/Desktop/Repositories/Experiments/$exp_dir/queue/$exp_prefix-BR-$cipher_string-$txpower_string.txt"
 rm -f $output_file_path
 date |& tee $output_file_path
 

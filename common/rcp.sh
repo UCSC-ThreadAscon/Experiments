@@ -36,11 +36,24 @@ function to_cipher_string() {
   esac
 }
 
-while getopts t:e:p: arg
+function get_exp_prefix() {
+  case $1 in 
+  1) echo "tp-con" ;;
+  2) echo "tp-udp" ;;
+}
+
+function get_exp_dir() {
+  case $1 in
+  1) echo "throughput-confirmable" ;;
+  2) echo "throughput-udp" ;;
+}
+
+while getopts t:e:p:x: arg
 do
   case "${arg}" in
     e) cipher_num=${OPTARG};;
     p) rcp_port=${OPTARG};;
+    x) experiment_num=${OPTARG};;
   esac
 done
 
@@ -48,7 +61,10 @@ done
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
-output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-RCP-$cipher_string.txt"
+exp_prefix=$(get_exp_prefix $experiment_num)
+exp_dir=$(get_exp_dir $experiment_num)
+
+output_file_path="$HOME/Desktop/Repositories/Experiments/$exp_dir/queue/$exp_prefix-RCP-$cipher_string.txt"
 rm -f $output_file_path
 date |& tee $output_file_path
 

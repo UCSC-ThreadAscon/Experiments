@@ -35,11 +35,12 @@ def print_line(line):
     print(line.strip("\n"))
   return
 
-async def build_flash_rcp(cipher_num):
+async def build_flash_rcp(cipher_num, exp_rcp_num):
   await power_off("Border Router")
   await power_on("Radio Co-Processor")
 
-  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT],
+  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT,
+                  "-x", exp_rcp_num],
                  stdout=PIPE, stderr=STDOUT)
 
   await power_off("Radio Co-Processor")
@@ -177,16 +178,18 @@ async def main():
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       exp_server_num = "1"
       exp_client_num = "1"
+      exp_rcp_num = "1"
     case Experiment.THROUGHPUT_UDP.value:
       exp_server_num = "3"
       exp_client_num = "5"
+      exp_rcp_num = "2"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 
   await power_on("Main USB Hub")
 
   if experiment_num != Experiment.DELAY.value:
-    await build_flash_rcp(cipher_num)
+    await build_flash_rcp(cipher_num, exp_rcp_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
   server_process = Process(target=server_monitor,

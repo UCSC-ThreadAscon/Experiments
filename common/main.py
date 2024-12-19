@@ -28,8 +28,8 @@ THREAD_NETWORK_CHANNEL = 20
 COAP_START_STRING = "Started CoAP server"
 UDP_START_STRING = "Starting the Throughput UDP experiment trial!"
 
-EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
-EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experimental trial."
+EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
+EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
 
 def print_line(line):

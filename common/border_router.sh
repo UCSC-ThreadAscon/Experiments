@@ -103,6 +103,7 @@ echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) 
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) |& tee -a $output_file_path
 echo $(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP) |& tee -a $output_file_path
+# echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) |& tee -a $output_file_path
 echo "-------------------------------------------------" |& tee -a $output_file_path
 
 cd $border_router_path

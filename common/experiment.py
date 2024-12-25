@@ -153,6 +153,7 @@ def cmd_arg_parser():
         
        Set the flag to '0' to run the Delay experiment.
        Set the flag to '1' to run the Throughput Confirmable experiment.
+       Set the flag to '2' to run the Packet Loss Confirmable experiment.
     """
   parser.add_argument("--experiment", help=helper_text, required=True)
   return parser

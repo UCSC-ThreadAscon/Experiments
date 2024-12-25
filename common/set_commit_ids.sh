@@ -11,7 +11,7 @@ DELAY_SERVER_COMMIT=19abf5ef441cbb59e35889a8216bad5f46f7ecd5
 DELAY_CLIENT_COMMIT=c19e5a3cc4be33b2070a7b935017961d258fa4ce
 
 # The commit ID of the Border Router.
-BORDER_ROUTER_COMMIT=9c3102c23ab5a7d9b4c7ede6f5658fc794af04cc
+BORDER_ROUTER_COMMIT=8b38f37313d9577a442e1eb5d248befe6f50b22f
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf

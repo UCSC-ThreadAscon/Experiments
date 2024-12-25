@@ -51,6 +51,9 @@ txpower_string="${tx_power}dbm"
 if [ $experiment_num == 1 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-confirmable/queue/tp-con-FTD-$cipher_string-$txpower_string.txt"
+elif [ $experiment_num == 2 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/packet-loss-confirmable/queue/pl-con-FTD-$cipher_string-$txpower_string.txt"
 elif [ $experiment_num == 3 ]
 then
   output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-server-$cipher_string-$txpower_string.txt"

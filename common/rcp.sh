@@ -39,14 +39,16 @@ function to_cipher_string() {
 function get_exp_prefix() {
   case $1 in 
   1) echo "tp-con" ;;
-  2) echo "tp-udp" ;;
+  2) echo "pl-con" ;;
+  3) echo "tp-udp" ;;
   esac
 }
 
 function get_exp_dir() {
   case $1 in
   1) echo "throughput-confirmable" ;;
-  2) echo "throughput-udp" ;;
+  2) echo "packet-loss-confirmable" ;;
+  3) echo "throughput-udp" ;;
   esac
 }
 

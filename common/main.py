@@ -174,10 +174,14 @@ async def main():
       exp_leader_num = "1"        # Border Router
       exp_calculator_num = "1"    # FTD
       exp_rcp_num = "1"
+    case Experiment.PACKET_LOSS_CONFIRMABLE.value:
+      exp_leader_num = "2"        # Border Router
+      exp_calculator_num = "2"    # FTD
+      exp_rcp_num = "2"
     case Experiment.THROUGHPUT_UDP.value:
       exp_leader_num = "5"        # FTD
       exp_calculator_num = "3"    # Border Router
-      exp_rcp_num = "2"
+      exp_rcp_num = "3"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 

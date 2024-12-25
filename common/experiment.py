@@ -11,7 +11,8 @@ FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
-  THROUGHPUT_UDP=2
+  PACKET_LOSS_CONFIRMABLE=2
+  THROUGHPUT_UDP=3
 
 def to_cipher_string(cipher_num):
   match cipher_num:
@@ -36,6 +37,8 @@ def get_exp_filename_prefix(experiment_enum):
       return "delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       return "tp-con"
+    case Experiment.PACKET_LOSS_CONFIRMABLE.value:
+      return "pl-con"
     case Experiment.THROUGHPUT_UDP.value:
       return "tp-udp"
     case _:
@@ -49,6 +52,8 @@ def get_dir_path(experiment_enum, subdir_name):
       experiment_dir = "delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       experiment_dir = "throughput-confirmable"
+    case Experiment.PACKET_LOSS_CONFIRMABLE.value:
+      experiment_dir = "packet-loss-confirmable"
     case Experiment.THROUGHPUT_UDP.value:
       experiment_dir = "throughput-udp"
     case _:
@@ -67,6 +72,8 @@ def get_nas_exp_dir_string(experiment_enum):
       dirname = "Delay"
     case Experiment.THROUGHPUT_CONFIRMABLE.value:
       dirname = "Throughput-Confirmable"
+    case Experiment.PACKET_LOSS_CONFIRMABLE.value:
+      dirname = "Packet-Loss-Confirmable"
     case Experiment.THROUGHPUT_UDP.value:
       dirname = "Throughput-UDP"
     case _:

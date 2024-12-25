@@ -38,6 +38,7 @@ on:
         options:
           - Delay
           - Throughput-Confirmable
+          - Packet-Loss-Confirmable
 
 jobs:
   Start-Experiment:
@@ -75,6 +76,7 @@ jobs:
             case $1 in
               "Delay") echo 0 ;;
               "Throughput-Confirmable")  echo 1 ;;
+              "Packet-Loss-Confirmable") echo 2 ;;
             esac
           }
 

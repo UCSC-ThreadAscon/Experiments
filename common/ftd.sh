@@ -129,7 +129,7 @@ echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $ftd_sdkconfig) |& tee -a 
 echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(cat sdkconfig | grep CONFIG_OPENTHREAD_TIME_SYNC) |& tee -a $output_file_path
-echo $(sdkconfig_get CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT $ftd_router_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT $ftd_sdkconfig) |& tee -a $output_file_path
 echo "-----------------------------------------" |& tee -a $output_file_path
 
 source $HOME/esp/esp-idf/export.sh &>> $output_file_path

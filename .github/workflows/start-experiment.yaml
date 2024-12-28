@@ -78,7 +78,7 @@ jobs:
               "Delay") echo 0 ;;
               "Throughput-Confirmable")  echo 1 ;;
               "Packet-Loss-Confirmable") echo 2 ;;
-              "Throughput-UDP" echo 3 ;;
+              "Throughput-UDP") echo 3 ;;
             esac
           }
 

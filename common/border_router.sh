@@ -95,6 +95,14 @@ then
   exit 1
 fi
 
+# Set the number of MAC Frame Direct Retries, depending on the experiment.
+if [[ $experiment_num -lt 3 ]]
+then
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $border_router_sdkconfig
+else
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 0 $border_router_sdkconfig
+fi
+
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $border_router_sdkconfig
 sdkconfig_set CONFIG_EXPERIMENT $experiment_num $border_router_sdkconfig
@@ -104,7 +112,7 @@ echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $border_router_sdkconfig) 
 echo $(sdkconfig_get CONFIG_TX_POWER $border_router_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $border_router_sdkconfig) |& tee -a $output_file_path
 echo $(cat $border_router_sdkconfig | grep CONFIG_AUTO_UPDATE_RCP) |& tee -a $output_file_path
-# echo $(sdkconfig_get CONFIG_RCP_SRC_DIR $border_router_sdkconfig) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT $border_router_sdkconfig) |& tee -a $output_file_path
 echo "-------------------------------------------------" |& tee -a $output_file_path
 
 cd $border_router_path

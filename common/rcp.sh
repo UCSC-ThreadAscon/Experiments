@@ -84,7 +84,7 @@ rcp_sdkconfig=$rcp_path/sdkconfig
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
 
-if [ $experiment_num == "1" ] && [ $experiment_num == "2" ]
+if [[ $experiment_num -lt 3 ]]
 then
   sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $rcp_sdkconfig
 else

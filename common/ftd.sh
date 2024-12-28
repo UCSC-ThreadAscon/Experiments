@@ -93,6 +93,14 @@ sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
 
+# Set the number of MAC Frame Direct Retries, depending on the experiment.
+if [[ $experiment_num -gt 4 ]]
+then
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 0 $ftd_sdkconfig
+else
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $ftd_sdkconfig
+fi
+
 time_sync_not_set="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
 time_sync_set="CONFIG_OPENTHREAD_TIME_SYNC=1"
 if [ $experiment_num == 3 ] || [ $experiment_num == 4 ]
@@ -121,6 +129,7 @@ echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $ftd_sdkconfig) |& tee -a 
 echo $(sdkconfig_get CONFIG_TX_POWER $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_EXPERIMENT $ftd_sdkconfig) |& tee -a $output_file_path
 echo $(cat sdkconfig | grep CONFIG_OPENTHREAD_TIME_SYNC) |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT $ftd_router_sdkconfig) |& tee -a $output_file_path
 echo "-----------------------------------------" |& tee -a $output_file_path
 
 source $HOME/esp/esp-idf/export.sh &>> $output_file_path

@@ -84,6 +84,13 @@ rcp_sdkconfig=$rcp_path/sdkconfig
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $rcp_sdkconfig
 
+if [ $experiment_num == "1" ] && [ $experiment_num == "2" ]
+then
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $rcp_sdkconfig
+else
+  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 0 $rcp_sdkconfig
+fi
+
 rcp_cipher_suite_kconfig=$(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig)
 rcp_cipher_num=$(echo $rcp_cipher_suite_kconfig | tail -c 2)
 rcp_cipher_string=$(to_cipher_string $rcp_cipher_num)
@@ -91,6 +98,7 @@ rcp_cipher_string=$(to_cipher_string $rcp_cipher_num)
 echo "-------RCP KConfig Variables-----------" |& tee -a $output_file_path
 echo $(sdkconfig_get CONFIG_THREAD_ASCON_CIPHER_SUITE $rcp_sdkconfig) |& tee -a $output_file_path
 echo "The RCP will run OpenThread using the following encryption algorithm: $rcp_cipher_string." |& tee -a $output_file_path
+echo $(sdkconfig_get CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT $rcp_sdkconfig) |& tee -a $output_file_path
 echo "---------------------------------------" |& tee -a $output_file_path
 
 cd $rcp_path

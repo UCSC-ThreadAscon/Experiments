@@ -1,17 +1,17 @@
 # The commit ID of the ESP-IDF repository.
-ESP_IDF_COMMIT=d8310eac1c93bc78005b56612672e35016ef4635
+ESP_IDF_COMMIT=26f653e472bedbf038a86bf358597242c4095c18
 
 # The commit ID of the FTD.
-FTD_COMMIT=3ff9c9b615146e6b36bfb28566c4237e86c558b8
+FTD_COMMIT=bc061a9fcc8faf85c21a59ad7f827562f49ea143
 
 # The commit ID of the Delay Server.
-DELAY_SERVER_COMMIT=19abf5ef441cbb59e35889a8216bad5f46f7ecd5
+DELAY_SERVER_COMMIT=cc6be9d68f558feecfbb88e20eda3f11fed3eb33
 
 # The commit ID of the Delay Client.
-DELAY_CLIENT_COMMIT=c19e5a3cc4be33b2070a7b935017961d258fa4ce
+DELAY_CLIENT_COMMIT=f1b7db49c96c7cd7b7f443e6304af24fde3c0b51
 
 # The commit ID of the Border Router.
-BORDER_ROUTER_COMMIT=8b38f37313d9577a442e1eb5d248befe6f50b22f
+BORDER_ROUTER_COMMIT=dfa7f59e92c904c3a4e32a9cb0856a7bde5c6ca4
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf

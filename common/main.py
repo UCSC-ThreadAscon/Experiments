@@ -12,9 +12,6 @@ from subprocess import STDOUT, PIPE
 from multiprocessing import Process
 from nrf802154_sniffer import Nrf802154Sniffer
 
-import os
-from dotenv import load_dotenv
-
 from kasa_wrapper import *
 from experiment import *
 
@@ -34,9 +31,6 @@ UDP_START_STRING = "UDP experiment trial!"
 EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
-
-load_dotenv()
-SUDO_PASSWORD = os.getenv("SUDO_PASSWORD")
 
 def print_line(line):
   if SHOW_LOGS:
@@ -206,7 +200,6 @@ async def main():
   post_process(experiment_num, cipher_num, tx_power)
 
   await power_off("Main USB Hub")
-  subprocess.run(["echo", SUDO_PASSWORD, "|", "sudo", "-S", "systemctl", "suspend"])
   return
 
 if __name__ == "__main__":

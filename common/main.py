@@ -139,9 +139,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
 
           if line_bytes != b"":
             logfile.write(line_bytes)
-
             line = line_bytes.decode()
-            print_line(line)
 
             if not calculator_started:
               if COAP_START_STRING or UDP_START_STRING in line:

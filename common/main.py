@@ -3,6 +3,7 @@
     https://pyserial.readthedocs.io/en/latest/shortintro.html
     https://docs.python.org/3/library/asyncio-dev.html
     https://docs.python.org/3/library/multiprocessing.html
+    https://realpython.com/python-use-global-variable-in-function/#the-global-keyword
 """
 import serial
 import asyncio
@@ -32,10 +33,8 @@ EXPERIMENT_END_STRING = "Finished running 1 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
 
-def print_line(line):
-  if SHOW_LOGS:
-    print(line.strip("\n"))
-  return
+GURU_MEDITATION_ERROR_STRING = "Guru Meditation Error"
+dirname_suffix = None
 
 async def build_flash_rcp(cipher_num, exp_rcp_num):
   await power_off("Border Router")
@@ -70,9 +69,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
 
           if line_bytes != b"":
             logfile.write(line_bytes)
-
             line = line_bytes.decode()
-            print_line(line)
 
             if EXPERIMENT_TRIAL_FAILURE in line:
               print("An experimental trial has failed. " +
@@ -80,6 +77,13 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
             
             elif TRIAL_COMPLETION_SUBSTRING in line:
               print(line.replace('\n', ''))
+
+            elif GURU_MEDITATION_ERROR_STRING in line:
+              global dirname_suffix
+              dirname_suffix = "-Guru-Meditation-Error"
+
+              print(line.replace('\n', ''))
+              break
 
             elif EXPERIMENT_END_STRING in line:
               print(f"{calculator_name} has completed the experiment.")
@@ -197,7 +201,7 @@ async def main():
   leader_process.start()
 
   leader_process.join()
-  post_process(experiment_num, cipher_num, tx_power)
+  post_process(experiment_num, cipher_num, tx_power, dirname_suffix)
 
   await power_off("Main USB Hub")
   return

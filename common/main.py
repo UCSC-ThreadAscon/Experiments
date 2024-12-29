@@ -78,13 +78,6 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
             elif TRIAL_COMPLETION_SUBSTRING in line:
               print(line.replace('\n', ''))
 
-            elif GURU_MEDITATION_ERROR_STRING in line:
-              global dirname_suffix
-              dirname_suffix = "-Guru-Meditation-Error"
-
-              print(line.replace('\n', ''))
-              break
-
             elif EXPERIMENT_END_STRING in line:
               print(f"{calculator_name} has completed the experiment.")
               break
@@ -145,6 +138,15 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
               if COAP_START_STRING or UDP_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True
+            else:
+              if GURU_MEDITATION_ERROR_STRING in line:
+                print(line.replace('\n', ''))
+
+                global dirname_suffix
+                dirname_suffix = "-Guru-Meditation-Error"
+
+                calculator_process.terminate()
+                await power_off(get_calculator_name(experiment_num))
 
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)

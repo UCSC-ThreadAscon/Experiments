@@ -33,7 +33,6 @@ EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
 
 GURU_MEDITATION_ERROR_STRING = "Guru Meditation Error"
-dirname_suffix = None
 
 async def build_flash_rcp(cipher_num, exp_rcp_num):
   await power_off("Border Router")
@@ -197,7 +196,7 @@ async def main():
   leader_process.start()
 
   leader_process.join()
-  post_process(experiment_num, cipher_num, tx_power, dirname_suffix)
+  post_process(experiment_num, cipher_num, tx_power)
 
   await power_off("Main USB Hub")
   return

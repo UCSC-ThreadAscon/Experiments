@@ -3,7 +3,6 @@
     https://pyserial.readthedocs.io/en/latest/shortintro.html
     https://docs.python.org/3/library/asyncio-dev.html
     https://docs.python.org/3/library/multiprocessing.html
-    https://realpython.com/python-use-global-variable-in-function/#the-global-keyword
 """
 import serial
 import asyncio
@@ -90,8 +89,6 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
 def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, experiment_num):
   async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
                             exp_calculator_num, experiment_num):
-    global dirname_suffix
-
     leader_name = get_leader_name(experiment_num)
     await power_on(leader_name)
 
@@ -143,8 +140,6 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
             else:
               if GURU_MEDITATION_ERROR_STRING in line:
                 print(line.replace('\n', ''))
-
-                dirname_suffix = "-Guru-Meditation-Error"
 
                 calculator_process.terminate()
                 await power_off(get_calculator_name(experiment_num))

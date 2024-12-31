@@ -26,7 +26,6 @@ CALCULATOR_PORT = "/dev/ttyACM2"
 THREAD_NETWORK_CHANNEL = 20
 
 COAP_START_STRING = "Started CoAP server"
-UDP_START_STRING = "UDP experiment trial!"
 
 EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
@@ -133,15 +132,9 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
             line = line_bytes.decode()
 
             if not calculator_started:
-              if COAP_START_STRING or UDP_START_STRING in line:
+              if COAP_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True
-            else:
-              if GURU_MEDITATION_ERROR_STRING in line:
-                print(line.replace('\n', ''))
-
-                calculator_process.terminate()
-                await power_off(get_calculator_name(experiment_num))
 
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)
@@ -177,10 +170,6 @@ async def main():
       exp_leader_num = "2"        # Border Router
       exp_calculator_num = "2"    # FTD
       exp_rcp_num = "2"
-    case Experiment.THROUGHPUT_UDP.value:
-      exp_leader_num = "5"        # FTD
-      exp_calculator_num = "3"    # Border Router
-      exp_rcp_num = "3"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 

@@ -14,4 +14,4 @@ post-process:
 #	https://stackoverflow.com/a/62929158/6621292
 
 delay-aes-20:
-	python3 ../common/main.py --tx-power 20 --encryption 0 --experiment 0
+	python3 ../common/coap.py --tx-power 20 --encryption 0 --experiment 0

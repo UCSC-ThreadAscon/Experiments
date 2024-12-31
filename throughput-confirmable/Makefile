@@ -16,4 +16,4 @@ test:
 	pytest --exitfirst --capture=tee-sys /home/simeon/Desktop/Repositories/Experiments/common/test.py
 
 tp-con-aes-20:
-	python3 ../common/main.py --tx-power 20 --encryption 0 --experiment 1
+	python3 ../common/coap.py --tx-power 20 --encryption 0 --experiment 1

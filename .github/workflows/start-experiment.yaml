@@ -94,7 +94,7 @@ jobs:
 
             cd ./common
             tmux new -s github-actions -d \
-              'python3 ./main.py --tx-power $txpower --encryption $cipher_num \
+              'python3 ./coap.py --tx-power $txpower --encryption $cipher_num \
               --experiment $experiment_num'
 
             tmux ls

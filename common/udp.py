@@ -147,6 +147,14 @@ async def main():
   await build_flash_rcp(cipher_num, exp_rcp_num)
 
   sleep(PORT_CONNECT_WAIT_SECONDS)
+  leader_process = Process(target=leader_monitor,
+                           args=(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
+                                 experiment_num))
+  leader_process.start()
+
+  leader_process.join()
+  post_process(experiment_num, cipher_num, tx_power)
+
   await power_off("Main USB Hub")
   return
 

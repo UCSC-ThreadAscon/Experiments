@@ -22,16 +22,16 @@ COAP_START_STRING = "Started CoAP server"
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
-    calculator_name = get_calculator_name(experiment_num)
+    calculator_name = get_calculator_name()
     await power_on(calculator_name)
 
-    subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
+    subprocess.run(["bash", get_calculator_script(), "-t", tx_power, "-e",
                     cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
                     stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
-                   f"{get_calculator_file_abbr(experiment_num)}-" + \
+                   f"{get_calculator_file_abbr()}-" + \
                    f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:

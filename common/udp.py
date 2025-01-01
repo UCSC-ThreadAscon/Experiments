@@ -20,6 +20,37 @@ from common_automation import *
 
 UDP_START_STRING = "UDP experiment trial!"
 
+def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
+  async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
+    calculator_name = get_calculator_name()
+    await power_on(calculator_name)
+
+    subprocess.run(["bash", get_calculator_script(), "-t", tx_power, "-e",
+                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
+                    stdout=PIPE, stderr=STDOUT)
+
+    log_filename = get_dir_path(experiment_num, None).as_posix() + \
+                   f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
+                   f"{get_calculator_file_abbr()}-" + \
+                   f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+
+    with open(log_filename, "ba") as logfile:
+      with serial.Serial(CALCULATOR_PORT, timeout=1) as calculator:
+        print(f"{calculator_name} monitoring has started.")
+        while True:
+          line_bytes = calculator.readline()
+
+          if line_bytes != b"":
+            logfile.write(line_bytes)
+            line = line_bytes.decode()
+
+            if EXPERIMENT_TRIAL_FAILURE in line:
+              print(f"{calculator_name} failed to connect to the Thread network. " +
+                     "Going to restart the device.")
+    return
+
+  return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num))
+
 def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, experiment_num):
   async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
                             exp_calculator_num, experiment_num):
@@ -68,19 +99,30 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
             logfile.write(line_bytes)
             line = line_bytes.decode()
 
-            if not calculator_started:
+            if calculator_started:
+              if TRIAL_COMPLETION_SUBSTRING in line:
+                print(line.replace('\n', ''))
+
+              elif EXPERIMENT_END_STRING in line:
+                print(f"{leader_name} has completed the experiment.")
+                calculator_process.terminate()
+                break
+
+            else: # `not calculator_started`
               if UDP_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True
 
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)
+    await power_off(get_calculator_name())
 
     sniffer.stop_sig_handler()
     print("Stopped Packet Sniffer capture.")
     await power_off("Packet Sniffer")
 
-    return
+  return asyncio.run(_leader_monitor(tx_power, cipher_num, exp_leader_num,
+                                     exp_calculator_num, experiment_num))
 
 async def main():
   await check_main_usb_hub_ports_off()

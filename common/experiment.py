@@ -162,14 +162,11 @@ def get_leader_name(experiment_num):
   match (experiment_num):
     case Experiment.DELAY.value:
       return "Delay Server"
-    case Experiment.THROUGHPUT_UDP.value:
-      return "Full Thread Device"
     case _:
       return "Border Router"
 
 def get_leader_script(experiment_num):
-  if (experiment_num == Experiment.DELAY.value) or \
-     (experiment_num == Experiment.THROUGHPUT_UDP.value):
+  if (experiment_num == Experiment.DELAY.value):
     return FTD_SCRIPT
   else:
     return BORDER_ROUTER_SCRIPT
@@ -178,28 +175,14 @@ def get_leader_file_abbr(experiment_num):
   match (experiment_num):
     case Experiment.DELAY.value:
       return "server"
-    case Experiment.THROUGHPUT_UDP.value:
-      return "FTD"
     case _:
       return "BR"
 
 def get_calculator_name(experiment_num):
-  match (experiment_num):
-    case Experiment.THROUGHPUT_UDP.value:
-      return "Border Router"
-    case _:
-      return "Full Thread Device"
+  return "Full Thread Device"
 
 def get_calculator_script(experiment_num):
-  match (experiment_num):
-    case Experiment.THROUGHPUT_UDP.value:
-      return BORDER_ROUTER_SCRIPT
-    case _:
-      return FTD_SCRIPT
+  return FTD_SCRIPT
 
 def get_calculator_file_abbr(experiment_num):
-  match (experiment_num):
-    case Experiment.THROUGHPUT_UDP.value:
-      return "BR"
-    case _:
-      return "FTD"
+  return "FTD"

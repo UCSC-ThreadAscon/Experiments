@@ -7,6 +7,7 @@ RCP_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/rcp.sh"
 BORDER_ROUTER_SCRIPT = \
   "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
 FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
+FTD_UDP_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp.sh"
 
 class Experiment(Enum):
   DELAY=0
@@ -178,11 +179,14 @@ def get_leader_file_abbr(experiment_num):
     case _:
       return "BR"
 
-def get_calculator_name(experiment_num):
+def get_calculator_name():
   return "Full Thread Device"
 
 def get_calculator_script(experiment_num):
-  return FTD_SCRIPT
+  if experiment_num == Experiment.THROUGHPUT_UDP.value:
+    return FTD_UDP_SCRIPT
+  else:
+    return FTD_SCRIPT
 
-def get_calculator_file_abbr(experiment_num):
+def get_calculator_file_abbr():
   return "FTD"

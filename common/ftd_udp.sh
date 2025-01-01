@@ -48,7 +48,7 @@ cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
 if [ $experiment_num < 5 ]
-  echo "The FTD UDP script should only be used for the UDP experiments." |& tee -a $output_file_path
+  echo "The FTD UDP script should only be used for the UDP experiments."
   exit 1
 elif [ $experiment_num == 5 ]
 then

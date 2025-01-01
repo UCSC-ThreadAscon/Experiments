@@ -18,6 +18,8 @@ from kasa_wrapper import *
 from experiment import *
 from common_automation import *
 
+FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp_flash.sh"
+
 UDP_START_STRING = "UDP experiment trial!"
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
@@ -25,7 +27,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
     calculator_name = get_calculator_name()
     await power_on(calculator_name)
 
-    subprocess.run(["bash", get_calculator_script(), "-t", tx_power, "-e",
+    subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
                     cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
                     stdout=PIPE, stderr=STDOUT)
 
@@ -33,6 +35,10 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
                    f"{get_calculator_file_abbr()}-" + \
                    f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+
+    subprocess.run(["bash", FTD_UDP_FLASH_SCRIPT, "-t", tx_power, "-e",
+                    cipher_num, "-p", CALCULATOR_PORT],
+                    stdout=PIPE, stderr=STDOUT)
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(CALCULATOR_PORT, timeout=1) as calculator:

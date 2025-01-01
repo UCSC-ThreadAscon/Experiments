@@ -96,8 +96,9 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
       with serial.Serial(LEADER_PORT, timeout=1) as leader:
         print(f"{leader_name} monitoring has started.")
 
-        calculator_process = Process(target=calculator_monitor, args=(tx_power, cipher_num,
-                                                        exp_calculator_num, experiment_num))
+        calculator_process = Process(target=calculator_monitor,
+                                     args=(tx_power, cipher_num, exp_calculator_num,
+                                           experiment_num))
         calculator_started = False
 
         while (not calculator_started) or (calculator_process.is_alive()):

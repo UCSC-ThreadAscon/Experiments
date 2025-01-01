@@ -18,6 +18,70 @@ from kasa_wrapper import *
 from experiment import *
 from common_automation import *
 
+UDP_START_STRING = "UDP experiment trial!"
+
+def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, experiment_num):
+  async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
+                            exp_calculator_num, experiment_num):
+    leader_name = get_leader_name(experiment_num)
+    await power_on(leader_name)
+
+    leader_script = get_leader_script(experiment_num)
+    subprocess.run(["bash", leader_script, "-t", tx_power,
+                   "-e", cipher_num, "-p", LEADER_PORT,
+                   "-x", exp_leader_num],
+                   stdout=PIPE, stderr=STDOUT)
+
+    exp_dir_path = get_dir_path(experiment_num, None).as_posix()
+    exp_filename_prefix = get_exp_filename_prefix(experiment_num)
+
+    log_filename = exp_dir_path + \
+      f"/queue/{exp_filename_prefix}-" + \
+      f"{get_leader_file_abbr(experiment_num)}-" + \
+      f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
+    
+    sniffer_filename = exp_dir_path + \
+      f"/queue/{exp_filename_prefix}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
+
+    await power_on("Packet Sniffer")
+    sniffer = Nrf802154Sniffer()
+    sniffer.extcap_capture(
+      fifo=sniffer_filename,
+      dev=SNIFFER_PORT,
+      channel=THREAD_NETWORK_CHANNEL
+    )
+    print("Started 802.15.4 Packet Sniffer Wireshark capture.")
+
+    with open(log_filename, "ba") as logfile:
+      with serial.Serial(LEADER_PORT, timeout=1) as leader:
+        print(f"{leader_name} monitoring has started.")
+
+        calculator_process = Process(target=calculator_monitor,
+                                     args=(tx_power, cipher_num, exp_calculator_num,
+                                           experiment_num))
+        calculator_started = False
+
+        while (not calculator_started) or (calculator_process.is_alive()):
+          line_bytes = leader.readline()
+
+          if line_bytes != b"":
+            logfile.write(line_bytes)
+            line = line_bytes.decode()
+
+            if not calculator_started:
+              if UDP_START_STRING in line:
+                calculator_process.start()
+                calculator_started = True
+
+    print(f"{leader_name} monitoring has stopped.")
+    await power_off(leader_name)
+
+    sniffer.stop_sig_handler()
+    print("Stopped Packet Sniffer capture.")
+    await power_off("Packet Sniffer")
+
+    return
+
 async def main():
   await check_main_usb_hub_ports_off()
 

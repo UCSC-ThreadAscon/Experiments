@@ -11,4 +11,5 @@ cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-udp/queue/tp-udp-FTD-$cipher_string-$txpower_string.txt"
 
+source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 idf.py flash --port $ftd_port |& tee -a $output_file_path

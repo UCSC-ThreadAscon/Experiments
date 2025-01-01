@@ -20,7 +20,7 @@ from common_automation import *
 
 FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp_flash.sh"
 
-UDP_START_STRING = "UDP experiment trial!"
+UDP_SERVER_START_STRING = "Successfully attached to the Thread Network as the leader."
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
@@ -28,8 +28,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
     await power_on(calculator_name)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
-                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
-                    stdout=PIPE, stderr=STDOUT)
+                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num])
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
@@ -66,8 +65,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
     leader_script = get_leader_script(experiment_num)
     subprocess.run(["bash", leader_script, "-t", tx_power,
                    "-e", cipher_num, "-p", LEADER_PORT,
-                   "-x", exp_leader_num],
-                   stdout=PIPE, stderr=STDOUT)
+                   "-x", exp_leader_num], stdout=PIPE, stderr=STDOUT)
 
     exp_dir_path = get_dir_path(experiment_num, None).as_posix()
     exp_filename_prefix = get_exp_filename_prefix(experiment_num)
@@ -115,7 +113,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
                 break
 
             else: # `not calculator_started`
-              if UDP_START_STRING in line:
+              if UDP_SERVER_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True
 
@@ -142,8 +140,8 @@ async def main():
 
   match experiment_num:
     case Experiment.THROUGHPUT_UDP.value:
-      exp_leader_num = "5"        # FTD
-      exp_calculator_num = "3"    # Border Router
+      exp_leader_num = "3"        # Border Router
+      exp_calculator_num = "5"    # FTD
       exp_rcp_num = "3"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")

@@ -167,7 +167,7 @@ def get_leader_name(experiment_num):
       return "Border Router"
 
 def get_leader_script(experiment_num):
-  if (experiment_num == Experiment.DELAY.value):
+  if experiment_num == Experiment.DELAY.value:
     return FTD_SCRIPT
   else:
     return BORDER_ROUTER_SCRIPT

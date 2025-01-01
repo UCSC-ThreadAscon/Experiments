@@ -28,16 +28,16 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
     await power_on(calculator_name)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
-                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num])
+                    cipher_num, "-x", exp_calculator_num])
+
+    subprocess.run(["bash", FTD_UDP_FLASH_SCRIPT, "-t", tx_power, "-e",
+                    cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
+                    stdout=PIPE, stderr=STDOUT)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
                    f"{get_calculator_file_abbr()}-" + \
                    f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
-
-    subprocess.run(["bash", FTD_UDP_FLASH_SCRIPT, "-t", tx_power, "-e",
-                    cipher_num, "-p", CALCULATOR_PORT],
-                    stdout=PIPE, stderr=STDOUT)
 
     with open(log_filename, "ba") as logfile:
       with serial.Serial(CALCULATOR_PORT, timeout=1) as calculator:

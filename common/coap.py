@@ -84,6 +84,8 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
       f"/queue/{exp_filename_prefix}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
     await power_on("Packet Sniffer")
+    sleep(PORT_CONNECT_WAIT_SECONDS)
+
     sniffer = Nrf802154Sniffer()
     sniffer.extcap_capture(
       fifo=sniffer_filename,

@@ -88,6 +88,7 @@ async def check_main_usb_hub_ports_off():
   global DEBUG
   DEBUG = True
   await power_off_all_devices()
+  sleep(PORT_CONNECT_WAIT_SECONDS)
 
   print("Begin test to check that all Main USB Hub ports are powered off.")
   await power_on("Main USB Hub")

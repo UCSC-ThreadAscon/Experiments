@@ -64,7 +64,10 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
   async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
                             exp_calculator_num, experiment_num):
     leader_name = get_leader_name(experiment_num)
+
     await power_on(leader_name)
+    sleep(PORT_CONNECT_WAIT_SECONDS)
+    await power_on("Packet Sniffer")
 
     leader_script = get_leader_script(experiment_num)
     subprocess.run(["bash", leader_script, "-t", tx_power,
@@ -83,11 +86,8 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
     sniffer_filename = exp_dir_path + \
       f"/queue/{exp_filename_prefix}-{to_cipher_string(cipher_num)}-{tx_power}dbm.pcapng"
 
-    await power_on("Packet Sniffer")
-    sleep(PORT_CONNECT_WAIT_SECONDS)
-
     sniffer = Nrf802154Sniffer()
-    sniffer.extcap_capture(
+    sniffer.start_threaded(
       fifo=sniffer_filename,
       dev=SNIFFER_PORT,
       channel=THREAD_NETWORK_CHANNEL
@@ -118,7 +118,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)
 
-    sniffer.stop_sig_handler()
+    sniffer.stop_thread()
     print("Stopped Packet Sniffer capture.")
     await power_off("Packet Sniffer")
 

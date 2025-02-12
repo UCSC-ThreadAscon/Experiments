@@ -64,9 +64,10 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
 
   return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num))
 
-def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, experiment_num):
-  async def _leader_monitor(tx_power, cipher_num, exp_leader_num,
-                            exp_calculator_num, experiment_num):
+def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, 
+                   experiment_num, exp_rcp_num):
+  async def _leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
+                            experiment_num, exp_rcp_num):
     leader_name = get_leader_name(experiment_num)
 
     await power_on(leader_name)
@@ -136,7 +137,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
     await power_off("Packet Sniffer")
 
   return asyncio.run(_leader_monitor(tx_power, cipher_num, exp_leader_num,
-                                     exp_calculator_num, experiment_num))
+                                     exp_calculator_num, experiment_num, exp_rcp_num))
 
 async def main():
   await check_main_usb_hub_ports_off()
@@ -164,7 +165,7 @@ async def main():
 
   leader_process = Process(target=leader_monitor,
                            args=(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
-                                 experiment_num))
+                                 experiment_num, exp_rcp_num))
   leader_process.start()
 
   leader_process.join()

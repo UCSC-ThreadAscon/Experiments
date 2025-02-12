@@ -41,7 +41,7 @@ function get_exp_prefix() {
   1) echo "tp-con" ;;
   2) echo "pl-con" ;;
   3) echo "tp-observe" ;;
-  4) echo "pl-observe ;;
+  4) echo "pl-observe" ;;
   esac
 }
 

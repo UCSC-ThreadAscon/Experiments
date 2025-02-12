@@ -21,19 +21,6 @@ from common_automation import *
 COAP_START_STRING = "Started CoAP server"
 EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
 
-RCP_PORT = "/dev/ttyACM0"
-
-async def build_flash_rcp(cipher_num, exp_rcp_num):
-  await power_off("Border Router")
-  await power_on("Radio Co-Processor")
-
-  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT,
-                  "-x", exp_rcp_num],
-                 stdout=PIPE, stderr=STDOUT)
-
-  await power_off("Radio Co-Processor")
-  return
-
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
     calculator_name = get_calculator_name(experiment_num)

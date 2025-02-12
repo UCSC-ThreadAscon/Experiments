@@ -40,17 +40,15 @@ function to_cipher_string() {
 
 function get_exp_prefix() {
   case $1 in 
-  1) echo "tp-con" ;;
-  2) echo "pl-con" ;;
-  3) echo "tp-udp" ;;
+  3) echo "tp-observe" ;;
+  4) echo "pl-observe ;;
   esac
 }
 
 function get_exp_dir() {
   case $1 in
-  1) echo "throughput-confirmable" ;;
-  2) echo "packet-loss-confirmable" ;;
   3) echo "throughput-udp" ;;
+  4) echo "packet-loss-observe" ;;
   esac
 }
 
@@ -93,14 +91,6 @@ then
   echo "Please turn the RCP Auto Update Feature OFF." |& tee -a $output_file_path
   echo "$(cat $border_router_path/sdkconfig | grep CONFIG_AUTO_UPDATE_RCP)" |& tee -a $output_file_path
   exit 1
-fi
-
-# Set the number of MAC Frame Direct Retries, depending on the experiment.
-if [[ $experiment_num -lt 3 ]]
-then
-  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $border_router_sdkconfig
-else
-  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 0 $border_router_sdkconfig
 fi
 
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $border_router_sdkconfig

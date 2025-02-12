@@ -62,7 +62,10 @@ then
   output_file_path="$HOME/Desktop/Repositories/Experiments/delay/queue/delay-FTD-$cipher_string-$txpower_string.txt"
 elif [ $experiment_num == 5 ]
 then
-  output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-udp/queue/tp-udp-FTD-$cipher_string-$txpower_string.txt"
+  output_file_path="$HOME/Desktop/Repositories/Experiments/throughput-observe/queue/tp-observe-FTD-$cipher_string-$txpower_string.txt"
+elif [ $experiment_num == 6 ]
+then
+  output_file_path="$HOME/Desktop/Repositories/Experiments/packet-loss-observe/queue/pl-observe-FTD-$cipher_string-$txpower_string.txt"
 fi
 
 rm -f $output_file_path
@@ -92,14 +95,6 @@ sdkconfig_set CONFIG_EXPERIMENT $experiment_num $ftd_sdkconfig
 # Change both the cipher suite and TX power settings in `sdkconfig`.
 sdkconfig_set CONFIG_THREAD_ASCON_CIPHER_SUITE $cipher_num $ftd_sdkconfig
 sdkconfig_set CONFIG_TX_POWER $tx_power $ftd_sdkconfig
-
-# Set the number of MAC Frame Direct Retries, depending on the experiment.
-if [[ $experiment_num -gt 4 ]]
-then
-  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 0 $ftd_sdkconfig
-else
-  sdkconfig_set CONFIG_OPENTHREAD_MAC_DEFAULT_MAX_FRAME_RETRIES_DIRECT 15 $ftd_sdkconfig
-fi
 
 time_sync_not_set="# CONFIG_OPENTHREAD_TIME_SYNC is not set"
 time_sync_set="CONFIG_OPENTHREAD_TIME_SYNC=1"

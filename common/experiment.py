@@ -194,6 +194,10 @@ def get_leader_file_abbr(experiment_num):
   match (experiment_num):
     case Experiment.DELAY.value:
       return "server"
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      return "FTD"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      return "FTD"
     case _:
       return "BR"
 

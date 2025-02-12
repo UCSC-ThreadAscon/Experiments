@@ -64,7 +64,8 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
                     f"The {calculator_name} is going to restart the trial.")
     return
 
-  return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num))
+  return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num,
+                                         experiment_num, exp_rcp_num))
 
 def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, 
                    experiment_num, exp_rcp_num):

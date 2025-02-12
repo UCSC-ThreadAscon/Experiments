@@ -23,14 +23,22 @@ FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd
 COAP_START_STRING = "Started CoAP server"
 EXPERIMENT_END_STRING = "Finished running 100 trials for the current experiment."
 
+RCP_PORT = "/dev/ttyACM2"
+
+async def build_flash_rcp(cipher_num, exp_rcp_num):
+  await power_on("Radio Co-Processor")
+
+  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT,
+                  "-x", exp_rcp_num],
+                 stdout=PIPE, stderr=STDOUT)
+
+  await power_off("Radio Co-Processor")
+  return
+
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
                        exp_rcp_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
                                 exp_rcp_num):
-    #
-    # The calculator in the Observe experiments will be the Border Router.
-    # As a result, flash the RCP before starting up the Border Router host.
-    #
     await build_flash_rcp(cipher_num, exp_rcp_num)
     sleep(PORT_CONNECT_WAIT_SECONDS)
 
@@ -38,6 +46,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
                     cipher_num, "-x", exp_calculator_num], stdout=PIPE, stderr=STDOUT)
+
 
     # Due to the way CoAP Observe subscriptions work, we need to power on the Border Router
     # immediately before we flash the new experiment program to it. Otherwise, we will

@@ -169,6 +169,12 @@ async def main():
 
   await power_on("Main USB Hub")
 
+  # We must power on the RCP at the beginning, as it also powers on the Border Router
+  # host SoC too. As a result, we will not be able to flash the RCP once the FTD has
+  # been powered on.
+  #
+  await build_flash_rcp(cipher_num, exp_rcp_num)
+
   leader_process = Process(target=leader_monitor,
                            args=(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
                                  experiment_num, exp_rcp_num))

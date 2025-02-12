@@ -37,7 +37,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
     calculator_name = get_calculator_name(experiment_num)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
-                    cipher_num, "-x", exp_calculator_num])
+                    cipher_num, "-x", exp_calculator_num], stdout=PIPE, stderr=STDOUT)
 
     # Due to the way CoAP Observe subscriptions work, we need to power on the Border Router
     # immediately before we flash the new experiment program to it. Otherwise, we will
@@ -67,6 +67,13 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
             if EXPERIMENT_TRIAL_FAILURE in line:
               print("An experimental trial has failed. " +
                     f"The {calculator_name} is going to restart the trial.")
+            
+            elif TRIAL_COMPLETION_SUBSTRING in line:
+              print(line.replace('\n', ''))
+
+            elif EXPERIMENT_END_STRING in line:
+              print(f"{calculator_name} has completed the experiment.")
+              break
     return
 
   return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num,
@@ -122,16 +129,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
             logfile.write(line_bytes)
             line = line_bytes.decode()
 
-            if calculator_started:
-              if TRIAL_COMPLETION_SUBSTRING in line:
-                print(line.replace('\n', ''))
-
-              elif EXPERIMENT_END_STRING in line:
-                print(f"{leader_name} has completed the experiment.")
-                calculator_process.terminate()
-                break
-
-            else: # `not calculator_started`
+            if not calculator_started:
               if COAP_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True

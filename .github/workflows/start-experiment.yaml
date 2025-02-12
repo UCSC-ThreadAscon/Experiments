@@ -4,7 +4,7 @@
 # https://stackoverflow.com/a/63030126
 # https://unix.stackexchange.com/a/304864/635993
 # https://graphite.dev/guides/github-actions-inputs
-# https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php#case
+# https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php
 # https://stackoverflow.com/a/21699210/6621292
 #
 name: Start Experiments 🔬
@@ -39,8 +39,8 @@ on:
           - Delay
           - Throughput-Confirmable
           - Packet-Loss-Confirmable
-          - Throughput-UDP
-          - Packet-Loss-UDP
+          - Throughput-Observe
+          - Packet-Loss-Observe
 
 jobs:
   Start-Experiment:
@@ -79,13 +79,23 @@ jobs:
               "Delay") echo 0 ;;
               "Throughput-Confirmable")  echo 1 ;;
               "Packet-Loss-Confirmable") echo 2 ;;
-              "Throughput-UDP") echo 3 ;;
-              "Packet-Loss-UDP") echo 4 ;;
+              "Throughput-Observe") echo 3 ;;
+              "Packet-Loss-Observe") echo 4 ;;
             esac
+          }
+
+          function get_script() {
+            if [ $1 -lt 3 ]
+            then
+              echo "./coap.py"
+            else
+              echo "./observe.py"
+            fi
           }
 
           cipher_num=$(to_cipher_num $encryption)
           experiment_num=$(to_experiment_num $experiment)
+          script=$(get_script $experiment)
 
           ssh $USERNAME@$HOSTNAME -o "StrictHostKeyChecking no" \
             "cd /home/$USERNAME/Desktop/Repositories/Experiments
@@ -94,7 +104,7 @@ jobs:
 
             cd ./common
             tmux new -s github-actions -d \
-              'python3 ./coap.py --tx-power $txpower --encryption $cipher_num \
+              'python3 $script --tx-power $txpower --encryption $cipher_num \
               --experiment $experiment_num'
 
             tmux ls

@@ -27,13 +27,6 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
                        exp_rcp_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
                                 exp_rcp_num):
-    #
-    # The calculator in the Observe experiments will be the Border Router.
-    # As a result, flash the RCP before starting up the Border Router host.
-    #
-    await build_flash_rcp(cipher_num, exp_rcp_num)
-    sleep(PORT_CONNECT_WAIT_SECONDS)
-
     calculator_name = get_calculator_name(experiment_num)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",

@@ -176,9 +176,9 @@ def get_leader_name(experiment_num):
     case Experiment.DELAY.value:
       return "Delay Server"
     case Experiment.THROUGHPUT_OBSERVE.value:
-      return "FTD"
+      return "Full Thread Device"
     case Experiment.PACKET_LOSS_OBSERVE.value:
-      return "FTD"
+      return "Full Thread Device"
     case _:
       return "Border Router"
 

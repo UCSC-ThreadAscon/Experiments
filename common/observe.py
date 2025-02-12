@@ -139,10 +139,14 @@ async def main():
   experiment_num = int(args.experiment)
 
   match experiment_num:
-    case Experiment.THROUGHPUT_UDP.value:
-      exp_leader_num = "3"        # Border Router
-      exp_calculator_num = "5"    # FTD
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      exp_leader_num = "5"        # FTD
+      exp_calculator_num = "3"    # Border Router
       exp_rcp_num = "3"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      exp_leader_num = "6"        # FTD
+      exp_calculator_num = "4"    # Border Router
+      exp_rcp_num = "4"
     case _:
       raise Exception(f"Invalid Experiment Number: {experiment_num}.")
 

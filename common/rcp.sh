@@ -40,7 +40,8 @@ function get_exp_prefix() {
   case $1 in 
   1) echo "tp-con" ;;
   2) echo "pl-con" ;;
-  3) echo "tp-udp" ;;
+  3) echo "tp-observe" ;;
+  4) echo "pl-observe ;;
   esac
 }
 
@@ -48,7 +49,8 @@ function get_exp_dir() {
   case $1 in
   1) echo "throughput-confirmable" ;;
   2) echo "packet-loss-confirmable" ;;
-  3) echo "throughput-udp" ;;
+  3) echo "throughput-observe" ;;
+  4) echo "packet-loss-observe" ;;
   esac
 }
 

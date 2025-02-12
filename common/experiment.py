@@ -7,13 +7,13 @@ RCP_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/rcp.sh"
 BORDER_ROUTER_SCRIPT = \
   "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
 FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
-FTD_UDP_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp.sh"
 
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
   PACKET_LOSS_CONFIRMABLE=2
-  THROUGHPUT_UDP=3
+  THROUGHPUT_OBSERVE=3
+  PACKET_LOSS_OBSERVE=4
 
 def to_cipher_string(cipher_num):
   match cipher_num:
@@ -40,8 +40,10 @@ def get_exp_filename_prefix(experiment_enum):
       return "tp-con"
     case Experiment.PACKET_LOSS_CONFIRMABLE.value:
       return "pl-con"
-    case Experiment.THROUGHPUT_UDP.value:
-      return "tp-udp"
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      return "tp-observe"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      return "pl-observe"
     case _:
       raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
@@ -55,8 +57,10 @@ def get_dir_path(experiment_enum, subdir_name):
       experiment_dir = "throughput-confirmable"
     case Experiment.PACKET_LOSS_CONFIRMABLE.value:
       experiment_dir = "packet-loss-confirmable"
-    case Experiment.THROUGHPUT_UDP.value:
-      experiment_dir = "throughput-udp"
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      experiment_dir = "throughput-observe"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      experiment_dir = "packet-loss-observe"
     case _:
       raise Exception("Invalid Enum value for Experiment: {experiment_enum}.")
 
@@ -75,8 +79,10 @@ def get_nas_exp_dir_string(experiment_enum):
       dirname = "Throughput-Confirmable"
     case Experiment.PACKET_LOSS_CONFIRMABLE.value:
       dirname = "Packet-Loss-Confirmable"
-    case Experiment.THROUGHPUT_UDP.value:
-      dirname = "Throughput-UDP"
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      dirname = "Throughput-Observe"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      dirname = "Packet-Loss-Observe"
     case _:
       raise Exception(f"{experiment_enum} is not a valid Experiment Enum.")
   return "/Thesis-Experiments-Data/" + dirname
@@ -183,10 +189,7 @@ def get_calculator_name():
   return "Full Thread Device"
 
 def get_calculator_script(experiment_num):
-  if experiment_num == Experiment.THROUGHPUT_UDP.value:
-    return FTD_UDP_SCRIPT
-  else:
-    return FTD_SCRIPT
+  return FTD_SCRIPT
 
 def get_calculator_file_abbr():
   return "FTD"

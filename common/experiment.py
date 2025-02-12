@@ -215,5 +215,9 @@ def get_calculator_script(experiment_num):
   else:
     return FTD_SCRIPT
 
-def get_calculator_file_abbr():
-  return "FTD"
+def get_calculator_file_abbr(experiment_num):
+  if (experiment_num == Experiment.THROUGHPUT_OBSERVE.value) or \
+     (experiment_num == Experiment.PACKET_LOSS_OBSERVE.value):
+    return "BR"
+  else:
+    return "FTD"

@@ -19,6 +19,8 @@ do
   esac
 done
 
+border_router_path=$HOME/Desktop/Repositories/br_netperf/examples/basic_thread_border_router
+
 cipher_string=$(to_cipher_string $cipher_num)
 txpower_string="${tx_power}dbm"
 
@@ -30,5 +32,7 @@ then
   output_file_path="$HOME/Desktop/Repositories/Experiments/packet-loss-observe/queue/pl-observe-BR-$cipher_string-$txpower_string.txt"
 fi
 
+cd $border_router_path
 source $HOME/esp/esp-idf/export.sh &>> $output_file_path
 idf.py flash --port $border_router_port |& tee -a $output_file_path
+cd -

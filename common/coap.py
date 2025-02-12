@@ -32,7 +32,7 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
 
     log_filename = get_dir_path(experiment_num, None).as_posix() + \
                    f"/queue/{get_exp_filename_prefix(experiment_num)}-" + \
-                   f"{get_calculator_file_abbr()}-" + \
+                   f"{get_calculator_file_abbr(experiment_num)}-" + \
                    f"{to_cipher_string(cipher_num)}-{tx_power}dbm.txt"
 
     with open(log_filename, "ba") as logfile:

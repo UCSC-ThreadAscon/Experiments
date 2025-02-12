@@ -22,7 +22,7 @@ COAP_START_STRING = "Started CoAP server"
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
-    calculator_name = get_calculator_name()
+    calculator_name = get_calculator_name(experiment_num)
     await power_on(calculator_name)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",

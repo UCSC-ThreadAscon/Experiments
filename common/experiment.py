@@ -8,6 +8,12 @@ BORDER_ROUTER_SCRIPT = \
   "/home/simeon/Desktop/Repositories/Experiments/common/border_router.sh"
 FTD_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd.sh"
 
+BORDER_ROUTER_OBSERVE_SCRIPT = \
+  "/home/simeon/Desktop/Repositories/Experiments/common/border_router_observe.sh"
+BORDER_ROUTER_OBSERVE_FLASH_SCRIPT = \
+  "/home/simeon/Desktop/Repositories/Experiments/common/border_router_observe_flash.sh"
+
+
 class Experiment(Enum):
   DELAY=0
   THROUGHPUT_CONFIRMABLE=1
@@ -169,11 +175,17 @@ def get_leader_name(experiment_num):
   match (experiment_num):
     case Experiment.DELAY.value:
       return "Delay Server"
+    case Experiment.THROUGHPUT_OBSERVE.value:
+      return "FTD"
+    case Experiment.PACKET_LOSS_OBSERVE.value:
+      return "FTD"
     case _:
       return "Border Router"
 
 def get_leader_script(experiment_num):
-  if experiment_num == Experiment.DELAY.value:
+  if (experiment_num == Experiment.DELAY.value) or \
+     (experiment_num == Experiment.THROUGHPUT_OBSERVE.value) or \
+     (experiment_num == Experiment.PACKET_LOSS_OBSERVE.value):
     return FTD_SCRIPT
   else:
     return BORDER_ROUTER_SCRIPT
@@ -185,11 +197,19 @@ def get_leader_file_abbr(experiment_num):
     case _:
       return "BR"
 
-def get_calculator_name():
-  return "Full Thread Device"
+def get_calculator_name(experiment_num):
+  if (experiment_num == Experiment.THROUGHPUT_OBSERVE.value) or \
+     (experiment_num == Experiment.PACKET_LOSS_OBSERVE.value):
+    return "Border Router"
+  else:
+    return "Full Thread Device"
 
 def get_calculator_script(experiment_num):
-  return FTD_SCRIPT
+  if (experiment_num == Experiment.THROUGHPUT_OBSERVE.value) or \
+     (experiment_num == Experiment.PACKET_LOSS_OBSERVE.value):
+    return BORDER_ROUTER_OBSERVE_SCRIPT
+  else:
+    return FTD_SCRIPT
 
 def get_calculator_file_abbr():
   return "FTD"

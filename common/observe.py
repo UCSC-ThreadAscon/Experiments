@@ -20,17 +20,24 @@ from common_automation import *
 
 FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp_flash.sh"
 
-UDP_SERVER_START_STRING = "Successfully attached to the Thread Network as the leader."
+COAP_START_STRING = "Started CoAP server"
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
-    calculator_name = get_calculator_name()
+    #
+    # The calculator in the Observe experiments will be the Border Router.
+    # As a result, flash the RCP before starting up the Border Router host.
+    #
+    await build_flash_rcp(cipher_num, exp_rcp_num)
+    sleep(PORT_CONNECT_WAIT_SECONDS)
+
+    calculator_name = get_calculator_name(experiment_num)
     await power_on(calculator_name)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
                     cipher_num, "-x", exp_calculator_num])
 
-    subprocess.run(["bash", FTD_UDP_FLASH_SCRIPT, "-t", tx_power, "-e",
+    subprocess.run(["bash", BORDER_ROUTER_OBSERVE_FLASH_SCRIPT, "-t", tx_power, "-e",
                     cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
                     stdout=PIPE, stderr=STDOUT)
 
@@ -50,8 +57,8 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num)
             line = line_bytes.decode()
 
             if EXPERIMENT_TRIAL_FAILURE in line:
-              print(f"{calculator_name} failed to connect to the Thread network. " +
-                     "Going to restart the device.")
+              print("An experimental trial has failed. " +
+                    f"The {calculator_name} is going to restart the trial.")
     return
 
   return asyncio.run(_calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num))
@@ -113,7 +120,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
                 break
 
             else: # `not calculator_started`
-              if UDP_SERVER_START_STRING in line:
+              if COAP_START_STRING in line:
                 calculator_process.start()
                 calculator_started = True
 
@@ -152,9 +159,6 @@ async def main():
 
   await power_on("Main USB Hub")
 
-  await build_flash_rcp(cipher_num, exp_rcp_num)
-
-  sleep(PORT_CONNECT_WAIT_SECONDS)
   leader_process = Process(target=leader_monitor,
                            args=(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
                                  experiment_num))

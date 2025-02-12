@@ -41,23 +41,22 @@ function to_cipher_string() {
 function get_exp_prefix() {
   case $1 in 
   3) echo "tp-observe" ;;
-  4) echo "pl-observe ;;
+  4) echo "pl-observe" ;;
   esac
 }
 
 function get_exp_dir() {
   case $1 in
-  3) echo "throughput-udp" ;;
+  3) echo "throughput-observe" ;;
   4) echo "packet-loss-observe" ;;
   esac
 }
 
-while getopts t:e:p:x: arg
+while getopts t:e:x: arg
 do
   case "${arg}" in
     t) tx_power=${OPTARG};;
     e) cipher_num=${OPTARG};;
-    p) border_router_port=${OPTARG};;
     x) experiment_num=${OPTARG};;
   esac
 done

@@ -35,11 +35,16 @@ def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
     sleep(PORT_CONNECT_WAIT_SECONDS)
 
     calculator_name = get_calculator_name(experiment_num)
-    await power_on(calculator_name)
 
     subprocess.run(["bash", get_calculator_script(experiment_num), "-t", tx_power, "-e",
                     cipher_num, "-x", exp_calculator_num])
 
+    # Due to the way CoAP Observe subscriptions work, we need to power on the Border Router
+    # immediately before we flash the new experiment program to it. Otherwise, we will
+    # risk having the Border Router set up a subscription with the FTD that it will
+    # forget to cancel.
+    #
+    await power_on(calculator_name)
     subprocess.run(["bash", BORDER_ROUTER_OBSERVE_FLASH_SCRIPT, "-t", tx_power, "-e",
                     cipher_num, "-p", CALCULATOR_PORT, "-x", exp_calculator_num],
                     stdout=PIPE, stderr=STDOUT)

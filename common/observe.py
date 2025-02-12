@@ -23,8 +23,10 @@ FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd
 COAP_START_STRING = "Started CoAP server"
 EXPERIMENT_END_STRING = "Finished running 100 trials for the current experiment."
 
-def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
-  async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
+def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
+                       exp_rcp_num):
+  async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num,
+                                exp_rcp_num):
     #
     # The calculator in the Observe experiments will be the Border Router.
     # As a result, flash the RCP before starting up the Border Router host.
@@ -104,7 +106,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num,
 
         calculator_process = Process(target=calculator_monitor,
                                      args=(tx_power, cipher_num, exp_calculator_num,
-                                           experiment_num))
+                                           experiment_num, exp_rcp_num))
         calculator_started = False
 
         while (not calculator_started) or (calculator_process.is_alive()):

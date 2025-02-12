@@ -21,6 +21,7 @@ from common_automation import *
 FTD_UDP_FLASH_SCRIPT = "/home/simeon/Desktop/Repositories/Experiments/common/ftd_udp_flash.sh"
 
 COAP_START_STRING = "Started CoAP server"
+EXPERIMENT_END_STRING = "Finished running 100 trials for the current experiment."
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
@@ -128,7 +129,7 @@ def leader_monitor(tx_power, cipher_num, exp_leader_num, exp_calculator_num, exp
 
     print(f"{leader_name} monitoring has stopped.")
     await power_off(leader_name)
-    await power_off(get_calculator_name())
+    await power_off(get_calculator_name(experiment_num))
 
     sniffer.stop_sig_handler()
     print("Stopped Packet Sniffer capture.")

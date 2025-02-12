@@ -19,6 +19,7 @@ from experiment import *
 from common_automation import *
 
 COAP_START_STRING = "Started CoAP server"
+EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
 
 def calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):
   async def _calculator_monitor(tx_power, cipher_num, exp_calculator_num, experiment_num):

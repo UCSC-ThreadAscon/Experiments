@@ -14,7 +14,6 @@ CALCULATOR_PORT = "/dev/ttyACM2"
 
 THREAD_NETWORK_CHANNEL = 20
 
-EXPERIMENT_END_STRING = "Finished running 1000 trials for the current experiment."
 EXPERIMENT_TRIAL_FAILURE = "Going to restart the current experiment trial."
 TRIAL_COMPLETION_SUBSTRING = "is now complete."
 

@@ -87,11 +87,11 @@ merge_with_main "delay-client" "main" $DELAY_CLIENT_LOC
 
 update_repo "main" $ENERGY_SED_LOC
 
-update_repo "air-quality" $ENERGY_SED_LOC
-merge_with_main "air-quality" "main" $ENERGY_SED_LOC
+# update_repo "air-quality" $ENERGY_SED_LOC
+# merge_with_main "air-quality" "main" $ENERGY_SED_LOC
 
-update_repo "back-door" $ENERGY_SED_LOC
-merge_with_main "back-door" "main" $ENERGY_SED_LOC
+# update_repo "back-door" $ENERGY_SED_LOC
+# merge_with_main "back-door" "main" $ENERGY_SED_LOC
 
-update_repo "front-door" $ENERGY_SED_LOC
-merge_with_main "front-door" "main" $ENERGY_SED_LOC
+# update_repo "front-door" $ENERGY_SED_LOC
+# merge_with_main "front-door" "main" $ENERGY_SED_LOC

@@ -4,13 +4,15 @@ import asyncio
 from experiment import *
 
 async def main():
-  # TO-DO: Check that Main USB ports are off.
+  # await check_main_usb_hub_ports_off()
 
   parser = cmd_arg_parser()
   args = parser.parse_args()
 
   tx_power = args.tx_power
   cipher_num = args.encryption
+
+  # await power_on("Main USB Hub")
   return
 
 if __name__ == "__main__":

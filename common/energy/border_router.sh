@@ -54,7 +54,7 @@ output_file_path="$HOME/Desktop/Repositories/Experiments/energy/queue/energy-BR-
 rm -f $output_file_path
 date |& tee $output_file_path
 
-set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/common/set_commit_ids.sh
+set_commit_ids_exec=$HOME/Desktop/Repositories/Experiments/energy/common/set_commit_ids.sh
 $set_commit_ids_exec -b |& tee -a $output_file_path
 # --------------------------------
 

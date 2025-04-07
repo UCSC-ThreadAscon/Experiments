@@ -1,4 +1,19 @@
 import argparse
+import subprocess
+
+from import_module import *
+import_module("kasa_wrapper.py")
+
+async def build_flash_rcp(cipher_num, exp_rcp_num):
+  await power_off("Border Router")
+  await power_on("Radio Co-Processor")
+
+  subprocess.run(["bash", RCP_SCRIPT, "-e", cipher_num, "-p", RCP_PORT,
+                  "-x", exp_rcp_num],
+                 stdout=PIPE, stderr=STDOUT)
+
+  await power_off("Radio Co-Processor")
+  return
 
 def cmd_arg_parser():
   parser = argparse.ArgumentParser()

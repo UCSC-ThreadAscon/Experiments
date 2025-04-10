@@ -5,12 +5,19 @@ ESP_IDF_COMMIT=9b33081ad38dae47ee01d6420881e1fcde948b47
 BORDER_ROUTER_COMMIT=68d58d0a0892c9cb117226b32b34bba4279a2635
 
 # The commit ID of the SEDs.
+FRONT_DOOR_COMMIT=796938b5a876719095307b39fe30511a167f7802
+WINDOW_COMMIT=536f7d985f12b190d60209a637e3200004ed08f4
+AIR_QUALITY_COMMIT=23f6b079848c359f82561c9cbae4d520f8c658d3
 SED_COMMIT=522b48d7c0a3ba452d9712b87c61b0004274df09
 
 # The location of each of the repositories.
 ESP_IDF_LOC=${HOME}/esp/esp-idf
 OPENTHREAD_LOC=${HOME}/esp/esp-idf/components/openthread/openthread
 BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_energy/examples/basic_thread_border_router
+
+FRONT_DOOR_LOC=$HOME/Desktop/Repositories/front-door
+WINDOW_LOC=$HOME/Desktop/Repositories/window
+AIR_QUALITY_LOC=$HOME/Desktop/Repositories/air-quality
 SED_LOC=$HOME/Desktop/Repositories/energy-usage-sed-simple
 
 function print_delimiter() {
@@ -96,3 +103,7 @@ print_commit "OpenThread" $OPENTHREAD_LOC
 
 change_repo_commit "Border Router" $BORDER_ROUTER_LOC $BORDER_ROUTER_COMMIT
 change_repo_commit "SED" $SED_LOC $SEDS_COMMIT_ID
+
+change_repo_commit "Front Door" $FRONT_DOOR_LOC $FRONT_DOOR_COMMIT
+change_repo_commit "Window" $WINDOW_LOC $WINDOW_COMMIT
+change_repo_commit "Air Quality" $AIR_QUALITY_LOC $AIR_QUALITY_COMMIT

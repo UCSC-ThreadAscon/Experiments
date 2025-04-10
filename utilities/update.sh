@@ -8,6 +8,10 @@ NET_PERF_FTD_LOC=$HOME/Desktop/Repositories/network-performance-ftd
 NET_PERF_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_netperf
 
 ENERGY_SED_LOC=$HOME/Desktop/Repositories/energy-usage-sed-simple
+FRONT_DOOR_LOC=$HOME/Desktop/Repositories/front-door
+WINDOW_LOC=$HOME/Desktop/Repositories/window
+AIR_QUALITY_LOC=$HOME/Desktop/Repositories/air-quality
+
 ENERGY_BORDER_ROUTER_LOC=$HOME/Desktop/Repositories/br_energy
 
 EXPERIMENTS_LOC=$HOME/Desktop/Repositories/Experiments
@@ -87,11 +91,11 @@ merge_with_main "delay-client" "main" $DELAY_CLIENT_LOC
 
 update_repo "main" $ENERGY_SED_LOC
 
-update_repo "air-quality" $ENERGY_SED_LOC
+update_repo "air-quality" $AIR_QUALITY_LOC
 merge_with_main "air-quality" "main" $ENERGY_SED_LOC
 
-update_repo "window" $ENERGY_SED_LOC
+update_repo "window" $WINDOW_LOC
 merge_with_main "window" "main" $ENERGY_SED_LOC
 
-update_repo "front-door" $ENERGY_SED_LOC
+update_repo "front-door" $FRONT_DOOR_LOC
 merge_with_main "front-door" "main" $ENERGY_SED_LOC

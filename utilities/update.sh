@@ -92,10 +92,10 @@ merge_with_main "delay-client" "main" $DELAY_CLIENT_LOC
 update_repo "main" $ENERGY_SED_LOC
 
 update_repo "air-quality" $AIR_QUALITY_LOC
-merge_with_main "air-quality" "main" $ENERGY_SED_LOC
+merge_with_main "air-quality" "main" $AIR_QUALITY_LOC
 
 update_repo "window" $WINDOW_LOC
-merge_with_main "window" "main" $ENERGY_SED_LOC
+merge_with_main "window" "main" $WINDOW_LOC
 
 update_repo "front-door" $FRONT_DOOR_LOC
-merge_with_main "front-door" "main" $ENERGY_SED_LOC
+merge_with_main "front-door" "main" $FRONT_DOOR_LOC

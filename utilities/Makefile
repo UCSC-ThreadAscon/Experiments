@@ -22,3 +22,6 @@ update:
 
 install:
 	bash ./install.sh
+
+wsl-attach:
+	.\attach-wsl.ps1

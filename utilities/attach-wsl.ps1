@@ -8,7 +8,7 @@ for ($i = 0; $i -lt $l; $i++) {
     if ($devices[$i][1] -eq '-') {
         "device found: " + $devices[$i]
         $busid = $devices[$i].Substring(0, 3)
-        usbipd bind --busid $busid
+        usbipd bind --busid $busid --force
         usbipd attach --wsl --busid $busid
     }
 }
